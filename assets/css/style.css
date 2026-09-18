@@ -146,15 +146,19 @@ body {
   border-color: #c2d9be;
 }
 
-/* ── Pouch Header gradient variants ── */
-.pouch-gold   { background: linear-gradient(150deg, #f5e9ca 0%, #e8d49a 50%, #c9a84c 100%); border-color: #d4b86a; color: #4a3200; }
-.pouch-black  { background: linear-gradient(150deg, #2a2a2a 0%, #1a1a1a 60%, #0d0d0d 100%); border-color: #3a3a3a; color: #f5e8c0; }
-.pouch-dgreen { background: linear-gradient(150deg, #1a4020 0%, #0f2a14 60%, #081a0c 100%); border-color: #2a5030; color: #b8e0b0; }
-.pouch-lgreen { background: linear-gradient(150deg, #d4f0cc 0%, #b8e0ac 60%, #7eba6e 100%); border-color: #86c87a; color: #1a3a14; }
-.pouch-teal   { background: linear-gradient(150deg, #1a3a40 0%, #0f252a 60%, #081518 100%); border-color: #2a5a60; color: #a0d8e0; }
-.pouch-cream  { background: linear-gradient(150deg, #f5f0e8 0%, #ede4d4 60%, #d8cdb8 100%); border-color: #c8b898; color: #3a3020; }
-.pouch-white  { background: linear-gradient(150deg, #fafafa 0%, #f0f0f0 60%, #e0e0e0 100%); border-color: #d0d0d0; color: #1a1a1a; }
-.pouch-silver { background: linear-gradient(150deg, #e8e8e8 0%, #d0d0d0 60%, #b0b0b0 100%); border-color: #a0a0a0; color: #1a1a1a; }
+/* ── Pouch Header gradient variants (10 SKUs) ── */
+.pouch-gold     { background: linear-gradient(150deg, #f7ebb8 0%, #e8d085 45%, #c9a84c 100%); border-color: #d4b86a; color: #4a3200; }
+.pouch-amber    { background: linear-gradient(150deg, #f8dfaa 0%, #e6a848 50%, #b86518 100%); border-color: #c9822a; color: #3b1800; }
+.pouch-purple   { background: linear-gradient(150deg, #e4d7f5 0%, #8b68b8 50%, #4a2870 100%); border-color: #724e9c; color: #ffffff; }
+.pouch-charcoal { background: linear-gradient(150deg, #42484f 0%, #262b32 60%, #15181d 100%); border-color: #3b434d; color: #e2e8f0; }
+.pouch-silver   { background: linear-gradient(150deg, #f1f3f6 0%, #cbd2dc 50%, #8f9aa8 100%); border-color: #9aa5b5; color: #1e2530; }
+.pouch-dgreen   { background: linear-gradient(150deg, #1c4524 0%, #103217 60%, #081d0d 100%); border-color: #27592e; color: #bfe8b7; }
+.pouch-olive    { background: linear-gradient(150deg, #d8e5b8 0%, #8ea85c 50%, #4b6326 100%); border-color: #6d8a39; color: #21330d; }
+.pouch-lgreen   { background: linear-gradient(150deg, #dcf5d0 0%, #a4e090 50%, #68b84d 100%); border-color: #78c45d; color: #12330a; }
+.pouch-teal     { background: linear-gradient(150deg, #244b52 0%, #133238 60%, #091a1e 100%); border-color: #2c5c64; color: #b2e8f0; }
+.pouch-cream    { background: linear-gradient(150deg, #f7f1e6 0%, #ede2ce 60%, #dacbaf 100%); border-color: #ccb997; color: #3d321d; }
+.pouch-white    { background: linear-gradient(150deg, #fafafa 0%, #f0f0f0 60%, #e0e0e0 100%); border-color: #d0d0d0; color: #1a1a1a; }
+
 
 /* ── Taste bar ── */
 .taste-bar-track {
@@ -494,30 +498,157 @@ input[type="range"]::-webkit-slider-thumb:hover {
 .hamburger-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
 .hamburger-btn.open span:nth-child(3) { transform: rotate(-45deg) translate(4.5px, -4.5px); }
 
-/* ═══ LINE FAB ══════════════════════════════════════════════════ */
-.line-fab {
-  position: fixed; bottom: 88px; right: 18px;
-  width: 54px; height: 54px;
-  border-radius: 50%; background: #06C755; color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 16px rgba(6,199,85,0.38), 0 1px 4px rgba(0,0,0,0.12);
-  z-index: 44; text-decoration: none; border: none; cursor: pointer;
+/* ── Language Switcher Button ── */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  background: #ede8df;
+  border-radius: 99px;
+  padding: 2.5px;
+  border: 1px solid var(--border);
+  gap: 2px;
+}
+.lang-btn {
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-light);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.lang-btn.active {
+  background: var(--matcha-deep);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(26,58,22,0.25);
+}
+
+/* ═══ TIER LIST BEST SELLER SECTION ═══ */
+.tier-row {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: var(--radius-xl);
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.tier-row:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+@media (min-width: 768px) {
+  .tier-row { flex-direction: row; }
+}
+.tier-badge-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  min-width: 140px;
+  text-align: center;
+}
+.tier-badge-s {
+  background: linear-gradient(145deg, #e63946 0%, #b51725 100%);
+  color: #fff;
+}
+.tier-badge-a {
+  background: linear-gradient(145deg, #7b2cbf 0%, #5a189a 100%);
+  color: #fff;
+}
+.tier-badge-b {
+  background: linear-gradient(145deg, #2d6a4f 0%, #1b4332 100%);
+  color: #fff;
+}
+.tier-letter {
+  font-size: 40px;
+  font-weight: 900;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  line-height: 1;
+}
+.tier-item-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  background: #fbf9f5;
+  border: 1px solid #ede8df;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  min-width: 220px;
+}
+.tier-item-chip:hover {
+  background: #fff;
+  border-color: var(--matcha);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(45,90,39,0.12);
+}
+
+/* ═══ DUAL FLOATING ACTION BUTTONS (LINE & IG) ═══ */
+.fab-container {
+  position: fixed;
+  bottom: 84px;
+  right: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 45;
+}
+.fab-btn {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.16), 0 1px 3px rgba(0,0,0,0.08);
   transition: transform 0.25s var(--ease-spring), box-shadow 0.25s ease;
 }
-.line-fab:hover {
+.fab-btn:hover {
   transform: scale(1.1) translateY(-2px);
-  box-shadow: 0 8px 28px rgba(6,199,85,0.45), 0 2px 8px rgba(0,0,0,0.14);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.22);
 }
-.line-fab-label {
-  position: absolute; right: 62px; top: 50%; transform: translateY(-50%);
-  background: #fff; color: var(--ink-mid);
-  font-size: 11px; font-weight: 700;
-  padding: 5px 10px; border-radius: 8px;
-  white-space: nowrap; box-shadow: 0 2px 10px rgba(0,0,0,0.12);
-  border: 1px solid var(--border); pointer-events: none;
-  opacity: 0; transition: opacity 0.2s;
+.line-fab-btn {
+  background: #06C755;
+  box-shadow: 0 4px 18px rgba(6,199,85,0.42);
 }
-.line-fab:hover .line-fab-label { opacity: 1; }
+.ig-fab-btn {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  box-shadow: 0 4px 18px rgba(220,39,67,0.38);
+}
+.fab-tooltip {
+  position: absolute;
+  right: 62px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  color: var(--ink-mid);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+  border: 1px solid var(--border);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.fab-btn:hover .fab-tooltip {
+  opacity: 1;
+}
+
 
 /* ═══ FEATURED BADGE ════════════════════════════════════════════ */
 .featured-badge {
