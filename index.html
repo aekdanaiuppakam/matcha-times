@@ -166,17 +166,128 @@
   <!-- ═══════════════════════════════════════════════════════════════
        HERO
        ═══════════════════════════════════════════════════════════════ -->
-  <section class="relative overflow-hidden" style="background:linear-gradient(160deg,#edf5ea 0%,#f8f6f1 45%,#f5ece0 100%);padding:72px 0 80px;">
+  <section class="hero-tea-farm">
+
+    <!-- Ambient Sunrise Aura -->
+    <div class="hero-sunrise-aura"></div>
 
     <!-- Decorative circles -->
     <div class="absolute -top-20 -right-20 w-80 h-80 rounded-full opacity-30 pointer-events-none" style="background:radial-gradient(circle,#bde0b6 0%,transparent 70%);"></div>
-    <div class="absolute bottom-0 -left-16 w-64 h-64 rounded-full opacity-20 pointer-events-none" style="background:radial-gradient(circle,#e8d49a 0%,transparent 70%);"></div>
+    <div class="absolute bottom-10 -left-16 w-64 h-64 rounded-full opacity-20 pointer-events-none" style="background:radial-gradient(circle,#e8d49a 0%,transparent 70%);"></div>
 
+    <!-- Layered Japanese Terraced Tea Hills (Animated SVG) -->
+    <div class="tea-hills-container">
+      <!-- Back Mountain / Distant Tea Terraces -->
+      <svg class="tea-hill-svg tea-hill-back" viewBox="0 0 1440 280" fill="none" preserveAspectRatio="none">
+        <path d="M0,170 C320,110 480,220 720,150 C960,80 1180,190 1440,130 L1440,280 L0,280 Z" fill="url(#hill-grad-back)"/>
+        <defs>
+          <linearGradient id="hill-grad-back" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#c6e3be" stop-opacity="0.45"/>
+            <stop offset="100%" stop-color="#acd5a3" stop-opacity="0.6"/>
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <!-- Middle Terraced Hills (Distinctive Japanese Tea Plantation Terraces) -->
+      <svg class="tea-hill-svg tea-hill-mid" viewBox="0 0 1440 240" fill="none" preserveAspectRatio="none">
+        <path d="M0,140 C240,180 440,95 760,155 C1080,215 1280,115 1440,165 L1440,240 L0,240 Z" fill="url(#hill-grad-mid)"/>
+        <!-- Terrace Contour Rows (Japanese Tea Bushes) -->
+        <path d="M0,165 C240,202 440,125 760,180 C1080,238 1280,148 1440,192" stroke="rgba(37,84,33,0.18)" stroke-width="2.5" stroke-dasharray="6 4" fill="none"/>
+        <path d="M0,190 C260,222 460,155 780,205 C1100,258 1300,178 1440,218" stroke="rgba(37,84,33,0.14)" stroke-width="2" stroke-dasharray="8 5" fill="none"/>
+        <defs>
+          <linearGradient id="hill-grad-mid" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#8ec783" stop-opacity="0.38"/>
+            <stop offset="100%" stop-color="#60a854" stop-opacity="0.55"/>
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <!-- Foreground Lush Tea Bushes -->
+      <svg class="tea-hill-svg tea-hill-front" viewBox="0 0 1440 180" fill="none" preserveAspectRatio="none">
+        <path d="M0,90 C180,130 360,65 640,105 C920,145 1140,75 1440,115 L1440,180 L0,180 Z" fill="url(#hill-grad-front)"/>
+        <!-- Bush Texture Rows -->
+        <path d="M0,118 C180,152 360,92 640,128 C920,162 1140,98 1440,138" stroke="rgba(23,54,24,0.2)" stroke-width="2.2" stroke-dasharray="5 4" fill="none"/>
+        <defs>
+          <linearGradient id="hill-grad-front" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#4e9942" stop-opacity="0.28"/>
+            <stop offset="100%" stop-color="#2d6a28" stop-opacity="0.48"/>
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <!-- Drifting Morning Mist -->
+      <div class="tea-mist-layer"></div>
+    </div>
+
+    <!-- Floating & Swaying Matcha Tea Leaves -->
+    <div class="tea-leaves-wrapper">
+      <!-- Leaf 1 (Top Left) -->
+      <svg class="floating-leaf leaf-1" viewBox="0 0 36 60" fill="none">
+        <path d="M18,2 C28,14 34,30 28,48 C22,60 18,58 18,58 C18,58 14,60 8,48 C2,30 8,14 18,2 Z" fill="url(#leaf-g1)"/>
+        <path d="M18,4 L18,56" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M18,18 Q23,22 25,26" stroke="rgba(255,255,255,0.35)" stroke-width="0.9"/>
+        <path d="M18,28 Q13,32 11,36" stroke="rgba(255,255,255,0.35)" stroke-width="0.9"/>
+        <path d="M18,38 Q23,42 24,46" stroke="rgba(255,255,255,0.35)" stroke-width="0.9"/>
+      </svg>
+
+      <!-- Leaf 2 (Right Mid) -->
+      <svg class="floating-leaf leaf-2" viewBox="0 0 36 60" fill="none">
+        <path d="M18,2 C28,14 34,30 28,48 C22,60 18,58 18,58 C18,58 14,60 8,48 C2,30 8,14 18,2 Z" fill="url(#leaf-g2)"/>
+        <path d="M18,4 L18,56" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M18,18 Q23,22 25,26" stroke="rgba(255,255,255,0.35)" stroke-width="0.9"/>
+        <path d="M18,28 Q13,32 11,36" stroke="rgba(255,255,255,0.35)" stroke-width="0.9"/>
+      </svg>
+
+      <!-- Leaf 3 (Foreground Left - Depth of Field) -->
+      <svg class="floating-leaf leaf-3" viewBox="0 0 36 60" fill="none">
+        <path d="M18,2 C28,14 34,30 28,48 C22,60 18,58 18,58 C18,58 14,60 8,48 C2,30 8,14 18,2 Z" fill="url(#leaf-g3)"/>
+        <path d="M18,4 L18,56" stroke="rgba(255,255,255,0.5)" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M18,18 Q23,22 26,26" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+        <path d="M18,30 Q12,34 10,38" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+      </svg>
+
+      <!-- Leaf 4 (Top High Mid) -->
+      <svg class="floating-leaf leaf-4" viewBox="0 0 36 60" fill="none">
+        <path d="M18,2 C28,14 34,30 28,48 C22,60 18,58 18,58 C18,58 14,60 8,48 C2,30 8,14 18,2 Z" fill="url(#leaf-g1)"/>
+      </svg>
+
+      <!-- Leaf 5 (Lower Left) -->
+      <svg class="floating-leaf leaf-5" viewBox="0 0 36 60" fill="none">
+        <path d="M18,2 C28,14 34,30 28,48 C22,60 18,58 18,58 C18,58 14,60 8,48 C2,30 8,14 18,2 Z" fill="url(#leaf-g2)"/>
+        <path d="M18,4 L18,56" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+
+      <!-- Leaf 6 (Upper Right) -->
+      <svg class="floating-leaf leaf-6" viewBox="0 0 36 60" fill="none">
+        <path d="M18,2 C28,14 34,30 28,48 C22,60 18,58 18,58 C18,58 14,60 8,48 C2,30 8,14 18,2 Z" fill="url(#leaf-g1)"/>
+        <path d="M18,4 L18,56" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+
+      <!-- Shared Leaf Gradients -->
+      <svg width="0" height="0" class="absolute">
+        <defs>
+          <linearGradient id="leaf-g1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#60a854"/>
+            <stop offset="100%" stop-color="#255421"/>
+          </linearGradient>
+          <linearGradient id="leaf-g2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#8ec783"/>
+            <stop offset="100%" stop-color="#3d8535"/>
+          </linearGradient>
+          <linearGradient id="leaf-g3" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4e9942"/>
+            <stop offset="100%" stop-color="#1b4218"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <!-- Main Content Container -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="max-w-2xl mx-auto text-center">
 
         <!-- Eyebrow badge -->
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 anim-float" style="background:rgba(45,90,39,0.07);border:1px solid rgba(45,90,39,0.18);">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 anim-float shadow-xs" style="background:rgba(255,255,255,0.85);border:1px solid rgba(45,90,39,0.22);backdrop-filter:blur(6px);">
           <span class="w-2 h-2 rounded-full animate-pulse" style="background:#3d8535;"></span>
           <span class="text-[11px] font-semibold tracking-wide" style="color:#2d5a27;" data-i18n="hero_badge">🍃 WHOLESALE PRICE LIST | 2026 MATCHA COLLECTION</span>
         </div>
@@ -188,21 +299,21 @@
         <p class="font-serif text-2xl sm:text-3xl italic mb-6" style="color:#5a8054;" data-i18n="hero_title_2">
           เครื่องมือช่วยขาย &amp; คู่มือสินค้าสำหรับร้านคาเฟ่
         </p>
-        <p class="text-[14px] leading-relaxed mb-8" style="color:#5a5a50;max-width:540px;margin-left:auto;margin-right:auto;" data-i18n="hero_desc">
+        <p class="text-[14px] leading-relaxed mb-8" style="color:#4a5046;max-width:540px;margin-left:auto;margin-right:auto;" data-i18n="hero_desc">
           คัดสรรสุดยอดมัทฉะเกรดพิธีการสู่เชิงพาณิชย์ ส่งตรงจากนิชิโอะ อุจิ ยาเมะ และชิซูโอกะ ออกแบบให้ร้านกาแฟคำนวณต้นทุนง่าย คุมกำไรได้สูงสุด และเลือกสเปกได้ตรงใจ
         </p>
 
         <!-- CTA Row -->
         <div class="flex flex-wrap items-center justify-center gap-3">
-          <a href="#tier-list" class="btn-primary">
+          <a href="#tier-list" class="btn-primary shadow-sm hover:shadow-md transition-all">
             <i data-lucide="award" class="w-4 h-4" style="color:#f3e8c4;"></i>
             <span data-i18n="nav_tier">อันดับ Best Seller</span>
           </a>
-          <a href="#catalog" class="btn-secondary">
+          <a href="#catalog" class="btn-secondary shadow-xs hover:shadow-sm transition-all bg-white/90 backdrop-blur-xs">
             <i data-lucide="search" class="w-4 h-4" style="color:#3d8535;"></i>
             <span data-i18n="hero_cta_catalog">สำรวจสินค้า 10 ชนิด</span>
           </a>
-          <a href="#calculator" class="btn-secondary">
+          <a href="#calculator" class="btn-secondary shadow-xs hover:shadow-sm transition-all bg-white/90 backdrop-blur-xs">
             <i data-lucide="calculator" class="w-4 h-4" style="color:#c9a84c;"></i>
             <span data-i18n="hero_cta_calc">คำนวณกำไรต่อแก้ว</span>
           </a>
@@ -212,22 +323,35 @@
 
       <!-- Trust strip -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-12 max-w-4xl mx-auto">
-        <div class="text-center p-4 rounded-2xl" style="background:rgba(255,255,255,0.75);border:1px solid #e5e0d4;">
+        <div class="text-center p-4 rounded-2xl shadow-xs transition-all hover:-translate-y-0.5" style="background:rgba(255,255,255,0.85);border:1px solid rgba(229,224,212,0.8);backdrop-filter:blur(10px);">
           <div class="text-[16px] font-bold" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;" data-i18n="stat_skus">10 สายพันธุ์คัดสรร</div>
           <div class="text-[11px] mt-0.5" style="color:#7a7468;" data-i18n="stat_skus_sub">เกรดพิธีการสู่คอมเมอร์เชียล</div>
         </div>
-        <div class="text-center p-4 rounded-2xl" style="background:rgba(255,255,255,0.75);border:1px solid #e5e0d4;">
+        <div class="text-center p-4 rounded-2xl shadow-xs transition-all hover:-translate-y-0.5" style="background:rgba(255,255,255,0.85);border:1px solid rgba(229,224,212,0.8);backdrop-filter:blur(10px);">
           <div class="text-[16px] font-bold" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;" data-i18n="stat_regions">4 แหล่งปลูกชั้นนำ</div>
           <div class="text-[11px] mt-0.5" style="color:#7a7468;" data-i18n="stat_regions_sub">Nishio, Uji, Yame, Shizuoka</div>
         </div>
-        <div class="text-center p-4 rounded-2xl" style="background:rgba(255,255,255,0.75);border:1px solid #e5e0d4;">
+        <div class="text-center p-4 rounded-2xl shadow-xs transition-all hover:-translate-y-0.5" style="background:rgba(255,255,255,0.85);border:1px solid rgba(229,224,212,0.8);backdrop-filter:blur(10px);">
           <div class="text-[16px] font-bold" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;" data-i18n="stat_direct">100% Direct Import</div>
           <div class="text-[11px] mt-0.5" style="color:#7a7468;" data-i18n="stat_direct_sub">นำเข้าตรง โม่หินแท้ FOB Japan</div>
         </div>
-        <div class="text-center p-4 rounded-2xl" style="background:rgba(255,255,255,0.75);border:1px solid #e5e0d4;">
+        <div class="text-center p-4 rounded-2xl shadow-xs transition-all hover:-translate-y-0.5" style="background:rgba(255,255,255,0.85);border:1px solid rgba(229,224,212,0.8);backdrop-filter:blur(10px);">
           <div class="text-[16px] font-bold" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;" data-i18n="stat_margin">กำไรสูงถึง 80%+</div>
           <div class="text-[11px] mt-0.5" style="color:#7a7468;" data-i18n="stat_margin_sub">ต้นทุนเริ่มต้นเพียง ~12.8 ฿/แก้ว</div>
         </div>
+      </div>
+
+      <!-- ═══ INTERACTIVE SCROLL DOWN PROMPT ═══ -->
+      <div class="hero-scroll-indicator">
+        <a href="#story" class="group flex flex-col items-center gap-1 transition-all" title="Scroll down to explore">
+          <span class="scroll-hint-text">
+            <span data-i18n="hero_scroll_hint">เลื่อนลงเพื่อสำรวจอันดับ Best Seller และสินค้า 10 ชนิด</span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform"></i>
+          </span>
+          <div class="scroll-mouse-pill">
+            <div class="scroll-dot"></div>
+          </div>
+        </a>
       </div>
 
     </div>

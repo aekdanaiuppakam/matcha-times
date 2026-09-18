@@ -800,3 +800,380 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 
+
+
+/* ═══════════════════════════════════════════════════════════════
+   JAPANESE TEA FARM (HERO ANIMATION & SCROLL INDICATOR)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Hero Section Base Atmosphere */
+.hero-tea-farm {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(175deg, #ebf4e8 0%, #f9f7f2 40%, #f3eee3 100%);
+  padding: 72px 0 90px;
+}
+
+/* Ambient Sunrise Aura */
+.hero-sunrise-aura {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 600px;
+  background: radial-gradient(ellipse 60% 50% at 50% 30%, rgba(254, 240, 190, 0.45) 0%, rgba(210, 238, 204, 0.3) 50%, transparent 80%);
+  pointer-events: none;
+  z-index: 1;
+  animation: auraBreathe 8s ease-in-out infinite alternate;
+}
+
+@keyframes auraBreathe {
+  0% { opacity: 0.7; transform: translateX(-50%) scale(0.98); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1.04); }
+}
+
+/* Layered Japanese Terraced Tea Hills */
+.tea-hills-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 240px;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.tea-hill-svg {
+  position: absolute;
+  bottom: 0;
+  left: -5%;
+  width: 110%;
+  height: 100%;
+  transform-origin: bottom center;
+}
+
+.tea-hill-back {
+  animation: hillSwayBack 14s ease-in-out infinite alternate;
+  opacity: 0.85;
+}
+
+.tea-hill-mid {
+  animation: hillSwayMid 10s ease-in-out infinite alternate;
+  opacity: 0.9;
+}
+
+.tea-hill-front {
+  animation: hillSwayFront 8s ease-in-out infinite alternate;
+  opacity: 0.95;
+}
+
+@keyframes hillSwayBack {
+  0% { transform: scaleY(0.96) translateX(0); }
+  100% { transform: scaleY(1.02) translateX(-15px); }
+}
+
+@keyframes hillSwayMid {
+  0% { transform: scaleY(0.98) translateX(0); }
+  100% { transform: scaleY(1.03) translateX(12px); }
+}
+
+@keyframes hillSwayFront {
+  0% { transform: scaleY(0.97) translateX(0); }
+  100% { transform: scaleY(1.02) translateX(-8px); }
+}
+
+/* Drifting Morning Mist */
+.tea-mist-layer {
+  position: absolute;
+  bottom: 30px;
+  left: -50%;
+  width: 200%;
+  height: 100px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 30%, rgba(240,250,238,0.6) 50%, rgba(255,255,255,0.4) 70%, transparent 100%);
+  filter: blur(14px);
+  pointer-events: none;
+  animation: mistFlow 20s linear infinite;
+  opacity: 0.75;
+}
+
+@keyframes mistFlow {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(35%); }
+}
+
+/* Floating Matcha Leaves */
+.tea-leaves-wrapper {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+}
+
+.floating-leaf {
+  position: absolute;
+  filter: drop-shadow(0 4px 10px rgba(27, 58, 22, 0.15));
+  opacity: 0.88;
+  will-change: transform;
+}
+
+/* Leaf 1 - Floating gently from top-left across center */
+.leaf-1 {
+  width: 32px;
+  height: 52px;
+  top: 12%;
+  left: 8%;
+  animation: floatLeaf1 16s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes floatLeaf1 {
+  0% {
+    transform: translate(0, 0) rotate(15deg) scale(0.9);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate(140px, 90px) rotate(65deg) scale(1.05);
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(280px, 200px) rotate(120deg) scale(0.85);
+    opacity: 0;
+  }
+}
+
+/* Leaf 2 - Drifting right side upward breeze */
+.leaf-2 {
+  width: 26px;
+  height: 44px;
+  top: 45%;
+  right: 12%;
+  animation: floatLeaf2 14s ease-in-out infinite 2s;
+}
+
+@keyframes floatLeaf2 {
+  0% {
+    transform: translate(0, 0) rotate(-20deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  60% {
+    transform: translate(-80px, -70px) rotate(-75deg) scale(1.1);
+  }
+  85% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-150px, -140px) rotate(-110deg) scale(0.9);
+    opacity: 0;
+  }
+}
+
+/* Leaf 3 - Depth of Field foreground soft leaf */
+.leaf-3 {
+  width: 44px;
+  height: 70px;
+  bottom: 22%;
+  left: 18%;
+  filter: blur(0.7px) drop-shadow(0 6px 14px rgba(27, 58, 22, 0.18));
+  animation: floatLeaf3 18s ease-in-out infinite 1s;
+}
+
+@keyframes floatLeaf3 {
+  0% {
+    transform: translate(0, 0) rotate(45deg);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  70% {
+    transform: translate(110px, -60px) rotate(95deg);
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(200px, -110px) rotate(140deg);
+    opacity: 0;
+  }
+}
+
+/* Leaf 4 - Distant small leaf high in sky */
+.leaf-4 {
+  width: 18px;
+  height: 30px;
+  top: 25%;
+  right: 28%;
+  opacity: 0.65;
+  animation: floatLeaf4 22s linear infinite 3s;
+}
+
+@keyframes floatLeaf4 {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.65;
+  }
+  80% {
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate(-180px, 120px) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+/* Leaf 5 - Dancing leaf mid-left */
+.leaf-5 {
+  width: 28px;
+  height: 46px;
+  top: 60%;
+  left: 6%;
+  animation: floatLeaf5 15s ease-in-out infinite 4s;
+}
+
+@keyframes floatLeaf5 {
+  0% {
+    transform: translate(0, 0) rotate(-35deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate(90px, -45px) rotate(15deg);
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(160px, -80px) rotate(70deg);
+    opacity: 0;
+  }
+}
+
+/* Leaf 6 - Swirling tumble top-right */
+.leaf-6 {
+  width: 24px;
+  height: 40px;
+  top: 15%;
+  right: 8%;
+  animation: floatLeaf6 17s ease-in-out infinite 5s;
+}
+
+@keyframes floatLeaf6 {
+  0% {
+    transform: translate(0, 0) rotate(60deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  60% {
+    transform: translate(-120px, 80px) rotate(130deg);
+  }
+  85% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-220px, 150px) rotate(210deg);
+    opacity: 0;
+  }
+}
+
+/* Scroll Down Prompt Indicator */
+.hero-scroll-indicator {
+  position: relative;
+  z-index: 10;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-mouse-pill {
+  width: 26px;
+  height: 42px;
+  border-radius: 99px;
+  border: 2px solid rgba(61, 133, 53, 0.45);
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+  box-shadow: 0 4px 15px rgba(45, 90, 39, 0.08);
+  transition: all 0.3s ease;
+}
+
+.scroll-mouse-pill:hover {
+  border-color: #2d6a28;
+  transform: translateY(2px);
+  box-shadow: 0 6px 20px rgba(45, 90, 39, 0.16);
+}
+
+.scroll-dot {
+  width: 4px;
+  height: 9px;
+  border-radius: 99px;
+  background: #2d6a28;
+  animation: scrollDotMove 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes scrollDotMove {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(11px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(18px);
+    opacity: 0;
+  }
+}
+
+.scroll-hint-text {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #4a6a45;
+  margin-bottom: 8px;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.scroll-hint-text:hover {
+  color: #1a3a16;
+}
+
+@media (max-width: 640px) {
+  .tea-hills-container {
+    height: 160px;
+  }
+  .leaf-3 {
+    width: 32px;
+    height: 50px;
+  }
+  .hero-sunrise-aura {
+    width: 500px;
+    height: 400px;
+  }
+}
