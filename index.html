@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MATCHA TIMES — คู่มือสินค้ามัทฉะแท้จากญี่ปุ่น</title>
+  <meta name="description" content="คู่มือนำเสนอและเปรียบเทียบมัทฉะแท้ 100% จากญี่ปุ่น ของ MATCHA TIMES Thailand">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            matcha: {
+              50: '#f2f8f0', 100: '#e0f0db', 200: '#bcdcb3',
+              300: '#8cc280', 400: '#5fa353', 500: '#3d8535',
+              600: '#2d6a28', 700: '#255421', 800: '#1e431b',
+              900: '#173618', 950: '#0b1e0a'
+            }
+          },
+          fontFamily: {
+            sans: ['Sarabun', 'Plus Jakarta Sans', 'sans-serif'],
+            serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+            en: ['Plus Jakarta Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="text-stone-800 antialiased">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       NAV BAR
+       ═══════════════════════════════════════════════════════════════ -->
+  <header id="main-nav" class="sticky top-0 z-50 nav-glass" style="border-bottom:1px solid #e5e0d4;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[64px] flex items-center justify-between gap-4">
+
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-2.5 shrink-0">
+        <div class="w-9 h-9 rounded-full flex items-center justify-center" style="background:#1a3a16;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22c1.25-1.25 2.5-3.5 3.5-7 .5 3.5 2 6 4.5 7C3 20 6 14 12 2c0 5.5 2 9.5 5 11 .5.25 1 .5 1.5.5C16.5 15.5 14 20 11 22"/></svg>
+        </div>
+        <div>
+          <div class="text-[15px] font-bold leading-tight tracking-tight" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;">MATCHA TIMES</div>
+          <div class="text-[10px] font-semibold tracking-widest uppercase" style="color:#7a9a74;">100% Japanese Matcha</div>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden lg:flex items-center gap-5 text-[12px] font-semibold" style="color:#4a5a46;">
+        <a href="#story" class="nav-link hover:text-matcha-900 transition-colors">ประวัติแบรนด์</a>
+        <a href="#matchmaker" class="nav-link hover:text-matcha-900 transition-colors">ช่วยเลือกชา</a>
+        <a href="#catalog" class="nav-link hover:text-matcha-900 transition-colors">สินค้า 8 ชนิด</a>
+        <a href="#comparison-section" class="nav-link hover:text-matcha-900 transition-colors">เปรียบเทียบ</a>
+        <a href="#calculator" class="nav-link hover:text-matcha-900 transition-colors">คำนวณต้นทุน</a>
+        <a href="#recipes" class="nav-link hover:text-matcha-900 transition-colors">สูตรชงคาเฟ่</a>
+        <a href="#terroirs" class="nav-link hover:text-matcha-900 transition-colors">4 แหล่งปลูก</a>
+        <a href="#faq" class="nav-link hover:text-matcha-900 transition-colors">FAQ &amp; เก็บรักษา</a>
+      </nav>
+
+      <!-- Action buttons -->
+      <div class="flex items-center gap-2 shrink-0">
+        <button onclick="openFlyerModal()" class="btn-ghost hidden sm:inline-flex">
+          <i data-lucide="image" class="w-3.5 h-3.5"></i>
+          <span>ใบราคาต้นฉบับ</span>
+        </button>
+        <button onclick="openContactModal()" class="btn-primary text-[12px] py-2.5 px-4 hidden sm:inline-flex">
+          <i data-lucide="message-circle" class="w-3.5 h-3.5" style="color:#f3e8c4;"></i>
+          <span>ติดต่อฝ่ายขาย</span>
+        </button>
+        <!-- Hamburger (mobile only) -->
+        <button id="hamburger-btn" class="hamburger-btn lg:hidden" onclick="toggleMobileMenu()" aria-label="เมนู">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Mobile Nav Overlay -->
+  <div id="mobile-overlay" class="mobile-overlay" onclick="closeMobileMenu()"></div>
+
+  <!-- Mobile Nav Drawer -->
+  <div id="mobile-drawer" class="mobile-drawer">
+    <!-- Drawer Header -->
+    <div class="flex items-center justify-between p-5 pb-4" style="border-bottom:1px solid #e5e0d4;">
+      <div>
+        <div class="text-[14px] font-bold" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;">MATCHA TIMES</div>
+        <div class="text-[10px] tracking-widest uppercase font-semibold mt-0.5" style="color:#7a9a74;">100% Japanese Matcha</div>
+      </div>
+      <button onclick="closeMobileMenu()" class="w-8 h-8 rounded-full flex items-center justify-center" style="background:#f5f0e8;border:1px solid #e5e0d4;">
+        <i data-lucide="x" class="w-4 h-4" style="color:#6b7068;"></i>
+      </button>
+    </div>
+
+    <!-- Drawer Links -->
+    <nav class="flex-1 p-5 space-y-1">
+      <a href="#story" onclick="closeMobileMenu()" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] font-semibold transition-colors hover:bg-stone-50" style="color:#3a3d38;">
+        <i data-lucide="sparkles" class="w-4 h-4" style="color:#3d8535;"></i> ประวัติแบรนด์
+      </a>
+      <a href="#matchmaker" onclick="closeMobileMenu()" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] font-semibold transition-colors hover:bg-stone-50" style="color:#3a3d38;">
+        <i data-lucide="compass" class="w-4 h-4" style="color:#3d8535;"></i> ช่วยเลือกชา
+      </a>
+      <a href="#catalog" onclick="closeMobileMenu()" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] font-semibold transition-colors hover:bg-stone-50" style="color:#3a3d38;">
+        <i data-lucide="grid" class="w-4 h-4" style="color:#3d8535;"></i> สินค้า 8 ชนิด
+      </a>
+      <a href="#comparison-section" onclick="closeMobileMenu()" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] font-semibold transition-colors hover:bg-stone-50" style="color:#3a3d38;">
+        <i data-lucide="git-compare" class="w-4 h-4" style="color:#3d8535;"></i> เปรียบเทียบ
+      </a>
+      <a href="#calculator" onclick="closeMobileMenu()" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] font-semibold transition-colors hover:bg-stone-50" style="color:#3a3d38;">
+        <i data-lucide="calculator" class="w-4 h-4" style="color:#c9a84c;"></i> คำนวณต้นทุน
+      </a>
+      <a href="#recipes" onclick="closeMobileMenu()" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] font-semibold transition-colors hover:bg-stone-50" style="color:#3a3d38;">
+        <i data-lucide="coffee" class="w-4 h-4" style="color:#3d8535;"></i> สูตรชงคาเฟ่
+      </a>
+      <a href="#terroirs" onclick="closeMobileMenu()" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] font-semibold transition-colors hover:bg-stone-50" style="color:#3a3d38;">
+        <i data-lucide="map" class="w-4 h-4" style="color:#3d8535;"></i> 4 แหล่งปลูก
+      </a>
+      <a href="#faq" onclick="closeMobileMenu()" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] font-semibold transition-colors hover:bg-stone-50" style="color:#3a3d38;">
+        <i data-lucide="help-circle" class="w-4 h-4" style="color:#3d8535;"></i> FAQ &amp; การเก็บรักษา
+      </a>
+    </nav>
+
+    <!-- Drawer Footer CTAs -->
+    <div class="p-5 pt-0 space-y-2.5" style="border-top:1px solid #e5e0d4;">
+      <button onclick="openFlyerModal(); closeMobileMenu();" class="btn-secondary w-full justify-center text-[13px]">
+        <i data-lucide="image" class="w-4 h-4"></i> ดูใบราคาต้นฉบับ
+      </button>
+      <button onclick="openContactModal(); closeMobileMenu();" class="btn-primary w-full justify-center text-[13px]">
+        <i data-lucide="message-circle" class="w-4 h-4" style="color:#f3e8c4;"></i> ติดต่อฝ่ายขาย / LINE
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="relative overflow-hidden" style="background:linear-gradient(160deg,#edf5ea 0%,#f8f6f1 45%,#f5ece0 100%);padding:72px 0 80px;">
+
+    <!-- Decorative circles -->
+    <div class="absolute -top-20 -right-20 w-80 h-80 rounded-full opacity-30 pointer-events-none" style="background:radial-gradient(circle,#bde0b6 0%,transparent 70%);"></div>
+    <div class="absolute bottom-0 -left-16 w-64 h-64 rounded-full opacity-20 pointer-events-none" style="background:radial-gradient(circle,#e8d49a 0%,transparent 70%);"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="max-w-2xl mx-auto text-center">
+
+        <!-- Eyebrow badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 anim-float" style="background:rgba(45,90,39,0.07);border:1px solid rgba(45,90,39,0.18);">
+          <span class="w-2 h-2 rounded-full animate-pulse" style="background:#3d8535;"></span>
+          <span class="text-[11px] font-semibold tracking-wide" style="color:#2d5a27;">100% Japanese Matcha • Thank you so matcha 🍵</span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-2" style="color:#1a3a16;letter-spacing:-0.02em;font-family:'Plus Jakarta Sans',sans-serif;">
+          มากกว่าแค่มัทฉะ
+        </h1>
+        <p class="font-serif text-2xl sm:text-3xl italic mb-6" style="color:#5a8054;">
+          คือความสุขในทุกๆ วัน
+        </p>
+        <p class="text-[14px] leading-relaxed mb-8" style="color:#5a5a50;max-width:480px;margin-left:auto;margin-right:auto;">
+          เปิดมิติใหม่ของมัทฉะแท้ 100% จากญี่ปุ่น — 4 แหล่งปลูกชั้นนำ, 8 สายพันธุ์คัดสรร ครบตั้งแต่เกรดพิธีการ ลาเต้ ไปถึงงานเบเกอรี่
+        </p>
+
+        <!-- CTA Row -->
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <a href="#catalog" class="btn-primary">
+            <i data-lucide="search" class="w-4 h-4"></i>
+            สำรวจสินค้าทั้ง 8
+          </a>
+          <a href="#comparison-section" class="btn-secondary">
+            <i data-lucide="git-compare" class="w-4 h-4" style="color:#3d8535;"></i>
+            เปรียบเทียบมวยต่อมวย
+          </a>
+          <a href="#calculator" class="btn-secondary">
+            <i data-lucide="calculator" class="w-4 h-4" style="color:#c9a84c;"></i>
+            คำนวณต้นทุนต่อแก้ว
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Trust strip -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-12 max-w-3xl mx-auto">
+        <div class="text-center p-4 rounded-2xl" style="background:rgba(255,255,255,0.75);border:1px solid #e5e0d4;">
+          <div class="text-[15px] font-bold" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;">100% Japanese</div>
+          <div class="text-[11px] mt-0.5" style="color:#7a7468;">นำเข้าจากญี่ปุ่นแท้</div>
+        </div>
+        <div class="text-center p-4 rounded-2xl" style="background:rgba(255,255,255,0.75);border:1px solid #e5e0d4;">
+          <div class="text-[15px] font-bold" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;">150+ ปี</div>
+          <div class="text-[11px] mt-0.5" style="color:#7a7468;">สวนชาคู่บุญ Hamachaen</div>
+        </div>
+        <div class="text-center p-4 rounded-2xl" style="background:rgba(255,255,255,0.75);border:1px solid #e5e0d4;">
+          <div class="text-[15px] font-bold" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;">B2B Wholesale</div>
+          <div class="text-[11px] mt-0.5" style="color:#7a7468;">พร้อมซัพพอร์ตคาเฟ่</div>
+        </div>
+        <div class="text-center p-4 rounded-2xl" style="background:rgba(255,255,255,0.75);border:1px solid #e5e0d4;">
+          <div class="text-[15px] font-bold" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;">3 สาขา</div>
+          <div class="text-[11px] mt-0.5" style="color:#7a7468;">สีลม • อโศก • พระโขนง</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       HERITAGE / BRAND STORY
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="story" style="background:#111a10;padding:96px 0;position:relative;overflow:hidden;">
+
+    <!-- Ambient glows -->
+    <div class="absolute top-0 right-0 pointer-events-none" style="width:400px;height:400px;background:radial-gradient(circle,rgba(61,112,53,0.15) 0%,transparent 70%);"></div>
+    <div class="absolute bottom-0 left-0 pointer-events-none" style="width:400px;height:400px;background:radial-gradient(circle,rgba(201,168,76,0.08) 0%,transparent 70%);"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+      <!-- Section heading -->
+      <div class="text-center max-w-xl mx-auto mb-16 sr">
+        <div class="text-[11px] font-bold tracking-[0.22em] uppercase mb-4" style="color:#c9a84c;">
+          伝統と現代の調和 &nbsp;•&nbsp; Heritage &amp; Philosophy
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-5" style="color:#f8f5ee;font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:-0.02em;">
+          เรื่องราวของ MATCHA TIMES
+        </h2>
+        <div class="divider-ornament mx-auto" style="max-width:240px;"></div>
+        <p class="text-[14px] leading-relaxed mt-5" style="color:#9a9a8a;">
+          จากสวนชาเก่าแก่กว่า 150 ปีในประเทศญี่ปุ่น สู่แนวคิดที่ต้องการเปลี่ยนให้<br>
+          <em>"มัทฉะแท้คุณภาพสูง"</em> เป็นสิ่งที่ทุกคนเข้าถึงได้ด้วยความสุขทุกวัน
+        </p>
+      </div>
+
+      <!-- 3-step timeline -->
+      <!-- Timeline progress connector (desktop only) -->
+      <div class="heritage-timeline-bar sr mb-6">
+        <div class="text-center">
+          <div class="timeline-node">①</div>
+          <div class="text-[10px] font-bold mt-2" style="color:#6a6a50;letter-spacing:0.08em;">1865</div>
+        </div>
+        <div class="text-center">
+          <div class="timeline-node">②</div>
+          <div class="text-[10px] font-bold mt-2" style="color:#6a6a50;letter-spacing:0.08em;">TOKYO</div>
+        </div>
+        <div class="text-center">
+          <div class="timeline-node">③</div>
+          <div class="text-[10px] font-bold mt-2" style="color:#6a6a50;letter-spacing:0.08em;">BANGKOK</div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-14">
+
+        <!-- Card 1 -->
+        <div class="heritage-card sr sr-d1">
+          <div class="flex items-center justify-between mb-5">
+            <span class="text-[11px] font-bold px-3 py-1 rounded-full" style="background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);">
+              ① 1865 · ยุคเอโดะ
+            </span>
+            <i data-lucide="history" class="w-5 h-5" style="color:#4a5a46;"></i>
+          </div>
+          <h3 class="text-[18px] font-bold mb-2" style="color:#f8f5ee;font-family:'Plus Jakarta Sans',sans-serif;">Hamachaen (はま茶園)</h3>
+          <p class="text-[11px] font-semibold mb-4" style="color:#6db872;">สวนชาประวัติศาสตร์ 150+ ปี ณ จังหวัดชิซูโอกะ</p>
+          <p class="text-[13px] leading-relaxed" style="color:#9a9a8a;">
+            ความไว้วางใจเริ่มต้นที่สวนชา Hamachaen ผู้สืบทอดเทคนิคการปลูกชาแบบพรางแสง (Shade-grown) และโม่หินช้าๆ กว่า 150 ปี เพื่อรักษาคลอโรฟิลล์และอูมามิไว้ในผงชาอย่างบริสุทธิ์ที่สุด
+          </p>
+          <div class="mt-6 pt-5 flex items-center gap-2 text-[11px]" style="border-top:1px solid rgba(255,255,255,0.08);color:#6a6a5a;">
+            <i data-lucide="check-circle" class="w-4 h-4 shrink-0" style="color:#6db872;"></i>
+            <span>伝統の石臼挽き — โม่หินแบบดั้งเดิม</span>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="heritage-card sr sr-d2">
+          <div class="flex items-center justify-between mb-5">
+            <span class="text-[11px] font-bold px-3 py-1 rounded-full" style="background:rgba(109,184,114,0.15);color:#6db872;border:1px solid rgba(109,184,114,0.25);">
+              ② Tokyo, Japan
+            </span>
+            <i data-lucide="compass" class="w-5 h-5" style="color:#4a5a46;"></i>
+          </div>
+          <h3 class="text-[18px] font-bold mb-2" style="color:#f8f5ee;font-family:'Plus Jakarta Sans',sans-serif;">MATCHA TIMES Co., Ltd.</h3>
+          <p class="text-[11px] font-semibold mb-4" style="color:#6db872;">มัทฉะคาเฟ่ยุคใหม่ — Asakusa &amp; Harajuku</p>
+          <p class="text-[13px] leading-relaxed" style="color:#9a9a8a;">
+            ทีมผู้เชี่ยวชาญในโตเกียวก่อตั้งแบรนด์เพื่อเปลี่ยนความเคร่งขรึมของพิธีชงชาให้กลายเป็น <em>Accessible Luxury</em> ที่สนุกและทันสมัย ผ่านเมนูมัทฉะฟิวชันและขนม Demekin Taiyaki อันโด่งดัง
+          </p>
+          <div class="mt-6 pt-5 flex items-center gap-2 text-[11px]" style="border-top:1px solid rgba(255,255,255,0.08);color:#6a6a5a;">
+            <i data-lucide="check-circle" class="w-4 h-4 shrink-0" style="color:#6db872;"></i>
+            <span>日常をちょっと楽しく — สุขได้ทุกวัน</span>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="heritage-card sr sr-d3">
+          <div class="flex items-center justify-between mb-5">
+            <span class="text-[11px] font-bold px-3 py-1 rounded-full" style="background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);">
+              ③ Bangkok, Thailand
+            </span>
+            <i data-lucide="map-pin" class="w-5 h-5" style="color:#4a5a46;"></i>
+          </div>
+          <h3 class="text-[18px] font-bold mb-2" style="color:#f8f5ee;font-family:'Plus Jakarta Sans',sans-serif;">สู่ใจกลางกรุงเทพฯ</h3>
+          <p class="text-[11px] font-semibold mb-4" style="color:#6db872;">สีลม • อโศก (Interchange 21) • พระโขนง</p>
+          <p class="text-[13px] leading-relaxed" style="color:#9a9a8a;">
+            ส่งตรงผงมัทฉะแท้สู่ประเทศไทย เพื่อให้คาเฟ่และผู้บริโภคชาวไทยได้สัมผัสรสชาติต้นตำรับ พร้อมเมนูซิกเนเจอร์ยอดฮิตอย่าง Panda Yaki และมัทฉะผลไม้หลากชนิด
+          </p>
+          <div class="mt-6 pt-5 flex items-center gap-2 text-[11px]" style="border-top:1px solid rgba(255,255,255,0.08);color:#6a6a5a;">
+            <i data-lucide="check-circle" class="w-4 h-4 shrink-0" style="color:#6db872;"></i>
+            <span>本物の日本茶 — ชาญี่ปุ่นแท้ 100%</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 3 Core Pillars -->
+      <div class="sr" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:24px;padding:40px;">
+        <div class="text-center mb-8">
+          <p class="text-[11px] font-bold tracking-widest uppercase mb-2" style="color:#c9a84c;">Core Values</p>
+          <h3 class="text-[20px] font-bold" style="color:#f8f5ee;font-family:'Plus Jakarta Sans',sans-serif;">3 ค่านิยมหลักที่ MATCHA TIMES ยึดมั่น</h3>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="flex items-start gap-4">
+            <div class="pillar-icon shrink-0" style="background:rgba(61,112,53,0.2);border:1px solid rgba(109,184,114,0.25);">
+              <i data-lucide="shield-check" class="w-5 h-5" style="color:#6db872;"></i>
+            </div>
+            <div>
+              <h4 class="font-bold mb-1.5" style="color:#f8f5ee;">Authenticity</h4>
+              <p class="text-[13px] leading-relaxed" style="color:#7a7a6a;">วัตถุดิบมัทฉะแท้ 100% จากสวนในญี่ปุ่น ไม่ผสมแป้ง ไม่แต่งสีสังเคราะห์ ได้สารต้านอนุมูลอิสระและ L-Theanine สูงสุด</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="pillar-icon shrink-0" style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.25);">
+              <i data-lucide="coins" class="w-5 h-5" style="color:#c9a84c;"></i>
+            </div>
+            <div>
+              <h4 class="font-bold mb-1.5" style="color:#f8f5ee;">Accessibility</h4>
+              <p class="text-[13px] leading-relaxed" style="color:#7a7a6a;">ตั้งราคาจริงใจและคุ้มค่า ผู้ประกอบการร้านกาแฟมีกำไรมั่นคง ลูกค้าดื่มชาคุณภาพดีในทุกวันได้โดยไม่เป็นภาระ</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="pillar-icon shrink-0" style="background:rgba(109,150,200,0.15);border:1px solid rgba(109,150,200,0.25);">
+              <i data-lucide="sparkles" class="w-5 h-5" style="color:#88aadd;"></i>
+            </div>
+            <div>
+              <h4 class="font-bold mb-1.5" style="color:#f8f5ee;">Everyday Joy</h4>
+              <p class="text-[13px] leading-relaxed" style="color:#7a7a6a;">มัทฉะคือ Calm Focus ให้พลังงานสะอาด ไม่ใจสั่น สร้างความผ่อนคลายและรอยยิ้มในชีวิตประจำวัน</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       MATCHMAKER QUIZ
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="matchmaker" style="background:#f2ede3;padding:80px 0;border-top:1px solid #e5e0d4;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center max-w-xl mx-auto mb-10 sr">
+        <div class="text-[11px] font-bold tracking-widest uppercase mb-3" style="color:#3d8535;">✦ Matcha Matchmaker ✦</div>
+        <h2 class="text-2xl sm:text-3xl font-bold mb-3" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;">ค้นหามัทฉะที่ตรงใจใน 3 คลิก</h2>
+        <p class="text-[13px]" style="color:#7a7468;">ให้ระบบช่วยคัดกรองมัทฉะที่เหมาะที่สุดสำหรับการใช้งานและรสชาติที่คุณต้องการ</p>
+      </div>
+
+      <div class="max-w-4xl mx-auto sr">
+        <div class="bg-white rounded-3xl p-6 sm:p-8" style="border:1px solid #e5e0d4;box-shadow:0 2px 24px rgba(0,0,0,0.05);">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+
+            <!-- Q1 -->
+            <div>
+              <label class="block text-[12px] font-bold mb-3" style="color:#1a3a16;">1. นำไปทำเมนูอะไรหลัก?</label>
+              <div class="space-y-2">
+                <button onclick="selectQuizOption('usage','latte',this)" data-quiz-cat="usage" data-quiz-val="latte" class="quiz-option selected">🥛 มัทฉะลาเต้ (ใส่นม)</button>
+                <button onclick="selectQuizOption('usage','usucha',this)" data-quiz-cat="usage" data-quiz-val="usucha" class="quiz-option">🍵 ชงใสเพียวๆ (Usucha / Koicha)</button>
+                <button onclick="selectQuizOption('usage','bakery',this)" data-quiz-cat="usage" data-quiz-val="bakery" class="quiz-option">🥐 เบเกอรี่ / ปั่น / ไอศกรีม</button>
+              </div>
+            </div>
+
+            <!-- Q2 -->
+            <div>
+              <label class="block text-[12px] font-bold mb-3" style="color:#1a3a16;">2. โทนรสชาติที่ชอบ?</label>
+              <div class="space-y-2">
+                <button onclick="selectQuizOption('flavor','nutty',this)" data-quiz-cat="flavor" data-quiz-val="nutty" class="quiz-option selected">🥜 หอมถั่วคั่วชัด (Nutty)</button>
+                <button onclick="selectQuizOption('flavor','balanced',this)" data-quiz-cat="flavor" data-quiz-val="balanced" class="quiz-option">⚖️ บาลานซ์ กลมกล่อมนุ่มนวล</button>
+                <button onclick="selectQuizOption('flavor','organic',this)" data-quiz-cat="flavor" data-quiz-val="organic" class="quiz-option">🌿 ออร์แกนิกแท้ คลีนๆ</button>
+              </div>
+            </div>
+
+            <!-- Q3 -->
+            <div>
+              <label class="block text-[12px] font-bold mb-3" style="color:#1a3a16;">3. งบต่อถุง 250g?</label>
+              <div class="space-y-2">
+                <button onclick="selectQuizOption('budget','medium',this)" data-quiz-cat="budget" data-quiz-val="medium" class="quiz-option selected">⭐ มาตรฐาน (900–1,200 ฿)</button>
+                <button onclick="selectQuizOption('budget','high',this)" data-quiz-cat="budget" data-quiz-val="high" class="quiz-option">👑 พรีเมียมท็อปเทียร์ (1,400+ ฿)</button>
+                <button onclick="selectQuizOption('budget','low',this)" data-quiz-cat="budget" data-quiz-val="low" class="quiz-option">💰 คุมต้นทุนสุดคุ้ม (&lt; 850 ฿)</button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Result -->
+          <div id="quiz-result-card"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       PRODUCT CATALOG
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="catalog" style="padding:80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Header row -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-8 pb-7" style="border-bottom:1px solid #e5e0d4;">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-[10px] font-bold px-2.5 py-1 rounded-full" style="background:#1a3a16;color:#fff;letter-spacing:0.08em;">CATALOGUE</span>
+            <span id="product-count-badge" class="text-[12px] font-semibold" style="color:#7a7468;">8 รายการ</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-bold" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;">คอลเลกชันมัทฉะทั้ง 8 ชนิด</h2>
+          <p class="text-[13px] mt-1" style="color:#7a7468;">คลิกการ์ดเพื่อดูรายละเอียด หรือเลือก "เทียบ" เพื่อนำไปเปรียบเทียบในตาราง</p>
+        </div>
+        <!-- Sort -->
+        <div class="flex items-center gap-2">
+          <span class="text-[12px] font-medium" style="color:#7a7468;">เรียงตาม:</span>
+          <select onchange="setSort(this.value)" class="text-[12px] font-semibold rounded-xl px-3 py-2.5 cursor-pointer" style="background:#fff;border:1.5px solid #d8d0c8;color:#3a3d38;outline:none;">
+            <option value="featured">แนะนำ (Featured)</option>
+            <option value="price-asc">ราคา: น้อย → มาก</option>
+            <option value="price-desc">ราคา: มาก → น้อย</option>
+            <option value="umami-desc">Umami สูงสุด</option>
+            <option value="nutty-desc">Nutty สูงสุด</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="space-y-3.5 mb-8">
+        <!-- Origin filters -->
+        <div class="flex items-center gap-2 flex-wrap" id="origin-filters">
+          <span class="text-[11px] font-semibold shrink-0" style="color:#9a9a90;min-width:60px;">แหล่งปลูก:</span>
+          <button onclick="setOriginFilter('all')" data-val="all" class="pill active">ทั้งหมด</button>
+          <button onclick="setOriginFilter('nishio')" data-val="nishio" class="pill">Nishio (3)</button>
+          <button onclick="setOriginFilter('uji')" data-val="uji" class="pill">Uji (2)</button>
+          <button onclick="setOriginFilter('yame')" data-val="yame" class="pill">Yame (2)</button>
+          <button onclick="setOriginFilter('shizuoka')" data-val="shizuoka" class="pill">Shizuoka (1)</button>
+        </div>
+        <!-- Flavor Profile filters -->
+        <div class="flex items-center gap-2 flex-wrap" id="flavor-filters">
+          <span class="text-[11px] font-semibold shrink-0" style="color:#9a9a90;min-width:60px;">สไตล์รสชาติ:</span>
+          <button onclick="setFlavorFilter('all')" data-val="all" class="pill active">ทั้งหมด</button>
+          <button onclick="setFlavorFilter('nutty')" data-val="nutty" class="pill">🥜 สายนัตตี้ถั่วคั่ว (Nutty 4-5)</button>
+          <button onclick="setFlavorFilter('umami')" data-val="umami" class="pill">✨ สายอูมามิกลมกล่อม (Umami 4-5)</button>
+          <button onclick="setFlavorFilter('organic')" data-val="organic" class="pill">🌿 สายออร์แกนิกแท้</button>
+        </div>
+        <!-- Usage filters -->
+        <div class="flex items-center gap-2 flex-wrap" id="usage-filters">
+          <span class="text-[11px] font-semibold shrink-0" style="color:#9a9a90;min-width:60px;">การใช้งาน:</span>
+          <button onclick="setUsageFilter('all')" data-val="all" class="pill active">ทั้งหมด</button>
+          <button onclick="setUsageFilter('Latte')" data-val="Latte" class="pill">🥛 ลาเต้</button>
+          <button onclick="setUsageFilter('Usucha')" data-val="Usucha" class="pill">🍵 Usucha</button>
+          <button onclick="setUsageFilter('Bakery')" data-val="Bakery" class="pill">🥐 เบเกอรี่</button>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       COMPARISON SECTION
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="comparison-section" style="background:#f2ede3;padding:80px 0;border-top:1px solid #e5e0d4;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center max-w-xl mx-auto mb-12 sr">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full mb-4" style="background:rgba(45,90,39,0.1);border:1px solid rgba(45,90,39,0.2);">
+          <i data-lucide="git-compare" class="w-3.5 h-3.5" style="color:#2d5a27;"></i>
+          <span class="text-[11px] font-bold tracking-wider uppercase" style="color:#2d5a27;">Side-by-Side Comparison</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold mb-3" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;">เครื่องมือเปรียบเทียบมวยต่อมวย</h2>
+        <p class="text-[13px]" style="color:#7a7468;">ไขข้อข้องใจให้ลูกค้าเห็นชัดว่าแต่ละตัวต่างกันอย่างไร ทั้งโปรไฟล์รสชาติ แหล่งปลูก และความเหมาะสมกับการใช้งาน</p>
+      </div>
+
+      <div id="comparison-table-container"></div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       COST CALCULATOR
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="calculator" style="padding:80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center max-w-xl mx-auto mb-12 sr">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full mb-4" style="background:#fffbeb;border:1px solid #f3d97a;">
+          <i data-lucide="calculator" class="w-3.5 h-3.5" style="color:#92710a;"></i>
+          <span class="text-[11px] font-bold tracking-wider uppercase" style="color:#92710a;">Café Cost Calculator</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold mb-3" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;">คำนวณต้นทุนต่อแก้วสำหรับร้านคาเฟ่</h2>
+        <p class="text-[13px]" style="color:#7a7468;">ปรับสูตรกรัมและราคาขาย เพื่อดูต้นทุนผงชาต่อแก้วและกำไรขั้นต้นทันที</p>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 sm:p-10 sr" style="border:1px solid #e5e0d4;box-shadow:0 2px 24px rgba(0,0,0,0.05);">
+
+        <!-- Sliders -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pb-8 mb-8" style="border-bottom:1px solid #e5e0d4;">
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="text-[13px] font-semibold" style="color:#3a3d38;">ปริมาณผงชาต่อแก้ว (g)</span>
+              <span id="calc-grams-val" class="text-[13px] font-bold px-3 py-1 rounded-lg" style="background:#eef5ec;color:#2d5a27;">4.0 กรัม</span>
+            </div>
+            <input id="calc-grams" type="range" min="3" max="6" step="0.5" value="4" class="w-full" style="accent-color:#1a3a16;">
+            <div class="flex justify-between text-[11px] mt-1.5" style="color:#aaa49a;">
+              <span>3g (เบา)</span><span>4g (มาตรฐาน)</span><span>6g (เข้มข้น)</span>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="text-[13px] font-semibold" style="color:#3a3d38;">ราคาขายหน้าร้านเฉลี่ย</span>
+              <span id="calc-selling-price-val" class="text-[13px] font-bold px-3 py-1 rounded-lg" style="background:#eef5ec;color:#2d5a27;">95 บาท</span>
+            </div>
+            <input id="calc-selling-price" type="range" min="65" max="160" step="5" value="95" class="w-full" style="accent-color:#1a3a16;">
+            <div class="flex justify-between text-[11px] mt-1.5" style="color:#aaa49a;">
+              <span>65 ฿ (Grab &amp; Go)</span><span>95 ฿ (Specialty)</span><span>160 ฿ (Premium)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div id="calc-summary"></div>
+
+        <!-- Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left min-w-[640px] text-[13px]" style="border-collapse:collapse;">
+            <thead>
+              <tr style="border-bottom:2px solid #e5e0d4;">
+                <th class="py-3 pr-4 text-[11px] font-bold uppercase tracking-wider" style="color:#9a9a90;">ชื่อสินค้า</th>
+                <th class="py-3 px-3 text-[11px] font-bold uppercase tracking-wider text-center" style="color:#9a9a90;">แหล่งผลิต</th>
+                <th class="py-3 px-3 text-[11px] font-bold uppercase tracking-wider text-right" style="color:#9a9a90;">ราคา / 250g</th>
+                <th class="py-3 px-3 text-[11px] font-bold uppercase tracking-wider text-center" style="color:#9a9a90;">ชงได้ (แก้ว)</th>
+                <th class="py-3 px-3 text-[11px] font-bold uppercase tracking-wider text-right" style="color:#2d5a27;">ต้นทุนชา / แก้ว</th>
+                <th class="py-3 px-3 text-[11px] font-bold uppercase tracking-wider text-right" style="color:#9a9a90;">กำไรหักผงชา</th>
+                <th class="py-3 pl-3 text-[11px] font-bold uppercase tracking-wider text-right" style="color:#9a9a90;">Margin</th>
+              </tr>
+            </thead>
+            <tbody id="calc-table-body"></tbody>
+          </table>
+        </div>
+
+        <!-- Tip -->
+        <div class="mt-6 p-5 rounded-2xl flex items-start gap-3 text-[13px]" style="background:#f2f8f0;border:1px solid #c8dec4;">
+          <i data-lucide="lightbulb" class="w-5 h-5 shrink-0 mt-0.5" style="color:#3d8535;"></i>
+          <div style="color:#2d5a27;line-height:1.7;">
+            <strong>💡 แนะนำสำหรับคาเฟ่:</strong> ใช้ <strong>Strong Nutty</strong> หรือ <strong>Yurane</strong> เป็นตัวหลักหน้าร้าน ต้นทุนเพียง ~16-17 ฿/แก้ว ขายที่ 85-95 ฿ จะมี Margin เฉพาะผงชามากกว่า 80% และเสริมด้วย <strong>Shouen</strong> หรือ <strong>Yame A</strong> เป็นซิกเนเจอร์พรีเมียม
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       BARISTA RECIPES & BREWING GUIDE
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="recipes" style="background:#f8f6f1;padding:80px 0;border-top:1px solid #e5e0d4;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center max-w-xl mx-auto mb-12 sr">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full mb-4" style="background:rgba(45,90,39,0.1);border:1px solid rgba(45,90,39,0.2);">
+          <i data-lucide="coffee" class="w-3.5 h-3.5" style="color:#2d5a27;"></i>
+          <span class="text-[11px] font-bold tracking-wider uppercase" style="color:#2d5a27;">Barista Standard Recipes</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold mb-3" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;">สูตรชงมาตรฐานสำหรับร้านกาแฟ</h2>
+        <p class="text-[13px]" style="color:#7a7468;">อัตราส่วนมาตรฐานที่ออกแบบมาเพื่อดึงเอกลักษณ์ของมัทฉะแต่ละสายพันธุ์ออกมาได้สมบูรณ์แบบ ควบคุมต้นทุนง่าย รสชาตินิ่งทุกแก้ว</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Recipe 1: Iced Matcha Latte -->
+        <div class="recipe-card sr sr-d1">
+          <div class="p-6 bg-gradient-to-br from-amber-50/60 to-emerald-50/40 border-b border-stone-100">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-bold px-2.5 py-1 rounded-full" style="background:#1a3a16;color:#fff;">เมนูขายดีอันดับ 1</span>
+              <span class="text-[12px] font-bold" style="color:#2d5a27;">ต้นทุน ~16-17 ฿</span>
+            </div>
+            <h3 class="text-[18px] font-bold mb-1" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;">🥛 Iced Matcha Latte</h3>
+            <p class="text-[12px]" style="color:#6b7068;">สูตรนมสด / Oat Milk หอมถั่วคั่ว บอดี้แน่น ทะลุนมชัดเจน</p>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between space-y-5">
+            <div>
+              <div class="text-[11px] font-bold uppercase tracking-wider mb-2.5" style="color:#9a9a90;">อัตราส่วนมาตรฐาน (แก้ว 16 oz)</div>
+              <div class="space-y-2 text-[12px]">
+                <div class="flex justify-between items-center py-1.5 border-b border-stone-100">
+                  <span style="color:#5a5a50;">ผงมัทฉะ (Matcha)</span>
+                  <span class="font-bold" style="color:#1a3a16;">4.0 กรัม</span>
+                </div>
+                <div class="flex justify-between items-center py-1.5 border-b border-stone-100">
+                  <span style="color:#5a5a50;">น้ำร้อน (อุณหภูมิ 75–80°C)</span>
+                  <span class="font-bold" style="color:#1a3a16;">30 – 40 ml</span>
+                </div>
+                <div class="flex justify-between items-center py-1.5 border-b border-stone-100">
+                  <span style="color:#5a5a50;">นมสด หรือ Oat Milk</span>
+                  <span class="font-bold" style="color:#1a3a16;">120 ml</span>
+                </div>
+                <div class="flex justify-between items-center py-1.5 border-b border-stone-100">
+                  <span style="color:#5a5a50;">น้ำเชื่อม (Simple Syrup)</span>
+                  <span class="font-bold" style="color:#1a3a16;">10 ml (ปรับตามชอบ)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl text-[11px] leading-relaxed" style="background:#f2f8f0;border:1px solid #c8dec4;color:#2d5a27;">
+              <strong>💡 Barista Tip:</strong> ร่อนผงชาแล้วตีด้วยแปรง Chasen หรือเครื่องปั่นมือจนเกิดฟองเนียน เทลงบนนมเย็น จะได้เลเยอร์สีเขียวมรกตตัดกับสีขาวสวยงาม<br>
+              <strong>ชาที่แนะนำ:</strong> Strong Nutty, Yurane
+            </div>
+          </div>
+        </div>
+
+        <!-- Recipe 2: Clear Matcha -->
+        <div class="recipe-card sr sr-d2">
+          <div class="p-6 bg-gradient-to-br from-emerald-50/60 to-teal-50/40 border-b border-stone-100">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-bold px-2.5 py-1 rounded-full" style="background:#2d5a27;color:#fff;">สายชงใสพรีเมียม</span>
+              <span class="text-[12px] font-bold" style="color:#2d5a27;">ต้นทุน ~18-31 ฿</span>
+            </div>
+            <h3 class="text-[18px] font-bold mb-1" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;">🍵 Pure Clear Matcha (Usucha)</h3>
+            <p class="text-[12px]" style="color:#6b7068;">ชงใสเย็น ดื่มด่ำรสอูมามิ กลิ่นหอมฟลอรัล และความหวานธรรมชาติ</p>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between space-y-5">
+            <div>
+              <div class="text-[11px] font-bold uppercase tracking-wider mb-2.5" style="color:#9a9a90;">อัตราส่วนมาตรฐาน (แก้ว 16 oz)</div>
+              <div class="space-y-2 text-[12px]">
+                <div class="flex justify-between items-center py-1.5 border-b border-stone-100">
+                  <span style="color:#5a5a50;">ผงมัทฉะเกรดสูง</span>
+                  <span class="font-bold" style="color:#1a3a16;">3.0 กรัม</span>
+                </div>
+                <div class="flex justify-between items-center py-1.5 border-b border-stone-100">
+                  <span style="color:#5a5a50;">น้ำอุ่น (อุณหภูมิ 70–75°C)</span>
+                  <span class="font-bold" style="color:#1a3a16;">40 ml (สำหรับตีชา)</span>
+                </div>
+                <div class="flex justify-between items-center py-1.5 border-b border-stone-100">
+                  <span style="color:#5a5a50;">น้ำเย็นจัด (Cold Water)</span>
+                  <span class="font-bold" style="color:#1a3a16;">100 ml</span>
+                </div>
+                <div class="flex justify-between items-center py-1.5 border-b border-stone-100">
+                  <span style="color:#5a5a50;">น้ำแข็งก้อนหลอด</span>
+                  <span class="font-bold" style="color:#1a3a16;">เต็มแก้ว</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl text-[11px] leading-relaxed" style="background:#f2f8f0;border:1px solid #c8dec4;color:#2d5a27;">
+              <strong>💡 Barista Tip:</strong> อย่าใช้น้ำร้อนเกิน 80°C เด็ดขาด เพราะจะดึงรสฝาดขมออกมา แนะนำดื่มแบบไม่หวานเพื่อสัมผัสรสชาติอันลุ่มลึกที่แท้จริง<br>
+              <strong>ชาที่แนะนำ:</strong> Shouen, Organic Black
+            </div>
+          </div>
+        </div>
+
+        <!-- Recipe 3: Coconut / Fruit Sparkling -->
+        <div class="recipe-card sr sr-d3">
+          <div class="p-6 bg-gradient-to-br from-teal-50/60 to-cyan-50/40 border-b border-stone-100">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-bold px-2.5 py-1 rounded-full" style="background:#0e5a64;color:#fff;">เมนูสดชื่นกำไรสูง</span>
+              <span class="text-[12px] font-bold" style="color:#0e5a64;">ต้นทุน ~11-14 ฿</span>
+            </div>
+            <h3 class="text-[18px] font-bold mb-1" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;">🥥 Matcha Coconut / Yuzu Fizz</h3>
+            <p class="text-[12px]" style="color:#6b7068;">ผสมน้ำมะพร้าวสดหรือโซดาผลไม้ รีเฟรชชิ่ง คาเฟอีนเบาสบาย</p>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between space-y-5">
+            <div>
+              <div class="text-[11px] font-bold uppercase tracking-wider mb-2.5" style="color:#9a9a90;">อัตราส่วนมาตรฐาน (แก้ว 16 oz)</div>
+              <div class="space-y-2 text-[12px]">
+                <div class="flex justify-between items-center py-1.5 border-b border-stone-100">
+                  <span style="color:#5a5a50;">ผงมัทฉะ (Matcha)</span>
+                  <span class="font-bold" style="color:#1a3a16;">3.5 กรัม</span>
+                </div>
+                <div class="flex justify-between items-center py-1.5 border-b border-stone-100">
+                  <span style="color:#5a5a50;">น้ำอุ่นสำหรับตีชา</span>
+                  <span class="font-bold" style="color:#1a3a16;">30 ml</span>
+                </div>
+                <div class="flex justify-between items-center py-1.5 border-b border-stone-100">
+                  <span style="color:#5a5a50;">น้ำมะพร้าว 100% หรือ Yuzu Soda</span>
+                  <span class="font-bold" style="color:#1a3a16;">120 ml</span>
+                </div>
+                <div class="flex justify-between items-center py-1.5 border-b border-stone-100">
+                  <span style="color:#5a5a50;">น้ำแข็งเต็มแก้ว</span>
+                  <span class="font-bold" style="color:#1a3a16;">Top ด้านบนด้วยชา</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl text-[11px] leading-relaxed" style="background:#f0f8f8;border:1px solid #b8e0e4;color:#0e5a64;">
+              <strong>💡 Barista Tip:</strong> ความหวานหอมตามธรรมชาติของน้ำมะพร้าวตัดกับความเข้มของมัทฉะได้อย่างยอดเยี่ยม เป็นเมนูทางเลือกสำหรับลูกค้าที่แพ้นมวัว<br>
+              <strong>ชาที่แนะนำ:</strong> Oikawa, Organic Green
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       TERROIR GUIDE
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="terroirs" style="background:#f2ede3;padding:80px 0;border-top:1px solid #e5e0d4;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center max-w-xl mx-auto mb-12 sr">
+        <div class="text-[11px] font-bold tracking-widest uppercase mb-3" style="color:#3d8535;">Japanese Tea Terroir</div>
+        <h2 class="text-2xl sm:text-3xl font-bold mb-3" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;">ทำความรู้จัก 4 แหล่งปลูกชา</h2>
+        <p class="text-[13px]" style="color:#7a7468;">สภาพดิน อากาศ และกรรมวิธีดูแลใบชาของแต่ละภูมิภาค สร้างเอกลักษณ์กลิ่นรสที่แตกต่างกันอย่างน่าทึ่ง</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+
+        <!-- Uji -->
+        <div class="bg-white rounded-2xl p-6 sr sr-d1" style="border:1px solid #e5e0d4;">
+          <div class="w-11 h-11 rounded-2xl flex items-center justify-center font-bold mb-5" style="background:#e8f5e4;color:#1a5c1a;font-size:14px;">宇治</div>
+          <h3 class="font-bold text-[16px] mb-1" style="color:#1a3a16;">Uji (อุจิ), Kyoto</h3>
+          <div class="text-[11px] font-bold mb-3" style="color:#3d8535;">เมืองหลวงแห่งมัทฉะดั้งเดิม</div>
+          <p class="text-[13px] leading-relaxed mb-5" style="color:#6b7068;">สายน้ำ หมอกหนา และดินภูเขาไฟ ทำให้อุจิผลิตชาที่มีความหวานตามธรรมชาติและอูมามิสูงมาก กลิ่นหอมฟลอรัลนวลตา ไร้ความฝาด</p>
+          <div class="pt-4 text-[11px]" style="border-top:1px solid #e5e0d4;color:#9a9a90;"><strong style="color:#3a3d38;">สินค้า:</strong> Organic Black, Organic Green</div>
+        </div>
+
+        <!-- Nishio -->
+        <div class="bg-white rounded-2xl p-6 sr sr-d2" style="border:1px solid #e5e0d4;">
+          <div class="w-11 h-11 rounded-2xl flex items-center justify-center font-bold mb-5" style="background:#fef3c7;color:#7a5c00;font-size:14px;">西尾</div>
+          <h3 class="font-bold text-[16px] mb-1" style="color:#1a3a16;">Nishio (นิชิโอะ), Aichi</h3>
+          <div class="text-[11px] font-bold mb-3" style="color:#7a5c00;">ราชาแห่งสีเขียวสดและบอดี้แน่น</div>
+          <p class="text-[13px] leading-relaxed mb-5" style="color:#6b7068;">สภาพอากาศชายทะเลทำให้ได้ใบชาสีเขียวสด รสชาติเข้มข้น ลุ่มลึก ทะลุนมได้ดีเยี่ยม มีชื่อเสียงระดับโลกในการผลิตมัทฉะเกรดสูง</p>
+          <div class="pt-4 text-[11px]" style="border-top:1px solid #e5e0d4;color:#9a9a90;"><strong style="color:#3a3d38;">สินค้า:</strong> Shouen, Yurane, Zenraku</div>
+        </div>
+
+        <!-- Yame -->
+        <div class="bg-white rounded-2xl p-6 sr sr-d3" style="border:1px solid #e5e0d4;">
+          <div class="w-11 h-11 rounded-2xl flex items-center justify-center font-bold mb-5" style="background:#fef9e0;color:#7a5c00;font-size:14px;">八女</div>
+          <h3 class="font-bold text-[16px] mb-1" style="color:#1a3a16;">Yame (ยาเมะ), Fukuoka</h3>
+          <div class="text-[11px] font-bold mb-3" style="color:#c9a84c;">ขวัญใจสายนัตตี้และหวานลึก</div>
+          <p class="text-[13px] leading-relaxed mb-5" style="color:#6b7068;">อุณหภูมิกลางวัน-กลางคืนต่างกันสูง ใบชาสะสมความหวานและกลิ่นถั่วคั่ว (Nutty) เป็นเอกลักษณ์ เข้ากับนมโอ๊ตได้มหัศจรรย์</p>
+          <div class="pt-4 text-[11px]" style="border-top:1px solid #e5e0d4;color:#9a9a90;"><strong style="color:#3a3d38;">สินค้า:</strong> Strong Nutty, Yame A</div>
+        </div>
+
+        <!-- Shizuoka -->
+        <div class="bg-white rounded-2xl p-6 sr sr-d4" style="border:1px solid #e5e0d4;">
+          <div class="w-11 h-11 rounded-2xl flex items-center justify-center font-bold mb-5" style="background:#e0f5f8;color:#0e5a64;font-size:14px;">静岡</div>
+          <h3 class="font-bold text-[16px] mb-1" style="color:#1a3a16;">Shizuoka (ชิซูโอกะ)</h3>
+          <div class="text-[11px] font-bold mb-3" style="color:#0e8080;">มรดกสวนชา Hamachaen 150+ ปี</div>
+          <p class="text-[13px] leading-relaxed mb-5" style="color:#6b7068;">แหล่งผลิตชาเขียวใหญ่สุดของญี่ปุ่น ใต้ร่มเงาฟูจิ กลิ่นหอมสดชื่น สะอาด รสชาติกลมกล่อมรอบด้าน ดื่มง่ายทุกวัน</p>
+          <div class="pt-4 text-[11px]" style="border-top:1px solid #e5e0d4;color:#9a9a90;"><strong style="color:#3a3d38;">สินค้า:</strong> Oikawa (おいかわ)</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       CAFE QUALITY CARE & FAQ
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="faq" style="background:#fff;padding:80px 0;border-top:1px solid #e5e0d4;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center max-w-xl mx-auto mb-12 sr">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full mb-4" style="background:rgba(45,90,39,0.1);border:1px solid rgba(45,90,39,0.2);">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5" style="color:#2d5a27;"></i>
+          <span class="text-[11px] font-bold tracking-wider uppercase" style="color:#2d5a27;">Cafe Quality Care &amp; FAQ</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold mb-3" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;">คู่มือการเก็บรักษา &amp; คำถามที่พบบ่อย</h2>
+        <p class="text-[13px]" style="color:#7a7468;">ไขข้อข้องใจเรื่องการดูแลรักษาผงมัทฉะแท้ เพื่อรักษาความเขียวสดและกลิ่นหอมให้คงที่ตลอดการใช้งานที่ร้าน</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+
+        <!-- FAQ 1 -->
+        <div class="faq-card sr sr-d1">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:#f2f8f0;border:1px solid #c8dec4;">
+              <i data-lucide="sparkles" class="w-5 h-5" style="color:#2d5a27;"></i>
+            </div>
+            <div>
+              <h3 class="text-[16px] font-bold mb-2" style="color:#1a3a16;">ทำไมผงมัทฉะแท้ถึงจับตัวเป็นก้อนเล็กๆ?</h3>
+              <p class="text-[13px] leading-relaxed" style="color:#6b7068;">
+                ผงมัทฉะแท้ 100% ที่บดด้วยโม่หิน (Stone-milled) มีอนุภาคละเอียดระดับ <strong>5–10 ไมครอน</strong> จึงเกิดแรงไฟฟ้าสถิต (Static Charge) ดึงดูดกันเป็นก้อนเล็กๆ ตามธรรมชาติ ซึ่งไม่ใช่เพราะชาชื้นหรือเสีย แนะนำให้บาริสต้าใช้ <strong>ตะแกรงตาถี่ร่อน (Sifting)</strong> ผงชาก่อนชงทุกครั้ง เพื่อให้ละลายง่ายและเนื้อโฟมเนียนนุ่มที่สุด
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-card sr sr-d2">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:#eef5ec;border:1px solid #b8dec0;">
+              <i data-lucide="snowflake" class="w-5 h-5" style="color:#2d5a27;"></i>
+            </div>
+            <div>
+              <h3 class="text-[16px] font-bold mb-2" style="color:#1a3a16;">วิธีเก็บรักษาผงชาไม่ให้สีดรอปหรือกลิ่นหืน?</h3>
+              <p class="text-[13px] leading-relaxed" style="color:#6b7068;">
+                มัทฉะไวต่อ <strong>แสง ออกซิเจน และความชื้น</strong> ควรเก็บในถุงฟอยล์ทึบแสง ปิดซิปล็อกให้แน่นสนิท แช่ในตู้เย็น (0–5°C) <br>
+                <strong style="color:#1a3a16;">⚠️ เคล็ดลับสำคัญ:</strong> เมื่อนำถุงชาออกจากตู้เย็น ให้วางทิ้งไว้ในอุณหภูมิห้องประมาณ 15–20 นาทีก่อนเปิดซอง เพื่อป้องกันไม่ให้ไอน้ำในอากาศควบแน่นเข้าไปในถุงชา
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-card sr sr-d3">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:#fdf6e6;border:1px solid #edd49a;">
+              <i data-lucide="clock" class="w-5 h-5" style="color:#a07020;"></i>
+            </div>
+            <div>
+              <h3 class="text-[16px] font-bold mb-2" style="color:#1a3a16;">อายุการเก็บรักษา (Shelf Life) นานแค่ไหน?</h3>
+              <p class="text-[13px] leading-relaxed" style="color:#6b7068;">
+                • <strong>ซองที่ยังไม่เปิด:</strong> สามารถเก็บรักษาคุณภาพได้นาน <strong>12 – 18 เดือน</strong> นับจากวันผลิต (เก็บในที่แห้ง มืด และเย็น)<br>
+                • <strong>หลังเปิดใช้งานแล้ว:</strong> แนะนำให้ใช้ให้หมดภายใน <strong>30 – 60 วัน</strong> เพื่อสัมผัสสีเขียวมรกตที่สดใสและกลิ่นหอมอูมามิที่ดีที่สุดของใบชา
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-card sr sr-d4">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:#f5f0fa;border:1px solid #c8b0d8;">
+              <i data-lucide="package-check" class="w-5 h-5" style="color:#6a40a0;"></i>
+            </div>
+            <div>
+              <h3 class="text-[16px] font-bold mb-2" style="color:#1a3a16;">ราคาส่งคาเฟ่ &amp; การขอชุดตัวอย่าง (Sample Kit)?</h3>
+              <p class="text-[13px] leading-relaxed" style="color:#6b7068;">
+                MATCHA TIMES มีโครงสร้าง <strong>ราคาส่ง B2B สำหรับร้านกาแฟและคาเฟ่</strong> โดยเฉพาะ พร้อมมี <strong>ชุด Sample Kit</strong> สำหรับบาริสต้าและเจ้าของร้านเพื่อทดลองชงจริงกับนมและไซรัปของร้านก่อนเปิดบิล ติดต่อฝ่ายขายผ่าน LINE เพื่อขอรับตัวอย่างได้เลย
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Sample Kit Callout Banner -->
+      <div class="sample-kit-banner p-8 sm:p-10 text-white flex flex-col md:flex-row items-center justify-between gap-6 sr">
+        <div class="max-w-xl">
+          <span class="text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3 inline-block" style="background:rgba(201,168,76,0.2);color:#f3e8c4;border:1px solid rgba(201,168,76,0.35);">
+            ✦ B2B Cafe Partnership
+          </span>
+          <h3 class="text-2xl sm:text-3xl font-bold mb-2" style="font-family:'Plus Jakarta Sans',sans-serif;">
+            เปิดร้านกาแฟ หรือต้องการยกระดับเมนูมัทฉะ?
+          </h3>
+          <p class="text-[13px] leading-relaxed opacity-85">
+            ขอรับชุด <strong>Matcha Times Sample Kit</strong> สำหรับทดลองชงจริงที่ร้าน พร้อมรับคำปรึกษาเรื่องอัตราส่วนและคำนวณต้นทุนต่อแก้วฟรีจากผู้เชี่ยวชาญ
+          </p>
+        </div>
+        <div class="shrink-0 flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+          <button onclick="openContactModal()" class="py-3 px-6 rounded-xl font-bold text-[13px] transition-all flex items-center justify-center gap-2" style="background:#c9a84c;color:#1a1a1a;">
+            <i data-lucide="package" class="w-4 h-4"></i>
+            ขอรับชุด Sample Kit
+          </button>
+          <button onclick="openFlyerModal()" class="py-3 px-5 rounded-xl font-bold text-[13px] transition-all flex items-center justify-center gap-2" style="background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);">
+            <i data-lucide="file-text" class="w-4 h-4"></i>
+            ดูใบราคาเต็ม
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FLOATING COMPARE BAR
+       ═══════════════════════════════════════════════════════════════ -->
+  <div id="compare-drawer" class="compare-bar fixed bottom-5 left-1/2 -translate-x-1/2 z-50">
+    <div class="flex items-center gap-4 px-5 py-3.5 rounded-full shadow-2xl" style="background:#1a3a16;border:1px solid rgba(255,255,255,0.12);">
+      <div class="flex items-center gap-2.5">
+        <span class="w-2 h-2 rounded-full animate-ping" style="background:#6db872;"></span>
+        <span class="text-[12px] font-semibold text-white">เลือกแล้ว <span id="compare-drawer-count" class="font-bold" style="color:#c9a84c;">0</span>/3 รายการ</span>
+      </div>
+      <div id="compare-drawer-names" class="hidden sm:flex items-center gap-1.5 text-[11px]" style="color:#9a9a8a;"></div>
+      <a href="#comparison-section" class="flex items-center gap-1.5 px-4 py-2 rounded-full text-[12px] font-bold transition-colors" style="background:#3d8535;color:#fff;">
+        ดูผลเปรียบเทียบ
+        <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- ═══ LINE FLOATING ACTION BUTTON ════════════════════════════ -->
+  <button class="line-fab" onclick="openContactModal()" title="ติดต่อผ่าน LINE">
+    <span class="line-fab-label">ติดต่อ LINE</span>
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
+      <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.494.25l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+    </svg>
+  </button>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       PRODUCT DETAIL MODAL
+       ═══════════════════════════════════════════════════════════════ -->
+  <div id="product-modal" class="modal-overlay" onclick="closeModal('product-modal')">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div id="product-modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Flyer Modal -->
+  <div id="flyer-modal" class="modal-overlay" onclick="closeModal('flyer-modal')">
+    <div class="modal-box" onclick="event.stopPropagation()" style="max-width:680px;">
+      <div class="flex items-center justify-between p-5 pb-4" style="border-bottom:1px solid #e5e0d4;">
+        <div class="flex items-center gap-2">
+          <i data-lucide="file-text" class="w-4 h-4" style="color:#2d5a27;"></i>
+          <h3 class="font-bold" style="color:#1a3a16;">ใบแคตตาล็อกต้นฉบับ MATCHA TIMES</h3>
+        </div>
+        <button onclick="closeModal('flyer-modal')" class="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style="background:#f5f0e8;">
+          <i data-lucide="x" class="w-4 h-4" style="color:#6b7068;"></i>
+        </button>
+      </div>
+      <div class="p-5 flex items-center justify-center">
+        <img src="assets/images/original-catalog.jpg" alt="MATCHA TIMES Catalog" class="rounded-xl object-contain shadow-md" style="max-height:70vh;">
+      </div>
+      <div class="pb-4 text-center text-[11px]" style="color:#9a9a90;">Silom • Asok • Phrakanong | LINE: @matchatimes.thailand</div>
+    </div>
+  </div>
+
+  <!-- Contact Modal -->
+  <div id="contact-modal" class="modal-overlay" onclick="closeModal('contact-modal')">
+    <div class="modal-box text-center p-7" onclick="event.stopPropagation()" style="max-width:400px;">
+      <button onclick="closeModal('contact-modal')" class="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center" style="background:#f5f0e8;">
+        <i data-lucide="x" class="w-4 h-4" style="color:#6b7068;"></i>
+      </button>
+      <div class="w-14 h-14 rounded-full mx-auto flex items-center justify-center mb-4" style="background:#eef5ec;">
+        <i data-lucide="message-circle" class="w-7 h-7" style="color:#2d5a27;"></i>
+      </div>
+      <h3 class="text-[20px] font-bold mb-1" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;">ติดต่อฝ่ายขาย MATCHA TIMES</h3>
+      <p class="text-[12px] mb-6" style="color:#7a7468;">สั่งซื้อราคาส่ง B2B, ขอใบเสนอราคา หรือนัดชิมตัวอย่างชาสำหรับเปิดร้าน</p>
+
+      <div class="inline-block p-4 rounded-2xl mb-4" style="background:#f8f5f0;border:1px solid #e5e0d4;">
+        <div class="w-36 h-36 rounded-xl overflow-hidden flex items-center justify-center" style="border:1px solid #e5e0d4;">
+          <img src="assets/images/original-catalog.jpg" alt="QR" class="w-36 h-36 object-cover object-right-top">
+        </div>
+        <div class="text-[11px] font-bold mt-2" style="color:#6b7068;">สแกน QR Code ผ่าน LINE</div>
+      </div>
+
+      <div class="space-y-2 text-[13px]">
+        <div class="p-3 rounded-xl mb-3 text-left flex items-start gap-2.5" style="background:#f2f8f0;border:1px solid #c8dec4;">
+          <i data-lucide="package" class="w-4 h-4 mt-0.5 shrink-0" style="color:#2d5a27;"></i>
+          <div class="text-[11px] leading-relaxed" style="color:#2d5a27;">
+            <strong>สำหรับร้านเปิดใหม่:</strong> แจ้งแอดมินว่า <em>"ขอรับชุด Sample Kit ทดลองชงที่ร้าน"</em> เพื่อรับตัวอย่างชาและคำแนะนำอัตราส่วน
+          </div>
+        </div>
+
+        <a href="https://line.me" target="_blank" class="block w-full py-3 rounded-2xl font-bold transition-colors" style="background:#06C755;color:#fff;">
+          แอด LINE: @matchatimes.thailand
+        </a>
+        <div class="p-4 rounded-2xl text-left space-y-1.5 text-[12px]" style="background:#f8f5f0;border:1px solid #e5e0d4;color:#5a5a50;">
+          <div>📍 <strong>สาขา:</strong> Silom, Asok (Interchange 21), Phrakanong</div>
+          <div>📸 <strong>Instagram:</strong> @matchatimes.thailand</div>
+          <div>🌐 <strong>Website:</strong> matcha-times.com</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════════════ -->
+  <footer style="background:#111a10;padding:60px 0;border-top:1px solid rgba(255,255,255,0.06);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="flex items-center justify-center gap-2 mb-3">
+        <i data-lucide="leaf" class="w-5 h-5" style="color:#6db872;"></i>
+        <span class="font-bold text-[16px]" style="color:#f8f5ee;font-family:'Plus Jakarta Sans',sans-serif;">MATCHA TIMES Co., Ltd.</span>
+      </div>
+      <p class="text-[12px] mb-6 max-w-sm mx-auto" style="color:#6a6a5a;line-height:1.7;">
+        We bring calm and cheerful vibes to your everyday life.<br>
+        100% Japanese Sourced Matcha · Tokyo · Bangkok · Global
+      </p>
+      <div class="flex items-center justify-center gap-4 flex-wrap text-[11px] mb-6" style="color:#4a5a46;">
+        <a href="#story" class="hover:text-white transition-colors">ประวัติแบรนด์</a>
+        <span>·</span>
+        <a href="#catalog" class="hover:text-white transition-colors">สินค้า</a>
+        <span>·</span>
+        <a href="#comparison-section" class="hover:text-white transition-colors">เปรียบเทียบ</a>
+        <span>·</span>
+        <a href="#calculator" class="hover:text-white transition-colors">คำนวณต้นทุน</a>
+        <span>·</span>
+        <button onclick="openContactModal()" class="hover:text-white transition-colors">ติดต่อฝ่ายขาย</button>
+      </div>
+      <div class="text-[11px] pt-5" style="border-top:1px solid rgba(255,255,255,0.06);color:#3a3a32;">
+        © 2026 MATCHA TIMES Co., Ltd. All Rights Reserved · Prepared for Sales Enablement
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Copy Toast -->
+  <div id="copy-toast" class="copy-toast">
+    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+    <span>คัดลอกสรุปสเปกส่ง LINE แล้ว!</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
