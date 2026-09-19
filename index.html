@@ -62,15 +62,14 @@
       </a>
 
       <!-- Desktop Nav Links -->
-      <nav class="hidden lg:flex items-center gap-4 text-[12px] font-semibold" style="color:#4a5a46;">
-        <a href="#story" class="nav-link hover:text-matcha-900 transition-colors" data-i18n="nav_brand">ประวัติแบรนด์</a>
-        <a href="#tier-list" class="nav-link hover:text-matcha-900 transition-colors" data-i18n="nav_tier">อันดับ Best Seller</a>
+      <nav class="hidden lg:flex items-center gap-3 text-[12px] font-semibold" style="color:#4a5a46;">
+        <a href="#matchmaker" class="nav-link hover:text-matcha-900 transition-colors" data-i18n="nav_matchmaker">ช่วยเลือกชา</a>
+        <a href="#tier-list" class="nav-link hover:text-matcha-900 transition-colors" data-i18n="nav_tier">Best Sellers</a>
         <a href="#catalog" class="nav-link hover:text-matcha-900 transition-colors" data-i18n="nav_catalog">สินค้า 10 ชนิด</a>
         <a href="#comparison-section" class="nav-link hover:text-matcha-900 transition-colors" data-i18n="nav_compare">เปรียบเทียบ</a>
         <a href="#calculator" class="nav-link hover:text-matcha-900 transition-colors" data-i18n="nav_calculator">คำนวณต้นทุน</a>
-        <a href="#recipes" class="nav-link hover:text-matcha-900 transition-colors" data-i18n="nav_recipes">สูตรชงคาเฟ่</a>
-        <a href="#terroirs" class="nav-link hover:text-matcha-900 transition-colors" data-i18n="nav_terroirs">4 แหล่งปลูก</a>
-        <a href="#faq" class="nav-link hover:text-matcha-900 transition-colors" data-i18n="nav_faq">FAQ &amp; เก็บรักษา</a>
+        <a href="#story" class="nav-link hover:text-matcha-900 transition-colors" data-i18n="nav_brand">แบรนด์</a>
+        <a href="#faq" class="nav-link hover:text-matcha-900 transition-colors" data-i18n="nav_faq">FAQ</a>
       </nav>
 
       <!-- Action buttons & Language Switcher -->
@@ -303,18 +302,33 @@
           คัดสรรสุดยอดมัทฉะเกรดพิธีการสู่เชิงพาณิชย์ ส่งตรงจากนิชิโอะ อุจิ ยาเมะ และชิซูโอกะ ออกแบบให้ร้านกาแฟคำนวณต้นทุนง่าย คุมกำไรได้สูงสุด และเลือกสเปกได้ตรงใจ
         </p>
 
-        <!-- CTA Row -->
-        <div class="flex flex-wrap items-center justify-center gap-3">
-          <a href="#tier-list" class="btn-primary shadow-sm hover:shadow-md transition-all">
-            <i data-lucide="award" class="w-4 h-4" style="color:#f3e8c4;"></i>
+        <!-- CTA Row — Primary Conversion Buttons -->
+        <div class="flex flex-wrap items-center justify-center gap-3 mb-4">
+          <a href="https://line.me/ti/p/Q_YSqkj0Db" target="_blank" rel="noopener noreferrer" class="btn-primary shadow-sm hover:shadow-md transition-all" style="background:#06C755;border-color:#06C755;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white" class="shrink-0"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.494.25l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+            <span data-i18n="hero_cta_line">รับราคาส่ง B2B ทาง LINE</span>
+          </a>
+          <button onclick="openContactModal()" class="btn-secondary shadow-xs hover:shadow-sm transition-all bg-white/90 backdrop-blur-xs">
+            <i data-lucide="package" class="w-4 h-4" style="color:#3d8535;"></i>
+            <span data-i18n="hero_cta_sample">ขอรับ Sample Kit ทดลองชง</span>
+          </button>
+        </div>
+        <!-- Secondary Navigation CTAs -->
+        <div class="flex flex-wrap items-center justify-center gap-2">
+          <a href="#tier-list" class="btn-ghost text-[12px] py-1.5 px-3 bg-white/70 backdrop-blur-xs" style="border-color:rgba(45,90,39,0.2);">
+            <i data-lucide="award" class="w-3.5 h-3.5" style="color:#c9a84c;"></i>
             <span data-i18n="nav_tier">อันดับ Best Seller</span>
           </a>
-          <a href="#catalog" class="btn-secondary shadow-xs hover:shadow-sm transition-all bg-white/90 backdrop-blur-xs">
-            <i data-lucide="search" class="w-4 h-4" style="color:#3d8535;"></i>
-            <span data-i18n="hero_cta_catalog">สำรวจสินค้า 10 ชนิด</span>
+          <a href="#matchmaker" class="btn-ghost text-[12px] py-1.5 px-3 bg-white/70 backdrop-blur-xs" style="border-color:rgba(45,90,39,0.2);">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5" style="color:#3d8535;"></i>
+            <span data-i18n="nav_matchmaker">ช่วยเลือกชา</span>
           </a>
-          <a href="#calculator" class="btn-secondary shadow-xs hover:shadow-sm transition-all bg-white/90 backdrop-blur-xs">
-            <i data-lucide="calculator" class="w-4 h-4" style="color:#c9a84c;"></i>
+          <a href="#catalog" class="btn-ghost text-[12px] py-1.5 px-3 bg-white/70 backdrop-blur-xs" style="border-color:rgba(45,90,39,0.2);">
+            <i data-lucide="search" class="w-3.5 h-3.5" style="color:#3d8535;"></i>
+            <span data-i18n="hero_cta_catalog">สินค้า 10 ชนิด</span>
+          </a>
+          <a href="#calculator" class="btn-ghost text-[12px] py-1.5 px-3 bg-white/70 backdrop-blur-xs" style="border-color:rgba(45,90,39,0.2);">
+            <i data-lucide="calculator" class="w-3.5 h-3.5" style="color:#c9a84c;"></i>
             <span data-i18n="hero_cta_calc">คำนวณกำไรต่อแก้ว</span>
           </a>
         </div>
@@ -354,6 +368,85 @@
         </a>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       MATCHMAKER QUIZ
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="matchmaker" style="background:#f2ede3;padding:80px 0;border-top:1px solid #e5e0d4;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center max-w-xl mx-auto mb-10 sr">
+        <div class="text-[11px] font-bold tracking-widest uppercase mb-3" style="color:#3d8535;" data-i18n="quiz_badge">✦ Matcha Matchmaker ✦</div>
+        <h2 class="text-2xl sm:text-3xl font-bold mb-3" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;" data-i18n="quiz_heading">ค้นหามัทฉะที่ตรงใจใน 3 คลิก</h2>
+        <p class="text-[13px]" style="color:#7a7468;" data-i18n="quiz_subheading">ให้ระบบช่วยคัดกรองมัทฉะที่เหมาะที่สุดสำหรับการใช้งานและรสชาติที่คุณต้องการ</p>
+      </div>
+
+      <div class="max-w-4xl mx-auto sr">
+        <div class="bg-white rounded-3xl p-6 sm:p-8" style="border:1px solid #e5e0d4;box-shadow:0 2px 24px rgba(0,0,0,0.05);">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+
+            <!-- Q1 -->
+            <div>
+              <label class="block text-[12px] font-bold mb-3" style="color:#1a3a16;" data-i18n="quiz_q1_title">1. นำไปทำเมนูอะไรหลัก?</label>
+              <div class="space-y-2">
+                <button onclick="selectQuizOption('usage','latte',this)" data-quiz-cat="usage" data-quiz-val="latte" class="quiz-option selected" data-i18n="quiz_q1_o1">🥛 มัทฉะลาเต้ (ใส่นม)</button>
+                <button onclick="selectQuizOption('usage','usucha',this)" data-quiz-cat="usage" data-quiz-val="usucha" class="quiz-option" data-i18n="quiz_q1_o2">🍵 ชงใสเพียวๆ (Usucha / Koicha)</button>
+                <button onclick="selectQuizOption('usage','bakery',this)" data-quiz-cat="usage" data-quiz-val="bakery" class="quiz-option" data-i18n="quiz_q1_o3">🥐 เบเกอรี่ / ปั่น / ไอศกรีม</button>
+              </div>
+            </div>
+
+            <!-- Q2 -->
+            <div>
+              <label class="block text-[12px] font-bold mb-3" style="color:#1a3a16;" data-i18n="quiz_q2_title">2. โทนรสชาติที่ชอบ?</label>
+              <div class="space-y-2">
+                <button onclick="selectQuizOption('flavor','nutty',this)" data-quiz-cat="flavor" data-quiz-val="nutty" class="quiz-option selected" data-i18n="quiz_q2_o1">🥜 หอมถั่วคั่วชัด (Nutty)</button>
+                <button onclick="selectQuizOption('flavor','balanced',this)" data-quiz-cat="flavor" data-quiz-val="balanced" class="quiz-option" data-i18n="quiz_q2_o2">⚖️ บาลานซ์ กลมกล่อมนุ่มนวล</button>
+                <button onclick="selectQuizOption('flavor','organic',this)" data-quiz-cat="flavor" data-quiz-val="organic" class="quiz-option" data-i18n="quiz_q2_o3">🌿 ออร์แกนิกแท้ คลีนๆ</button>
+              </div>
+            </div>
+
+            <!-- Q3 -->
+            <div>
+              <label class="block text-[12px] font-bold mb-3" style="color:#1a3a16;" data-i18n="quiz_q3_title">3. งบต่อถุง 250g?</label>
+              <div class="space-y-2">
+                <button onclick="selectQuizOption('budget','medium',this)" data-quiz-cat="budget" data-quiz-val="medium" class="quiz-option selected" data-i18n="quiz_q3_o1">⭐ มาตรฐาน (900–1,200 ฿)</button>
+                <button onclick="selectQuizOption('budget','high',this)" data-quiz-cat="budget" data-quiz-val="high" class="quiz-option" data-i18n="quiz_q3_o2">👑 พรีเมียมท็อปเทียร์ (1,400+ ฿)</button>
+                <button onclick="selectQuizOption('budget','low',this)" data-quiz-cat="budget" data-quiz-val="low" class="quiz-option" data-i18n="quiz_q3_o3">💰 คุมต้นทุนสุดคุ้ม (&lt; 850 ฿)</button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Result -->
+          <div id="quiz-result-card"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       BEST SELLER TIER LIST SECTION
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="tier-list" style="background:#f8f6f1;padding:80px 0;border-top:1px solid #e5e0d4;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-12 sr">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full mb-3" style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);">
+          <i data-lucide="crown" class="w-3.5 h-3.5" style="color:#c9a84c;"></i>
+          <span class="text-[11px] font-bold tracking-wider uppercase" style="color:#a07020;">B2B Cafe Selection Guide</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold mb-3" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;" data-i18n="tier_heading">
+          อันดับ Best Seller &amp; แนะนำสำหรับร้านคาเฟ่
+        </h2>
+        <p class="text-[13px] leading-relaxed" style="color:#7a7468;" data-i18n="tier_subheading">
+          จัดลำดับตามความนิยม ยอดขายหน้าร้าน และความคุ้มค่าในการบริหารต้นทุน เพื่อช่วยให้เลือกชาได้แม่นยำที่สุด
+        </p>
+      </div>
+
+      <!-- Tier list dynamic rows -->
+      <div id="tier-list-container" class="space-y-4"></div>
     </div>
   </section>
 
@@ -497,85 +590,6 @@
         </div>
       </div>
 
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════════════
-       MATCHMAKER QUIZ
-       ═══════════════════════════════════════════════════════════════ -->
-  <section id="matchmaker" style="background:#f2ede3;padding:80px 0;border-top:1px solid #e5e0d4;">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-      <div class="text-center max-w-xl mx-auto mb-10 sr">
-        <div class="text-[11px] font-bold tracking-widest uppercase mb-3" style="color:#3d8535;" data-i18n="quiz_badge">✦ Matcha Matchmaker ✦</div>
-        <h2 class="text-2xl sm:text-3xl font-bold mb-3" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;" data-i18n="quiz_heading">ค้นหามัทฉะที่ตรงใจใน 3 คลิก</h2>
-        <p class="text-[13px]" style="color:#7a7468;" data-i18n="quiz_subheading">ให้ระบบช่วยคัดกรองมัทฉะที่เหมาะที่สุดสำหรับการใช้งานและรสชาติที่คุณต้องการ</p>
-      </div>
-
-      <div class="max-w-4xl mx-auto sr">
-        <div class="bg-white rounded-3xl p-6 sm:p-8" style="border:1px solid #e5e0d4;box-shadow:0 2px 24px rgba(0,0,0,0.05);">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-
-            <!-- Q1 -->
-            <div>
-              <label class="block text-[12px] font-bold mb-3" style="color:#1a3a16;" data-i18n="quiz_q1_title">1. นำไปทำเมนูอะไรหลัก?</label>
-              <div class="space-y-2">
-                <button onclick="selectQuizOption('usage','latte',this)" data-quiz-cat="usage" data-quiz-val="latte" class="quiz-option selected" data-i18n="quiz_q1_o1">🥛 มัทฉะลาเต้ (ใส่นม)</button>
-                <button onclick="selectQuizOption('usage','usucha',this)" data-quiz-cat="usage" data-quiz-val="usucha" class="quiz-option" data-i18n="quiz_q1_o2">🍵 ชงใสเพียวๆ (Usucha / Koicha)</button>
-                <button onclick="selectQuizOption('usage','bakery',this)" data-quiz-cat="usage" data-quiz-val="bakery" class="quiz-option" data-i18n="quiz_q1_o3">🥐 เบเกอรี่ / ปั่น / ไอศกรีม</button>
-              </div>
-            </div>
-
-            <!-- Q2 -->
-            <div>
-              <label class="block text-[12px] font-bold mb-3" style="color:#1a3a16;" data-i18n="quiz_q2_title">2. โทนรสชาติที่ชอบ?</label>
-              <div class="space-y-2">
-                <button onclick="selectQuizOption('flavor','nutty',this)" data-quiz-cat="flavor" data-quiz-val="nutty" class="quiz-option selected" data-i18n="quiz_q2_o1">🥜 หอมถั่วคั่วชัด (Nutty)</button>
-                <button onclick="selectQuizOption('flavor','balanced',this)" data-quiz-cat="flavor" data-quiz-val="balanced" class="quiz-option" data-i18n="quiz_q2_o2">⚖️ บาลานซ์ กลมกล่อมนุ่มนวล</button>
-                <button onclick="selectQuizOption('flavor','organic',this)" data-quiz-cat="flavor" data-quiz-val="organic" class="quiz-option" data-i18n="quiz_q2_o3">🌿 ออร์แกนิกแท้ คลีนๆ</button>
-              </div>
-            </div>
-
-            <!-- Q3 -->
-            <div>
-              <label class="block text-[12px] font-bold mb-3" style="color:#1a3a16;" data-i18n="quiz_q3_title">3. งบต่อถุง 250g?</label>
-              <div class="space-y-2">
-                <button onclick="selectQuizOption('budget','medium',this)" data-quiz-cat="budget" data-quiz-val="medium" class="quiz-option selected" data-i18n="quiz_q3_o1">⭐ มาตรฐาน (900–1,200 ฿)</button>
-                <button onclick="selectQuizOption('budget','high',this)" data-quiz-cat="budget" data-quiz-val="high" class="quiz-option" data-i18n="quiz_q3_o2">👑 พรีเมียมท็อปเทียร์ (1,400+ ฿)</button>
-                <button onclick="selectQuizOption('budget','low',this)" data-quiz-cat="budget" data-quiz-val="low" class="quiz-option" data-i18n="quiz_q3_o3">💰 คุมต้นทุนสุดคุ้ม (&lt; 850 ฿)</button>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Result -->
-          <div id="quiz-result-card"></div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════════════
-       BEST SELLER TIER LIST SECTION
-       ═══════════════════════════════════════════════════════════════ -->
-  <section id="tier-list" style="background:#f8f6f1;padding:80px 0;border-top:1px solid #e5e0d4;">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-12 sr">
-        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full mb-3" style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);">
-          <i data-lucide="crown" class="w-3.5 h-3.5" style="color:#c9a84c;"></i>
-          <span class="text-[11px] font-bold tracking-wider uppercase" style="color:#a07020;">B2B Cafe Selection Guide</span>
-        </div>
-        <h2 class="text-2xl sm:text-3xl font-bold mb-3" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;" data-i18n="tier_heading">
-          อันดับ Best Seller &amp; แนะนำสำหรับร้านคาเฟ่
-        </h2>
-        <p class="text-[13px] leading-relaxed" style="color:#7a7468;" data-i18n="tier_subheading">
-          จัดลำดับตามความนิยม ยอดขายหน้าร้าน และความคุ้มค่าในการบริหารต้นทุน เพื่อช่วยให้เลือกชาได้แม่นยำที่สุด
-        </p>
-      </div>
-
-      <!-- Tier list dynamic rows -->
-      <div id="tier-list-container" class="space-y-4"></div>
     </div>
   </section>
 
@@ -1149,7 +1163,7 @@
           <i data-lucide="message-circle" class="w-4 h-4 inline mr-1.5"></i> <span data-i18n="contact_btn_line">แอด LINE: @matchatimes.thailand</span>
         </a>
         <a href="https://www.instagram.com/matchatimes.thailand?stkn=czJxb25xMmxzdjRz" target="_blank" rel="noopener noreferrer" class="block w-full py-3 rounded-2xl font-bold transition-colors text-center text-white" style="background:linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);">
-          <i data-lucide="instagram" class="w-4 h-4 inline mr-1.5"></i> <span data-i18n="contact_btn_ig">ติดตาม Instagram: @matchatimes.thailand</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline mr-1.5" style="vertical-align:-3px;"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg> <span data-i18n="contact_btn_ig">ติดตาม Instagram: @matchatimes.thailand</span>
         </a>
         <div class="p-4 rounded-2xl text-left space-y-1.5 text-[12px]" style="background:#f8f5f0;border:1px solid #e5e0d4;color:#5a5a50;">
           <div data-i18n="contact_branches">📍 <strong>สาขา:</strong> Silom, Asok (Interchange 21), Phrakanong</div>

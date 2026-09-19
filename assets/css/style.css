@@ -59,6 +59,14 @@ body {
 /* ── Selection ── */
 ::selection { background: var(--matcha); color: #fff; }
 
+/* ── Scroll offset for sticky nav (64px height) ── */
+section[id], div[id] {
+  scroll-margin-top: 72px;
+}
+
+/* ── Improved small-text contrast ── */
+.text-stone-500 { color: #6b7068 !important; }
+
 /* ── Nav Glass ── */
 .nav-glass {
   background: rgba(248, 246, 241, 0.92);

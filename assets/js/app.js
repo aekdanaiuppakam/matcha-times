@@ -1,7 +1,7 @@
 // MATCHA TIMES — Sales & Product Enablement App v2.6 (Bilingual & 2026 Wholesale Edition)
 
 let currentLang = localStorage.getItem("matcha_times_lang") || "th";
-let selectedCompareIds = ["strong-nutty", "yurane"];
+let selectedCompareIds = [];
 let currentFilterCategory = "all";
 let currentFilterOrigin = "all";
 let currentFilterUsage  = "all";
@@ -121,10 +121,19 @@ function initScrollReveal() {
           const w = bar.getAttribute("data-width");
           if (w) bar.style.width = w;
         });
+        obs.unobserve(e.target); // stop observing once revealed
       }
     });
-  }, { threshold: 0.08, rootMargin: "0px 0px -20px 0px" });
-  els.forEach(el => obs.observe(el));
+  }, { threshold: 0.05, rootMargin: "60px 0px 0px 0px" });
+  els.forEach(el => {
+    // Immediately reveal if already in viewport (handles anchor nav)
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      el.classList.add("visible");
+    } else {
+      obs.observe(el);
+    }
+  });
 }
 
 // ─── Render Tier List Section ──────────────────────────────────
@@ -183,6 +192,7 @@ function renderTierList() {
   }).join('');
 
   initLucide();
+  initScrollReveal(); // re-observe newly rendered .sr elements
 }
 
 function scrollToProduct(id) {
@@ -737,15 +747,29 @@ function updateMatchmakerResult() {
 
   let id = "strong-nutty";
   if (quizAnswers.usage === "usucha") {
-    id = quizAnswers.budget === "high" ? "shoen" : "strong-nutty";
+    if (quizAnswers.budget === "high") id = "shoen";
+    else if (quizAnswers.budget === "medium") id = "yurane";
+    else id = "zenraku";
   } else if (quizAnswers.usage === "bakery") {
     if (quizAnswers.budget === "low") id = "zenraku";
+    else if (quizAnswers.budget === "medium") id = "organic-classic";
     else if (quizAnswers.flavor === "nutty") id = "strong-nutty";
-    else id = "organic-classic";
+    else id = "organic-signature";
   } else {
-    if (quizAnswers.flavor === "nutty") id = quizAnswers.budget === "high" ? "yame-a" : "strong-nutty";
-    else if (quizAnswers.flavor === "organic") id = "organic-signature";
-    else id = "yurane";
+    // latte / default
+    if (quizAnswers.budget === "high") {
+      if (quizAnswers.flavor === "nutty") id = "strong-nutty";
+      else if (quizAnswers.flavor === "organic") id = "yame-a";
+      else id = "shoen";
+    } else if (quizAnswers.budget === "medium") {
+      // 900-1,200 THB range: yurane=1130, organic-signature=920, organic-classic=1070
+      if (quizAnswers.flavor === "organic") id = "organic-signature";
+      else id = "yurane";
+    } else {
+      // low budget < 850 THB: zenraku=800, oikawa=860
+      if (quizAnswers.flavor === "organic") id = "organic-classic";
+      else id = "zenraku";
+    }
   }
 
   const tea = MATCHA_PRODUCTS.find(p => p.id === id) || MATCHA_PRODUCTS[0];

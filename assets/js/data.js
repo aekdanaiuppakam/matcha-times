@@ -363,22 +363,22 @@ const MATCHA_PRODUCTS = [
 const TIER_LIST = [
   {
     tier: "S",
-    tierTitle: { th: "👑 TIER S — All-Star Best Sellers (ขายดีอันดับ 1 & ซิกเนเจอร์)", en: "👑 TIER S — All-Star Best Sellers & Flagships" },
-    desc: { th: "กลุ่มสินค้าขายดีที่สุด ลูกค้าสั่งซ้ำสูงสุด และเกรดพิธีการตัวท็อปที่ทุกร้านต้องมี", en: "Highest customer re-orders, top ceremonial grade, and essential cafe stars." },
+    tierTitle: { th: "🔥 สายขายดี — All-Star Best Sellers (ขายดีที่สุด ลูกค้าสั่งซ้ำสูง)", en: "🔥 All-Star Sellers — Fan Favourites Your Cafe Must Have" },
+    desc: { th: "ขายดีที่สุด สั่งซ้ำสูง เปิดร้านต้องมี", en: "Top re-orders, every cafe essential" },
     badgeCls: "tier-badge-s",
     itemIds: ["strong-nutty", "yurane", "shoen"]
   },
   {
     tier: "A",
-    tierTitle: { th: "💎 TIER A — Specialty & High-Margin (พรีเมียม & อัตรากำไรสูง)", en: "💎 TIER A — Specialty & High-Margin Icons" },
-    desc: { th: "สายพันธุ์เฉพาะทางจากยาเมะและออร์แกนิกอุจิ สำหรับเมนู Signature พรีเมียม", en: "Single-origin Yame craftsmanship and certified organic Uji for premium high-ticket drinks." },
+    tierTitle: { th: "💎 สายพรีเมียมซิกเนเจอร์ — ยกระดับเมนู &amp; กำไรสูง", en: "💎 Premium Signature — Elevate Your Menu &amp; Margins" },
+    desc: { th: "เมนูซิกเนเจอร์ราคาสูง กำไรดีเยี่ยม", en: "High-ticket signature drinks, excellent margins" },
     badgeCls: "tier-badge-a",
     itemIds: ["yame-b", "yame-a", "organic-signature"]
   },
   {
     tier: "B",
-    tierTitle: { th: "💰 TIER B — High-Volume Daily & Maximum Value (คุ้มค่า & กำไรสูงสุด)", en: "💰 TIER B — High-Volume Daily & Value Heroes" },
-    desc: { th: "กลุ่มคุมต้นทุนยอดเยี่ยม ประหยัดต่อแก้ว เหมาะสำหรับขายดีจำนวนมากและเบเกอรี่", en: "Optimal cost-per-cup control, dependable consistency, perfect for daily service & bakery." },
+    tierTitle: { th: "💰 สายคุมต้นทุน — ปริมาณมาก &amp; กำไรต่อแก้วสูงสุด", en: "💰 Volume &amp; Value — Maximum Profit Per Cup" },
+    desc: { th: "ต้นทุนต่ำ กำไรสูง ดีสำหรับโปรโมชั่น", en: "Low cost, high margin, ideal for promotions" },
     badgeCls: "tier-badge-b",
     itemIds: ["zenraku", "oikawa", "ei", "organic-classic"]
   }
@@ -387,15 +387,15 @@ const TIER_LIST = [
 const I18N_TEXTS = {
   th: {
     // Navigation
-    nav_brand: "ประวัติแบรนด์",
-    nav_tier: "อันดับ Best Seller",
+    nav_brand: "แบรนด์",
+    nav_tier: "Best Sellers",
     nav_matchmaker: "ช่วยเลือกชา",
     nav_catalog: "สินค้า 10 ชนิด",
     nav_compare: "เปรียบเทียบ",
     nav_calculator: "คำนวณต้นทุน",
     nav_recipes: "สูตรชงคาเฟ่",
     nav_terroirs: "4 แหล่งปลูก",
-    nav_faq: "FAQ & เก็บรักษา",
+    nav_faq: "FAQ",
     nav_flyer: "ใบราคาต้นฉบับ",
     nav_contact: "ติดต่อฝ่ายขาย",
 
@@ -407,6 +407,8 @@ const I18N_TEXTS = {
     hero_scroll_hint: "เลื่อนลงเพื่อสำรวจอันดับ Best Seller และสินค้า 10 ชนิด",
     hero_cta_catalog: "สำรวจสินค้า 10 ชนิด",
     hero_cta_calc: "คำนวณกำไรต่อแก้ว",
+    hero_cta_line: "รับราคาส่ง B2B ทาง LINE",
+    hero_cta_sample: "ขอรับ Sample Kit ทดลองชง",
     stat_skus: "10 สายพันธุ์คัดสรร",
     stat_skus_sub: "เกรดพิธีการสู่คอมเมอร์เชียล",
     stat_regions: "4 แหล่งปลูกชั้นนำ",
@@ -633,15 +635,15 @@ const I18N_TEXTS = {
 
   en: {
     // Navigation
-    nav_brand: "Brand Story",
-    nav_tier: "Best Seller Tier List",
+    nav_brand: "Brand",
+    nav_tier: "Best Sellers",
     nav_matchmaker: "Matchmaker",
     nav_catalog: "10 Matcha SKUs",
-    nav_compare: "Compare Matrix",
+    nav_compare: "Compare",
     nav_calculator: "Cost Calculator",
     nav_recipes: "Cafe Recipes",
     nav_terroirs: "4 Terroirs",
-    nav_faq: "FAQ & Care",
+    nav_faq: "FAQ",
     nav_flyer: "Original Flyer",
     nav_contact: "Contact Sales",
 
@@ -653,6 +655,8 @@ const I18N_TEXTS = {
     hero_scroll_hint: "Scroll to explore Best Sellers & 10 Matcha SKUs",
     hero_cta_catalog: "Explore 10 SKUs",
     hero_cta_calc: "Calculate Cup Margin",
+    hero_cta_line: "Get Wholesale Price via LINE",
+    hero_cta_sample: "Request Sample Kit",
     stat_skus: "10 Selected SKUs",
     stat_skus_sub: "Ceremonial to Commercial",
     stat_regions: "4 Renowned Terroirs",
