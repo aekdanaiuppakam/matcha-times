@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B2B Sales Intelligence Portal | MATCHA TIMES</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body { font-family: 'Sarabun', 'Plus Jakarta Sans', sans-serif; background-color: #f7f5f0; color: #2c332b; }
+    .font-en { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .glass-card { background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(8px); border: 1px solid #e7e2d6; border-radius: 1.25rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+    .pin-input { font-family: monospace; letter-spacing: 0.6em; text-align: center; font-size: 1.5rem; }
+    .anim-fade { animation: fadeIn 0.3s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+  <!-- ═══ 1. SECURITY LOCK SCREEN (PIN MODAL) ═══ -->
+  <div id="pin-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-md">
+    <div class="glass-card max-w-sm w-full p-7 text-center shadow-2xl bg-white border border-stone-200">
+      <div class="w-14 h-14 mx-auto mb-4 rounded-2xl flex items-center justify-center text-white" style="background:#1a3a16;">
+        <i data-lucide="shield-check" class="w-7 h-7"></i>
+      </div>
+      <h2 class="text-xl font-bold text-stone-900">MATCHA TIMES</h2>
+      <p class="text-xs text-stone-500 mt-1 mb-6">B2B Sales Intelligence & Analytics Portal</p>
+      
+      <form onsubmit="event.preventDefault(); verifyPin();" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-stone-600 mb-1.5 text-left">กรอกรหัส PIN ผู้ดูแล (6 หลัก):</label>
+          <input id="admin-pin-input" type="password" maxlength="6" placeholder="••••••" 
+                 class="pin-input w-full px-4 py-3 rounded-xl border border-stone-300 focus:outline-none focus:border-emerald-600 bg-stone-50 text-stone-900 font-bold"
+                 autocomplete="off" autofocus>
+          <div id="pin-error" class="text-xs text-rose-600 mt-1.5 hidden font-medium">รหัส PIN ไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง</div>
+        </div>
+        <button type="submit" class="w-full py-3 rounded-xl text-white font-bold text-sm shadow-md transition-all active:scale-95 flex items-center justify-center gap-2" style="background:#2d5a27;">
+          <i data-lucide="lock-open" class="w-4 h-4"></i>
+          <span>เข้าสู่ระบบ Dashboard</span>
+        </button>
+      </form>
+      <div class="mt-4 text-[11px] text-stone-400">ค่าเริ่มต้นสำหรับการทดสอบ: <strong>888888</strong></div>
+    </div>
+  </div>
+
+  <!-- ═══ 2. MAIN DASHBOARD CONTENT ═══ -->
+  <div id="dashboard-content" class="hidden flex-1 flex flex-col">
+    <!-- Top Navbar -->
+    <header class="bg-white border-b border-stone-200 sticky top-0 z-40 px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-2xs">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold" style="background:#1a3a16;" title="กลับสู่หน้าเว็บหลัก">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        </a>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-bold text-stone-900 leading-tight">MATCHA TIMES <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">Intelligence</span></h1>
+            <span class="inline-flex items-center gap-1 text-[11px] text-emerald-700 font-medium">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Live
+            </span>
+          </div>
+          <p class="text-[11px] text-stone-500">ระบบวิเคราะห์พฤติกรรมลูกค้า & Conversion Attribution หลังบ้าน</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2.5">
+        <button onclick="fetchAnalyticsData()" class="p-2 rounded-xl border border-stone-200 hover:bg-stone-50 text-stone-700 text-xs font-semibold flex items-center gap-1.5 transition-all">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5" id="refresh-icon"></i>
+          <span class="hidden sm:inline">รีเฟรชข้อมูล</span>
+        </button>
+        <button onclick="logoutAdmin()" class="p-2 rounded-xl text-stone-500 hover:text-stone-800 hover:bg-stone-100 transition-all" title="ออกจากระบบ">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Content Body -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-7 space-y-6">
+
+      <!-- ── AI ANALYST HERO BANNER ── -->
+      <div class="glass-card p-5 sm:p-6 bg-gradient-to-br from-emerald-900 to-stone-900 text-white relative overflow-hidden">
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5">
+          <div class="max-w-2xl">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold uppercase tracking-wider mb-2 border border-emerald-500/30">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> AI Executive Intelligence
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold">สรุปพฤติกรรมลูกค้า & ปัจจัยที่ทำให้แอดไลน์</h2>
+            <p class="text-xs sm:text-sm text-emerald-100/80 mt-1 leading-relaxed">
+              ให้สมองกล AI ประมวลผลจากข้อมูลการคลิก ตัวเลขที่คำนวณใน Calculator และบทสนทนาจริง เพื่อสร้างรายงานสรุปเชิงกลยุทธ์สำหรับเสนอหัวหน้าหรือทีมบริหาร
+            </p>
+          </div>
+          <button id="btn-run-ai" onclick="runAiAnalyst()" class="shrink-0 px-5 py-3 rounded-xl bg-white text-emerald-950 font-bold text-xs sm:text-sm shadow-lg hover:bg-emerald-50 transition-all flex items-center gap-2 active:scale-95">
+            <i data-lucide="cpu" class="w-4 h-4 text-emerald-700"></i>
+            <span>✨ ให้ AI วิเคราะห์สรุป Insight</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── AI REPORT RESULT CONTAINER (HIDDEN UNTIL GENERATED) ── -->
+      <div id="ai-report-box" class="hidden glass-card p-6 border-2 border-emerald-600/40 bg-white anim-fade">
+        <div class="flex items-center justify-between pb-3 mb-4 border-b border-stone-200">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+            </div>
+            <h3 class="font-bold text-stone-900 text-base">รายงานวิเคราะห์เชิงกลยุทธ์โดย AI (Executive Brief)</h3>
+          </div>
+          <button onclick="copyAiReport()" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-stone-200 hover:bg-stone-50 flex items-center gap-1.5 text-stone-700">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+            <span id="copy-btn-text">คัดลอกรายงาน</span>
+          </button>
+        </div>
+        <div id="ai-report-content" class="text-stone-700 text-[13px] leading-relaxed space-y-3 prose max-w-none">
+          <!-- AI Content populated here -->
+        </div>
+      </div>
+
+      <!-- ── TOP STATS SUMMARY (KPIS) ── -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Visitors -->
+        <div class="glass-card p-4 sm:p-5">
+          <div class="flex items-center justify-between text-stone-500 mb-2">
+            <span class="text-xs font-semibold">ผู้เข้าชมทั้งหมด (Visitors)</span>
+            <i data-lucide="users" class="w-4 h-4 text-stone-400"></i>
+          </div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-stone-900 font-en" id="stat-visitors">0</div>
+          <div class="text-[11px] text-stone-400 mt-1">นับแยกตาม Unique Session</div>
+        </div>
+
+        <!-- Conversions -->
+        <div class="glass-card p-4 sm:p-5 border-l-4 border-l-emerald-600">
+          <div class="flex items-center justify-between text-stone-500 mb-2">
+            <span class="text-xs font-semibold">แอดไลน์ & ขอชิม (Conversions)</span>
+            <i data-lucide="user-check" class="w-4 h-4 text-emerald-600"></i>
+          </div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-emerald-700 font-en" id="stat-conversions">0</div>
+          <div class="text-[11px] text-emerald-600 mt-1 font-medium">รวมคลิก LINE + Sample Kit</div>
+        </div>
+
+        <!-- Conversion Rate -->
+        <div class="glass-card p-4 sm:p-5">
+          <div class="flex items-center justify-between text-stone-500 mb-2">
+            <span class="text-xs font-semibold">อัตราแอดไลน์ (Conv. Rate)</span>
+            <i data-lucide="trending-up" class="w-4 h-4 text-stone-400"></i>
+          </div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-stone-900 font-en" id="stat-conv-rate">0%</div>
+          <div class="text-[11px] text-stone-400 mt-1">สัดส่วนผู้เข้าชมที่เปลี่ยนเป็น Lead</div>
+        </div>
+
+        <!-- Total Events -->
+        <div class="glass-card p-4 sm:p-5">
+          <div class="flex items-center justify-between text-stone-500 mb-2">
+            <span class="text-xs font-semibold">ปฏิสัมพันธ์ทั้งหมด (Actions)</span>
+            <i data-lucide="activity" class="w-4 h-4 text-stone-400"></i>
+          </div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-stone-900 font-en" id="stat-events">0</div>
+          <div class="text-[11px] text-stone-400 mt-1">การคลิก ดูสเปก คุยแชท คำนวณ</div>
+        </div>
+      </div>
+
+      <!-- ── WHAT DRIVES CUSTOMERS TO ADD LINE (ATTRIBUTION BREAKDOWN) ── -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Attribution Breakdown (2 Cols) -->
+        <div class="lg:col-span-2 glass-card p-5 sm:p-6">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-bold text-base text-stone-900 flex items-center gap-2">
+                <i data-lucide="compass" class="w-4 h-4 text-emerald-700"></i>
+                <span>อะไรคือสาเหตุที่ทำให้ลูกค้าตัดสินใจแอดไลน์? (Conversion Drivers)</span>
+              </h3>
+              <p class="text-xs text-stone-500 mt-0.5">การแกะรอยพฤติกรรมสุดท้ายก่อนที่ลูกค้าจะคลิกปุ่มคุยกับคุณปิ่นปัก</p>
+            </div>
+          </div>
+
+          <div class="space-y-4 pt-1" id="attribution-bars">
+            <!-- Populated via JS -->
+            <div class="text-center py-6 text-xs text-stone-400">กำลังโหลดข้อมูลการวิเคราะห์...</div>
+          </div>
+        </div>
+
+        <!-- Device & Platform Breakdown (1 Col) -->
+        <div class="glass-card p-5 sm:p-6 flex flex-col justify-between">
+          <div>
+            <h3 class="font-bold text-base text-stone-900 mb-1 flex items-center gap-2">
+              <i data-lucide="smartphone" class="w-4 h-4 text-stone-600"></i>
+              <span>อุปกรณ์ที่ลูกค้าใช้เข้าชม</span>
+            </h3>
+            <p class="text-xs text-stone-500 mb-4">สัดส่วนผู้ใช้ Mobile / iPad / Desktop</p>
+            
+            <div class="space-y-3" id="device-bars">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-stone-100 text-[11.5px] text-stone-500">
+            💡 <strong>คำแนะนำ:</strong> หากลูกค้าส่วนใหญ่ใช้ iPad หรือมือถือ การออกแบบปุ่มและฟอร์มต้องคำนึงถึงคีย์บอร์ดเสมือนจริงเสมอ
+          </div>
+        </div>
+      </div>
+
+      <!-- ── REAL CONVERTED CUSTOMER JOURNEYS (TIMELINES) ── -->
+      <div class="glass-card p-5 sm:p-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-3 border-b border-stone-200">
+          <div>
+            <h3 class="font-bold text-base text-stone-900 flex items-center gap-2">
+              <i data-lucide="route" class="w-4 h-4 text-emerald-700"></i>
+              <span>แกะรอยเส้นทางลูกค้าที่ตัดสินใจแอดไลน์ (Recent Conversion Journeys)</span>
+            </h3>
+            <p class="text-xs text-stone-500 mt-0.5">ดูว่าลูกค้าแต่ละราย คลิกดูอะไรบ้าง สไลด์คิดกำไรเท่าไหร่ ก่อนจะกดปุ่มติดต่อ</p>
+          </div>
+          <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 shrink-0">
+            Real Leads Tracking
+          </span>
+        </div>
+
+        <div class="space-y-3" id="journey-list">
+          <!-- Populated via JS -->
+          <div class="text-center py-8 text-xs text-stone-400">ยังไม่มีประวัติการแอดไลน์ใหม่ในรอบนี้</div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    const DEFAULT_PIN = '888888';
+    let currentPin = sessionStorage.getItem('matcha_admin_pin') || '';
+    let cachedAnalytics = null;
+
+    // 1. PIN Verification
+    function verifyPin() {
+      const input = document.getElementById('admin-pin-input');
+      const errEl = document.getElementById('pin-error');
+      const entered = input.value.trim();
+
+      // Check pin via lightweight verify or default
+      if (entered === DEFAULT_PIN || entered.length >= 6) {
+        currentPin = entered;
+        sessionStorage.setItem('matcha_admin_pin', currentPin);
+        errEl.classList.add('hidden');
+        document.getElementById('pin-modal').classList.add('hidden');
+        document.getElementById('dashboard-content').classList.remove('hidden');
+        lucide.createIcons();
+        fetchAnalyticsData();
+      } else {
+        errEl.classList.remove('hidden');
+        input.value = '';
+        input.focus();
+      }
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem('matcha_admin_pin');
+      window.location.reload();
+    }
+
+    // Auto-login if pin stored
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      if (currentPin) {
+        document.getElementById('pin-modal').classList.add('hidden');
+        document.getElementById('dashboard-content').classList.remove('hidden');
+        fetchAnalyticsData();
+      }
+    });
+
+    // 2. Fetch Analytics Data
+    async function fetchAnalyticsData() {
+      const icon = document.getElementById('refresh-icon');
+      if (icon) icon.classList.add('animate-spin');
+
+      try {
+        const res = await fetch(`/api/analytics?pin=${encodeURIComponent(currentPin)}`);
+        if (!res.ok) {
+          if (res.status === 401) {
+            sessionStorage.removeItem('matcha_admin_pin');
+            window.location.reload();
+            return;
+          }
+          throw new Error('HTTP ' + res.status);
+        }
+
+        const data = await res.json();
+        cachedAnalytics = data;
+        renderDashboard(data);
+      } catch (err) {
+        console.error('Fetch error:', err);
+      } finally {
+        if (icon) icon.classList.remove('animate-spin');
+      }
+    }
+
+    // 3. Render Dashboard Components
+    function renderDashboard(data) {
+      const summary = data.summary || {};
+      document.getElementById('stat-visitors').innerText = summary.totalVisitors || 0;
+      document.getElementById('stat-conversions').innerText = summary.totalConversions || 0;
+      document.getElementById('stat-conv-rate').innerText = (summary.conversionRatePercent || 0) + '%';
+      document.getElementById('stat-events').innerText = summary.totalEvents || 0;
+
+      // Attribution Bars
+      renderAttributionBars(data.attributionCounts || {}, summary.totalConversions || 0);
+
+      // Device Bars
+      renderDeviceBars(data.deviceCounts || {}, summary.totalEvents || 0);
+
+      // Converted Customer Journeys
+      renderJourneys(data.recentConversions || []);
+
+      lucide.createIcons();
+    }
+
+    function renderAttributionBars(counts, totalConv) {
+      const container = document.getElementById('attribution-bars');
+      if (!container) return;
+
+      const drivers = [
+        { key: 'ai_sommelier', label: 'คำแนะนำส่วนบุคคลจากน้องแมตตี้ AI (Chat Sommelier)', icon: 'bot', color: '#2d5a27', desc: 'ลูกค้าพิมพ์คุย ได้รับคำแนะนำและคลิกปุ่มทักพี่ปิ่นปักในแชท' },
+        { key: 'cost_calculator', label: 'การคิดเลขกำไรใน Cost Calculator (Margin > 75%)', icon: 'calculator', color: '#16a34a', desc: 'ลูกค้าสไลด์ปรับราคากรัม/ราคาขาย เห็นตัวเลขผลกำไรต่อแก้วสูง' },
+        { key: 'matchmaker_quiz', label: 'ผลลัพธ์จาก Matcha Matchmaker Quiz', icon: 'sparkles', color: '#0284c7', desc: 'ลูกค้าเลือก 3 ข้อจนครบ และกดรับคำแนะนำมัทฉะที่ตรงใจ' },
+        { key: 'product_card', label: 'การเปิดดูสเปกสินค้าตัวท็อป (Strong Nutty / Yurane)', icon: 'package', color: '#854d0e', desc: 'ลูกค้าศึกษาข้อมูลรสชาติ อูมามิ และราคาส่งจากหน้าสินค้า' },
+        { key: 'sample_kit_intent', label: 'ความต้องการขอรับชุดทดลองชง (Sample Kit)', icon: 'gift', color: '#d97706', desc: 'ลูกค้าต้องการทดลองชงจริงกับนมและสูตรของร้าน' },
+        { key: 'direct_interest', label: 'ความสนใจโดยตรง (Direct Action)', icon: 'mouse-pointer', color: '#64748b', desc: 'กดปุ่มติดต่อจาก Header หรือแบนเนอร์ทั่วไป' }
+      ];
+
+      const safeTotal = totalConv > 0 ? totalConv : 1;
+
+      container.innerHTML = drivers.map(d => {
+        const count = counts[d.key] || 0;
+        const pct = Math.round((count / safeTotal) * 100);
+        return `
+          <div class="p-3.5 rounded-xl border border-stone-100 hover:border-stone-200 transition-all bg-white">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xs font-bold text-stone-800 flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full" style="background:${d.color}"></span>
+                ${d.label}
+              </span>
+              <span class="text-xs font-extrabold text-stone-900">${count} ครั้ง (${pct}%)</span>
+            </div>
+            <div class="w-full bg-stone-100 rounded-full h-2 overflow-hidden mb-1.5">
+              <div class="h-2 rounded-full transition-all duration-700" style="width:${pct}%;background:${d.color};"></div>
+            </div>
+            <div class="text-[11px] text-stone-400">${d.desc}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderDeviceBars(deviceCounts, totalEvents) {
+      const container = document.getElementById('device-bars');
+      if (!container) return;
+
+      const safeTotal = totalEvents > 0 ? totalEvents : 1;
+      const devices = [
+        { name: 'Mobile (โทรศัพท์มือถือ)', count: deviceCounts.Mobile || 0, icon: 'smartphone' },
+        { name: 'iPad / Tablet (ไอแพดและแท็บเล็ต)', count: (deviceCounts.iPad || 0) + (deviceCounts.Tablet || 0), icon: 'tablet' },
+        { name: 'Desktop (คอมพิวเตอร์)', count: deviceCounts.Desktop || 0, icon: 'monitor' }
+      ];
+
+      container.innerHTML = devices.map(dev => {
+        const pct = Math.round((dev.count / safeTotal) * 100);
+        return `
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1">
+              <span class="text-stone-700 flex items-center gap-1.5">
+                <i data-lucide="${dev.icon}" class="w-3.5 h-3.5 text-stone-400"></i> ${dev.name}
+              </span>
+              <span class="text-stone-900">${pct}%</span>
+            </div>
+            <div class="w-full bg-stone-100 h-1.5 rounded-full overflow-hidden">
+              <div class="bg-stone-600 h-1.5 rounded-full" style="width:${pct}%;"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderJourneys(conversions) {
+      const container = document.getElementById('journey-list');
+      if (!container) return;
+
+      if (conversions.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-8 text-xs text-stone-400">
+            ยังไม่มีประวัติการแอดไลน์ใหม่ในระบบ (ข้อมูลจะอัปเดตแบบเรียลไทม์เมื่อลูกค้าคลิก)
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = conversions.map((c, idx) => {
+        const timeStr = new Date(c.timestamp).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const dateStr = new Date(c.timestamp).toLocaleDateString('th-TH', { day: 'numeric', month: 'short' });
+        const steps = c.recentJourney || [];
+
+        return `
+          <div class="p-4 rounded-xl border border-stone-200 bg-white hover:shadow-xs transition-all">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-stone-100">
+              <div class="flex items-center gap-2">
+                <span class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs shrink-0">#${conversions.length - idx}</span>
+                <div>
+                  <div class="text-xs font-bold text-stone-900 flex items-center gap-2">
+                    <span>แอดไลน์สำเร็จ (${c.device})</span>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      💡 สิ่งกระตุ้น: ${c.catalyst}
+                    </span>
+                  </div>
+                  <div class="text-[11px] text-stone-400">เวลาบนเว็บ: ~${c.timeOnSiteSec} วินาที | บันทึกเมื่อ: ${dateStr} ${timeStr} น.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Steps trace -->
+            <div class="mt-3 text-xs text-stone-600">
+              <div class="font-semibold text-stone-700 mb-1.5 text-[11.5px]">ลำดับพฤติกรรมก่อนตัดสินใจแอดไลน์:</div>
+              <div class="flex flex-wrap items-center gap-1.5 text-[11px]">
+                ${steps.map((s, sIdx) => {
+                  let badge = s.name;
+                  if (s.name === 'page_view') badge = '👀 เข้าหน้าแรก';
+                  else if (s.name === 'calculator_adjusted') badge = `💰 สไลด์คิดกำไร (${s.data?.margin || ''}%)`;
+                  else if (s.name === 'matchmaker_complete') badge = `✦ ทำ Quiz (ได้ ${s.data?.recommended || ''})`;
+                  else if (s.name === 'chat_message_sent') badge = `💬 คุยแชทกับแมตตี้`;
+                  else if (s.name === 'line_add_click') badge = `🎉 กดแอดไลน์คุณปิ่นปัก!`;
+                  else if (s.name === 'sample_kit_click') badge = `📦 ขอรับชุดทดลองชง`;
+                  
+                  return `
+                    <span class="px-2 py-0.5 rounded-md ${s.name === 'line_add_click' ? 'bg-emerald-600 text-white font-bold' : 'bg-stone-100 text-stone-700'}">
+                      ${badge}
+                    </span>
+                    ${sIdx < steps.length - 1 ? '<span class="text-stone-300">→</span>' : ''}
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 4. Run AI Intelligence Analyst
+    async function runAiAnalyst() {
+      const btn = document.getElementById('btn-run-ai');
+      const box = document.getElementById('ai-report-box');
+      const content = document.getElementById('ai-report-content');
+
+      if (!cachedAnalytics) {
+        alert('กรุณารอโหลดข้อมูลสถิติสักครู่ครับ');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin text-emerald-700"></i> <span>กำลังวิเคราะห์ข้อมูล...</span>`;
+      lucide.createIcons();
+
+      box.classList.remove('hidden');
+      content.innerHTML = `
+        <div class="py-8 text-center text-stone-500">
+          <div class="inline-block animate-pulse font-bold text-sm text-emerald-900 mb-1">
+            🧠 AI Sales Analyst กำลังประมวลผล Customer Journeys และ Chat Logs...
+          </div>
+          <div class="text-xs text-stone-400">กำลังถอดรหัสพฤติกรรมลูกค้าและสร้างคำแนะนำเชิงกลยุทธ์</div>
+        </div>
+      `;
+
+      try {
+        const res = await fetch('/api/ai-analyst', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            pin: currentPin,
+            analyticsData: cachedAnalytics
+          })
+        });
+
+        const data = await res.json();
+        const rawReport = data.report || 'ไม่สามารถวิเคราะห์ได้ในขณะนี้';
+        window.__lastAiReport = rawReport;
+
+        // Simple markdown formatter
+        let formatted = rawReport
+          .replace(/^### (.*$)/gim, '<h3 class="text-base font-bold text-emerald-950 mt-4 mb-1">$1</h3>')
+          .replace(/^#### (.*$)/gim, '<h4 class="text-sm font-bold text-stone-900 mt-3 mb-1">$1</h4>')
+          .replace(/\*\*(.*?)\*\*/g, '<strong class="text-stone-900 font-bold">$1</strong>')
+          .replace(/^\* (.*$)/gim, '<div class="flex items-start gap-1.5 my-1 ml-2"><span class="text-emerald-600 mt-1">•</span><span>$1</span></div>')
+          .replace(/\n{2,}/g, '<br>')
+          .replace(/\n/g, '<br>');
+
+        content.innerHTML = formatted;
+      } catch (err) {
+        content.innerHTML = `<div class="text-rose-600 font-bold text-xs">เกิดข้อผิดพลาดในการประมวลผล AI: ${err.message}</div>`;
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i data-lucide="cpu" class="w-4 h-4 text-emerald-700"></i> <span>✨ รันวิเคราะห์ใหม่อีกครั้ง</span>`;
+        lucide.createIcons();
+      }
+    }
+
+    function copyAiReport() {
+      if (window.__lastAiReport && navigator.clipboard) {
+        navigator.clipboard.writeText(window.__lastAiReport).then(() => {
+          const btnText = document.getElementById('copy-btn-text');
+          if (btnText) {
+            btnText.innerText = 'คัดลอกสำเร็จ! ✓';
+            setTimeout(() => btnText.innerText = 'คัดลอกรายงาน', 2000);
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

@@ -397,6 +397,78 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // Route: /api/analytics
+  if (reqPath === '/api/analytics') {
+    const analyticsHandler = require('./api/analytics');
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try { req.body = body ? JSON.parse(body) : {}; } catch (e) { req.body = {}; }
+      const urlObj = new URL(req.url, `http://${req.headers.host || 'localhost:3000'}`);
+      req.query = Object.fromEntries(urlObj.searchParams);
+
+      const mockRes = {
+        statusCode: 200,
+        headers: {},
+        setHeader(k, v) { this.headers[k] = v; },
+        status(c) { this.statusCode = c; return this; },
+        json(data) {
+          this.headers['Content-Type'] = 'application/json; charset=utf-8';
+          res.writeHead(this.statusCode, this.headers);
+          res.end(JSON.stringify(data));
+        },
+        end(data) {
+          res.writeHead(this.statusCode, this.headers);
+          res.end(data);
+        }
+      };
+      try {
+        await analyticsHandler(req, mockRes);
+      } catch (err) {
+        console.error('Analytics handler error:', err);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: err.message }));
+      }
+    });
+    return;
+  }
+
+  // Route: /api/ai-analyst
+  if (reqPath === '/api/ai-analyst') {
+    const analystHandler = require('./api/ai-analyst');
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try { req.body = body ? JSON.parse(body) : {}; } catch (e) { req.body = {}; }
+      const urlObj = new URL(req.url, `http://${req.headers.host || 'localhost:3000'}`);
+      req.query = Object.fromEntries(urlObj.searchParams);
+
+      const mockRes = {
+        statusCode: 200,
+        headers: {},
+        setHeader(k, v) { this.headers[k] = v; },
+        status(c) { this.statusCode = c; return this; },
+        json(data) {
+          this.headers['Content-Type'] = 'application/json; charset=utf-8';
+          res.writeHead(this.statusCode, this.headers);
+          res.end(JSON.stringify(data));
+        },
+        end(data) {
+          res.writeHead(this.statusCode, this.headers);
+          res.end(data);
+        }
+      };
+      try {
+        await analystHandler(req, mockRes);
+      } catch (err) {
+        console.error('AI Analyst handler error:', err);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: err.message }));
+      }
+    });
+    return;
+  }
+
   // Static file serving
   if (reqPath === '/' || reqPath === '') {
     reqPath = '/index.html';

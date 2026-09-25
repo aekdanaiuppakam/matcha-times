@@ -14,3 +14,7 @@ Thumbs.db
 .idea/
 .vercel
 .env*
+
+# Local analytics data
+data/*.json
+!data/.gitkeep
