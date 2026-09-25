@@ -278,7 +278,9 @@
       if (icon) icon.classList.add('animate-spin');
 
       try {
-        const res = await fetch(`/api/analytics?pin=${encodeURIComponent(currentPin)}`);
+        const res = await fetch(`/api/analytics?pin=${encodeURIComponent(currentPin)}&_t=${Date.now()}`, {
+          cache: 'no-store'
+        });
         if (!res.ok) {
           if (res.status === 401) {
             sessionStorage.removeItem('matcha_admin_pin');
