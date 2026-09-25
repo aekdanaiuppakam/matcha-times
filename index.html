@@ -756,22 +756,9 @@
         <!-- Summary Cards -->
         <div id="calc-summary"></div>
 
-        <!-- Table -->
-        <div class="overflow-x-auto">
-          <table class="w-full text-left min-w-[640px] text-[13px]" style="border-collapse:collapse;">
-            <thead>
-              <tr style="border-bottom:2px solid #e5e0d4;">
-                <th class="py-3 pr-4 text-[11px] font-bold uppercase tracking-wider" style="color:#9a9a90;" data-i18n="calc_col_sku">ชื่อสินค้า</th>
-                <th class="py-3 px-3 text-[11px] font-bold uppercase tracking-wider text-center" style="color:#9a9a90;" data-i18n="calc_col_origin">แหล่งผลิต</th>
-                <th class="py-3 px-3 text-[11px] font-bold uppercase tracking-wider text-right" style="color:#9a9a90;" data-i18n="calc_col_price">ราคา / 250g</th>
-                <th class="py-3 px-3 text-[11px] font-bold uppercase tracking-wider text-center" style="color:#9a9a90;" data-i18n="calc_col_cups">ชงได้ (แก้ว)</th>
-                <th class="py-3 px-3 text-[11px] font-bold uppercase tracking-wider text-right" style="color:#2d5a27;" data-i18n="calc_col_cost">ต้นทุนชา / แก้ว</th>
-                <th class="py-3 px-3 text-[11px] font-bold uppercase tracking-wider text-right" style="color:#9a9a90;" data-i18n="calc_col_profit">กำไรหักผงชา</th>
-                <th class="py-3 pl-3 text-[11px] font-bold uppercase tracking-wider text-right" style="color:#9a9a90;" data-i18n="calc_col_margin">Margin</th>
-              </tr>
-            </thead>
-            <tbody id="calc-table-body"></tbody>
-          </table>
+        <!-- Cards Container -->
+        <div class="mt-6">
+          <div id="calc-table-body" class="flex flex-col gap-3"></div>
         </div>
 
         <!-- Tip -->

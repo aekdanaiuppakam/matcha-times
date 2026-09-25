@@ -733,23 +733,50 @@ function initCostCalculator() {
       `;
     }
 
-    body.innerHTML = rows.map(({item, cups, cost, profit, margin}) => {
-      const marginGood = margin >= 75;
+    const sortedRows = [...rows].sort((a, b) => b.margin - a.margin);
+
+    body.innerHTML = sortedRows.map(({item, cups, cost, profit, margin}, index) => {
+      let rankMedal = index + 1;
+      if (index === 0) rankMedal = '🥇';
+      else if (index === 1) rankMedal = '🥈';
+      else if (index === 2) rankMedal = '🥉';
+
+      const profitPercent = (profit / selling) * 100;
+      const costPercent = (cost / selling) * 100;
+      
+      const bgOpacity = Math.max(0, (margin - 50) / 150);
+      const rowBg = `rgba(139, 195, 74, ${bgOpacity.toFixed(2)})`;
+      
+      const profitLabel = currentLang === 'th' ? 'กำไร' : 'Profit';
+      
       return `
-        <tr>
-          <td class="py-3 pr-4 font-bold" style="color:#1a3a16;">
-            ${item.name}
-            <span class="text-[10px] font-normal text-stone-500 ml-1">(${item.kanji})</span>
-          </td>
-          <td class="py-3 px-3 text-center text-[12px]" style="color:#6b7068;">${item.origin.split(',')[0]}</td>
-          <td class="py-3 px-3 text-right font-bold" style="color:#3a3d38;">${item.prices.g250.toLocaleString()} ฿</td>
-          <td class="py-3 px-3 text-center" style="color:#6b7068;">${cups}</td>
-          <td class="py-3 px-3 text-right font-bold" style="color:#2d5a27;">${cost} ฿</td>
-          <td class="py-3 px-3 text-right font-bold" style="color:#3a3d38;">${profit} ฿</td>
-          <td class="py-3 pl-3 text-right">
-            <span class="margin-badge ${marginGood ? 'margin-good' : 'margin-ok'}">${margin}%</span>
-          </td>
-        </tr>
+        <div class="calc-card" style="background: ${rowBg}">
+          <div class="calc-card-rank">${rankMedal}</div>
+          <div class="flex items-center calc-card-info">
+            <div class="calc-card-collection calc-card-${item.collection || 'classic'}"></div>
+            <div>
+              <div class="font-bold text-[13px]" style="color:#1a3a16;">
+                ${item.name}
+              </div>
+              <div class="text-[10px] text-stone-500">
+                ${item.kanji || ''} • ${item.origin ? item.origin.split(',')[0] : ''}
+              </div>
+            </div>
+          </div>
+          
+          <div class="calc-card-bar-container">
+            <div class="calc-card-profit-bar" style="width: ${profitPercent}%">
+              ${profitPercent > 15 ? `${profitLabel} ${profit} ฿ (${margin}%)` : ''}
+            </div>
+            <div class="calc-card-cost-bar" style="width: ${costPercent}%">
+              ${costPercent > 10 ? `${cost} ฿` : ''}
+            </div>
+          </div>
+          
+          <div class="calc-card-margin-ring" style="background: conic-gradient(#2d5a27 0% ${margin}%, #e5e0d4 ${margin}% 100%);">
+            <span>${margin}%</span>
+          </div>
+        </div>
       `;
     }).join('');
   }
