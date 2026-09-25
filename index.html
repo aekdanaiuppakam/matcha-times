@@ -2,7 +2,7 @@
 <html lang="th" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>MATCHA TIMES — คู่มือสินค้ามัทฉะแท้จากญี่ปุ่น</title>
   <meta name="description" content="คู่มือนำเสนอและเปรียบเทียบมัทฉะแท้ 100% จากญี่ปุ่น ของ MATCHA TIMES Thailand">
 
@@ -80,13 +80,10 @@
           <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
         </div>
 
-        <button onclick="openFlyerModal()" class="btn-ghost hidden sm:inline-flex">
-          <i data-lucide="image" class="w-3.5 h-3.5"></i>
-          <span data-i18n="nav_flyer">ใบราคาต้นฉบับ</span>
-        </button>
+
         <button onclick="openContactModal()" class="btn-primary text-[12px] py-2.5 px-4 hidden sm:inline-flex">
           <i data-lucide="message-circle" class="w-3.5 h-3.5" style="color:#f3e8c4;"></i>
-          <span data-i18n="nav_contact">ติดต่อฝ่ายขาย</span>
+          <span data-i18n="nav_contact">ติดต่อเซลล์ฝ่ายขาย</span>
         </button>
         <!-- Hamburger (mobile only) -->
         <button id="hamburger-btn" class="hamburger-btn lg:hidden" onclick="toggleMobileMenu()" aria-label="Menu">
@@ -155,9 +152,7 @@
 
     <!-- Drawer Footer CTAs -->
     <div class="p-5 pt-0 space-y-2.5" style="border-top:1px solid #e5e0d4;">
-      <button onclick="openFlyerModal(); closeMobileMenu();" class="btn-secondary w-full justify-center text-[13px]">
-        <i data-lucide="image" class="w-4 h-4"></i> <span data-i18n="nav_flyer">ดูใบราคาต้นฉบับ</span>
-      </button>
+
       <button onclick="openContactModal(); closeMobileMenu();" class="btn-primary w-full justify-center text-[13px]">
         <i data-lucide="message-circle" class="w-4 h-4" style="color:#f3e8c4;"></i> <span data-i18n="nav_contact">ติดต่อฝ่ายขาย / LINE</span>
       </button>
@@ -309,7 +304,7 @@
         <div class="flex flex-wrap items-center justify-center gap-3 mb-4">
           <a href="https://line.me/ti/p/Q_YSqkj0Db" target="_blank" rel="noopener noreferrer" class="btn-primary shadow-sm hover:shadow-md transition-all" style="background:#06C755;border-color:#06C755;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="white" class="shrink-0"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.494.25l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
-            <span data-i18n="hero_cta_line">รับราคาส่ง B2B ทาง LINE</span>
+            <span data-i18n="hero_cta_line">ติดต่อคุณปิ่นปักทาง LINE</span>
           </a>
           <button onclick="openContactModal()" class="btn-secondary shadow-xs hover:shadow-sm transition-all bg-white/90 backdrop-blur-xs">
             <i data-lucide="package" class="w-4 h-4" style="color:#3d8535;"></i>
@@ -335,6 +330,7 @@
             <span data-i18n="hero_cta_calc">คำนวณกำไรต่อแก้ว</span>
           </a>
         </div>
+
 
       </div>
 
@@ -725,9 +721,9 @@
               <span class="text-[13px] font-semibold" style="color:#3a3d38;" data-i18n="calc_price_label">ราคาขายหน้าร้านเฉลี่ย</span>
               <span id="calc-selling-price-val" class="text-[13px] font-bold px-3 py-1 rounded-lg" style="background:#eef5ec;color:#2d5a27;">95 บาท</span>
             </div>
-            <input id="calc-selling-price" type="range" min="65" max="160" step="5" value="95" class="w-full" style="accent-color:#1a3a16;">
+            <input id="calc-selling-price" type="range" min="65" max="300" step="5" value="95" class="w-full" style="accent-color:#1a3a16;">
             <div class="flex justify-between text-[11px] mt-1.5" style="color:#aaa49a;">
-              <span data-i18n="calc_price_grab">65 ฿ (Grab &amp; Go)</span><span data-i18n="calc_price_spec">95 ฿ (Specialty)</span><span data-i18n="calc_price_prem">160 ฿ (Premium)</span>
+              <span data-i18n="calc_price_grab">65 ฿ (Grab &amp; Go)</span><span data-i18n="calc_price_spec">95 ฿ (Specialty)</span><span data-i18n="calc_price_prem">300 ฿ (Premium)</span>
             </div>
           </div>
         </div>
@@ -1060,10 +1056,10 @@
             <i data-lucide="package" class="w-4 h-4"></i>
             <span data-i18n="banner_btn_kit">ขอรับชุด Sample Kit</span>
           </button>
-          <button onclick="openFlyerModal()" class="py-3 px-5 rounded-xl font-bold text-[13px] transition-all flex items-center justify-center gap-2" style="background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);">
-            <i data-lucide="file-text" class="w-4 h-4"></i>
-            <span data-i18n="banner_btn_flyer">ดูใบราคาเต็ม</span>
-          </button>
+          <a href="https://line.me/ti/p/Q_YSqkj0Db" target="_blank" rel="noopener noreferrer" class="py-3 px-5 rounded-xl font-bold text-[13px] transition-all flex items-center justify-center gap-2" style="background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.25);">
+            <i data-lucide="message-circle" class="w-4 h-4" style="color:#06C755;"></i>
+            <span>ทัก LINE คุณปิ่นปัก</span>
+          </a>
         </div>
       </div>
 
@@ -1073,24 +1069,48 @@
   <!-- ═══════════════════════════════════════════════════════════════
        FLOATING COMPARE BAR
        ═══════════════════════════════════════════════════════════════ -->
-  <div id="compare-drawer" class="compare-bar fixed bottom-5 left-1/2 -translate-x-1/2 z-50">
-    <div class="flex items-center gap-4 px-5 py-3.5 rounded-full shadow-2xl" style="background:#1a3a16;border:1px solid rgba(255,255,255,0.12);">
-      <div class="flex items-center gap-2.5">
+  <div id="compare-drawer" class="compare-bar fixed bottom-4 sm:bottom-5 left-1/2 z-40 max-w-[calc(100vw-24px)]">
+    <div class="flex items-center justify-between sm:justify-start gap-2.5 sm:gap-4 px-4 py-2 sm:px-5 sm:py-3 rounded-full shadow-2xl whitespace-nowrap" style="background:#1a3a16;border:1px solid rgba(255,255,255,0.12);">
+      <div class="flex items-center gap-2">
         <span class="w-2 h-2 rounded-full animate-ping" style="background:#6db872;"></span>
         <span id="compare-drawer-text" class="text-[12px] font-semibold text-white">เลือกแล้ว <span id="compare-drawer-count" class="font-bold" style="color:#c9a84c;">0</span>/3 รายการ</span>
       </div>
-      <div id="compare-drawer-names" class="hidden sm:flex items-center gap-1.5 text-[11px]" style="color:#9a9a8a;"></div>
-      <a href="#comparison-section" class="flex items-center gap-1.5 px-4 py-2 rounded-full text-[12px] font-bold transition-colors" style="background:#3d8535;color:#fff;">
-        <span data-i18n="cmp_drawer_btn">ดูผลเปรียบเทียบ</span>
-        <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i>
-      </a>
+      <div id="compare-drawer-names" class="hidden md:flex items-center gap-1.5 text-[11px]" style="color:#9a9a8a;"></div>
+      <div class="flex items-center gap-1.5 shrink-0">
+        <a href="#comparison-section" class="flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full text-[12px] font-bold transition-colors whitespace-nowrap" style="background:#3d8535;color:#fff;">
+          <span data-i18n="cmp_drawer_btn">ดูผลเปรียบเทียบ</span>
+          <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+        </a>
+        <button onclick="clearCompareSelection()" class="w-7 h-7 flex items-center justify-center rounded-full text-stone-300 hover:text-white hover:bg-white/10 transition-colors" title="ล้างการเปรียบเทียบ" aria-label="Clear comparison">
+          <i data-lucide="x" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- ═══ DUAL FLOATING ACTION BUTTONS (LINE & INSTAGRAM) ════════ -->
+  <!-- ═══ DUAL FLOATING ACTION BUTTONS (LINE & INSTAGRAM & AI) ════════ -->
   <div class="fab-container">
+    <!-- AI Speech Bubble Teaser (Noticeable on landing) -->
+    <div id="ai-fab-teaser" class="ai-fab-teaser flex items-center gap-2.5" onclick="openAiChat()">
+      <img src="assets/images/matty.jpg" alt="MATTY (แมตตี้)" class="w-8 h-8 rounded-full object-cover border border-emerald-300 shadow-2xs shrink-0">
+      <div>
+        <div class="flex items-center gap-1">
+          <span class="text-[12px] font-bold text-stone-800">มีคำถามเรื่องชา?</span>
+        </div>
+        <div class="text-[11px] text-stone-500 mt-0.5">แตะถาม MATTY (แมตตี้) AI ได้เลยครับ 🐼🍵</div>
+      </div>
+      <button onclick="event.stopPropagation(); dismissAiTeaser();" class="ai-teaser-close" title="ปิดการแจ้งเตือน">×</button>
+    </div>
+
+    <!-- AI Matcha Sommelier Floating Button -->
+    <button onclick="toggleAiChat()" class="fab-btn ai-fab-btn p-0.5 overflow-hidden" title="ถาม AI MATTY (แมตตี้)" aria-label="AI Matcha Sommelier">
+      <span class="fab-tooltip" data-i18n="fab_ai">🍵 คุยกับ MATTY (แมตตี้)</span>
+      <span class="ai-pulse-dot"></span>
+      <img src="assets/images/matty.jpg" alt="MATTY (แมตตี้)" class="w-full h-full rounded-full object-cover">
+    </button>
+
     <!-- Instagram Floating Button -->
-    <a href="https://www.instagram.com/matchatimes.thailand?stkn=czJxb25xMmxzdjRz" target="_blank" rel="noopener noreferrer" class="fab-btn ig-fab-btn" title="Instagram: @matchatimes.thailand">
+    <a href="https://www.instagram.com/matchatimes.thailand/?hl=en" target="_blank" rel="noopener noreferrer" class="fab-btn ig-fab-btn" title="Instagram: @matchatimes.thailand">
       <span class="fab-tooltip" data-i18n="fab_ig">ติดตาม IG</span>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
@@ -1100,12 +1120,98 @@
     </a>
 
     <!-- LINE Floating Button -->
-    <a href="https://line.me/ti/p/Q_YSqkj0Db" target="_blank" rel="noopener noreferrer" class="fab-btn line-fab-btn" title="LINE: @matchatimes.thailand">
-      <span class="fab-tooltip" data-i18n="fab_line">ติดต่อ LINE</span>
+    <a href="https://line.me/ti/p/Q_YSqkj0Db" target="_blank" rel="noopener noreferrer" class="fab-btn line-fab-btn" title="LINE: คุณปิ่นปัก (ฝ่ายขาย)">
+      <span class="fab-tooltip" data-i18n="fab_line">ทัก LINE คุณปิ่นปัก</span>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
         <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.494.25l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
       </svg>
     </a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       AI MATCHA SOMMELIER CHAT MODAL
+       ═══════════════════════════════════════════════════════════════ -->
+  <div id="ai-chat-modal" class="hidden">
+    <!-- Backdrop for mobile & desktop (Tap outside to close) -->
+    <div class="ai-chat-backdrop" onclick="closeAiChat()"></div>
+
+    <!-- Chat Window -->
+    <div class="ai-chat-window">
+      <!-- Mobile Pull/Tap Bar (Tap anywhere on bar to close) -->
+      <div class="sm:hidden w-full pt-2.5 pb-1 flex justify-center items-center cursor-pointer select-none" 
+           style="background: #1a3a16;" 
+           onclick="closeAiChat()" 
+           title="แตะเพื่อปิดหน้าต่าง">
+        <div class="w-12 h-1.5 rounded-full bg-white/40 active:bg-white/70 transition-colors"></div>
+      </div>
+
+      <!-- Header -->
+      <div class="px-4 sm:px-5 py-3 flex items-center justify-between text-white shrink-0" 
+           style="background:linear-gradient(135deg,#1a3a16 0%,#2d5a27 100%);border-bottom:1px solid rgba(255,255,255,0.12);">
+        <div class="flex items-center gap-2.5 sm:gap-3">
+          <div class="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 border-emerald-400 flex items-center justify-center shrink-0 overflow-hidden shadow-xs">
+            <img src="assets/images/matty.jpg" alt="MATTY (แมตตี้)" class="w-full h-full object-cover">
+            <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-[#1a3a16]"></span>
+          </div>
+          <div>
+            <div class="font-bold text-[14px] leading-tight flex items-center gap-1.5">
+              <span>MATTY (แมตตี้)</span>
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30">AI Sommelier</span>
+            </div>
+            <div class="text-[11px] text-emerald-200/80">มาสคอตที่ปรึกษามัทฉะ · ออนไลน์ 🐼</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <button onclick="clearAiChat()" class="w-10 h-10 sm:w-8 sm:h-8 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 active:bg-white/30 text-white/90 transition-all" title="เริ่มบทสนทนาใหม่" aria-label="เริ่มบทสนทนาใหม่">
+            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+          </button>
+          <button onclick="closeAiChat()" class="w-10 h-10 sm:w-8 sm:h-8 rounded-full flex items-center justify-center bg-white/20 hover:bg-white/30 active:bg-white/40 text-white transition-all shadow-xs ring-1 ring-white/20" title="ปิดหน้าต่างแชท" aria-label="ปิดหน้าต่างแชท">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Chat Messages Scroll Area -->
+      <div id="ai-chat-scroll" class="flex-1 p-3.5 sm:p-4 overflow-y-auto" style="background:#f9f8f5;">
+        <div id="ai-chat-messages">
+          <!-- Initial Welcome Card -->
+          <div id="ai-chat-welcome" class="mb-4">
+            <div class="bg-white rounded-2xl p-4 border border-[#e5e0d4] shadow-xs text-[13px] leading-relaxed text-stone-700">
+              <div class="flex items-center gap-2.5 mb-2">
+                <img src="assets/images/matty.jpg" alt="MATTY (แมตตี้)" class="w-8 h-8 rounded-full object-cover border border-emerald-300 shadow-2xs">
+                <span class="font-bold text-[14px]" style="color:#1a3a16;">สวัสดีครับพี่เจ้าของร้านคาเฟ่!</span>
+              </div>
+              <p>ผมคือ <strong>MATTY (แมตตี้)</strong> มาสคอต AI Matcha Sommelier ประจำ <strong>MATCHA TIMES</strong> ครับ 🐼🍵</p>
+              <p class="mt-1.5 text-stone-600">สงสัยเรื่องการเลือกเกรดชา, โทนรสชาติ, การคุมต้นทุนต่อแก้ว, หรือสูตรชงลาเต้/เดอร์ตี้ ลองถามผมได้เลยครับ!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Questions Container -->
+        <div id="ai-quick-container" class="mt-2 mb-3">
+          <div class="text-[11px] font-bold uppercase tracking-wider mb-2 text-stone-400">คำถามยอดฮิตสำหรับคาเฟ่:</div>
+          <div id="ai-quick-questions" class="flex flex-col gap-2"></div>
+        </div>
+      </div>
+
+      <!-- Input Area with Safe-Area Padding -->
+      <div class="ai-chat-footer p-3 bg-white border-t border-[#e5e0d4] shrink-0">
+        <form onsubmit="event.preventDefault();" class="flex items-center gap-2">
+          <input id="ai-chat-input" type="text" 
+                 placeholder="พิมพ์ถาม MATTY ได้เลยครับ..." 
+                 class="flex-1 px-4 py-2.5 rounded-full bg-stone-50 border border-stone-200 focus:outline-none focus:border-emerald-600 focus:bg-white transition-all text-stone-800"
+                 autocomplete="off">
+          <button id="ai-chat-send" type="button" 
+                  class="w-11 h-11 rounded-full flex items-center justify-center text-white shrink-0 shadow-xs transition-transform active:scale-95 hover:opacity-95" 
+                  style="background:#2d5a27;" title="ส่งข้อความ" aria-label="ส่งข้อความ">
+            <i data-lucide="send" class="w-4 h-4 ml-0.5"></i>
+          </button>
+        </form>
+        <div class="text-center text-[10px] text-stone-400 mt-1.5">
+          ตอบโดย Gemini AI อ้างอิงข้อมูลสต็อกและสเปกจริง MATCHA TIMES
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════════
@@ -1117,24 +1223,7 @@
     </div>
   </div>
 
-  <!-- Flyer Modal -->
-  <div id="flyer-modal" class="modal-overlay" onclick="closeModal('flyer-modal')">
-    <div class="modal-box" onclick="event.stopPropagation()" style="max-width:680px;">
-      <div class="flex items-center justify-between p-5 pb-4" style="border-bottom:1px solid #e5e0d4;">
-        <div class="flex items-center gap-2">
-          <i data-lucide="file-text" class="w-4 h-4" style="color:#2d5a27;"></i>
-          <h3 class="font-bold" style="color:#1a3a16;" data-i18n="flyer_modal_title">ใบแคตตาล็อกต้นฉบับ MATCHA TIMES</h3>
-        </div>
-        <button onclick="closeModal('flyer-modal')" class="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style="background:#f5f0e8;">
-          <i data-lucide="x" class="w-4 h-4" style="color:#6b7068;"></i>
-        </button>
-      </div>
-      <div class="p-5 flex items-center justify-center">
-        <img src="assets/images/original-catalog.jpg" alt="MATCHA TIMES Catalog" class="rounded-xl object-contain shadow-md" style="max-height:70vh;">
-      </div>
-      <div class="pb-4 text-center text-[11px]" style="color:#9a9a90;">Silom • Asok • Phrakanong | LINE: @matchatimes.thailand</div>
-    </div>
-  </div>
+
 
   <!-- Contact Modal -->
   <div id="contact-modal" class="modal-overlay" onclick="closeModal('contact-modal')">
@@ -1143,34 +1232,42 @@
         <i data-lucide="x" class="w-4 h-4" style="color:#6b7068;"></i>
       </button>
       <img src="assets/images/logo.png" alt="MATCHA TIMES" class="w-16 h-16 rounded-2xl mx-auto mb-3 bg-black p-1 shadow-md ring-1 ring-stone-900/10">
-      <h3 class="text-[20px] font-bold mb-1" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;" data-i18n="contact_modal_title">ติดต่อฝ่ายขาย MATCHA TIMES</h3>
-      <p class="text-[12px] mb-6" style="color:#7a7468;" data-i18n="contact_modal_sub">สั่งซื้อราคาส่ง B2B, ขอใบเสนอราคา หรือนัดชิมตัวอย่างชาสำหรับเปิดร้าน</p>
+      <h3 class="text-[20px] font-bold mb-1" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;" data-i18n="contact_modal_title">ติดต่อฝ่ายขาย: คุณปิ่นปัก (MATCHA TIMES)</h3>
+      <p class="text-[12px] mb-5" style="color:#7a7468;" data-i18n="contact_modal_sub">ที่ปรึกษาด้านมัทฉะสำหรับร้านคาเฟ่ ยินดีให้คำแนะนำเรื่องสเปกชา ราคาส่ง B2B และจัดส่ง Sample Kit</p>
 
       <div class="inline-block p-4 rounded-2xl mb-4 bg-white" style="border:1px solid #e5e0d4;box-shadow:0 4px 14px rgba(0,0,0,0.04);">
         <div class="w-44 h-44 rounded-xl overflow-hidden flex items-center justify-center p-1" style="border:1px solid #eef0ec;">
-          <img src="assets/images/line-qr.png" alt="LINE QR Code: https://line.me/ti/p/Q_YSqkj0Db" class="w-full h-full object-contain">
+          <img src="assets/images/line-qr.png" alt="LINE QR Code คุณปิ่นปัก: https://line.me/ti/p/Q_YSqkj0Db" class="w-full h-full object-contain">
         </div>
-        <div class="text-[12px] font-bold mt-2.5" style="color:#1a3a16;" data-i18n="contact_qr_text">สแกน QR Code เพื่อแอด LINE</div>
+        <div class="text-[12px] font-bold mt-2.5" style="color:#1a3a16;" data-i18n="contact_qr_text">สแกน QR Code เพื่อคุยกับคุณปิ่นปักทาง LINE</div>
         <a href="https://line.me/ti/p/Q_YSqkj0Db" target="_blank" rel="noopener noreferrer" class="text-[11px] font-semibold text-emerald-700 hover:underline block mt-0.5">line.me/ti/p/Q_YSqkj0Db</a>
       </div>
 
-      <div class="space-y-2 text-[13px]">
-        <div class="p-3 rounded-xl mb-3 text-left flex items-start gap-2.5" style="background:#f2f8f0;border:1px solid #c8dec4;">
+      <div class="space-y-2.5 text-[13px]">
+        <div class="p-3 rounded-xl text-left flex items-start gap-2.5" style="background:#f2f8f0;border:1px solid #c8dec4;">
           <i data-lucide="package" class="w-4 h-4 mt-0.5 shrink-0" style="color:#2d5a27;"></i>
           <div class="text-[11px] leading-relaxed" style="color:#2d5a27;" data-i18n="contact_tip_box">
-            <strong>สำหรับร้านเปิดใหม่:</strong> แจ้งแอดมินว่า <em>"ขอรับชุด Sample Kit ทดลองชงที่ร้าน"</em> เพื่อรับตัวอย่างชาและคำแนะนำอัตราส่วน
+            <strong>สำหรับร้านเปิดใหม่:</strong> ทักหาคุณปิ่นปักว่า <em>"ขอรับชุด Sample Kit ทดลองชงที่ร้าน"</em> เพื่อรับตัวอย่างชาและคำแนะนำอัตราส่วนสูตรชงเฉพาะร้านคุณ
           </div>
         </div>
 
         <a href="https://line.me/ti/p/Q_YSqkj0Db" target="_blank" rel="noopener noreferrer" class="block w-full py-3 rounded-2xl font-bold transition-all text-center text-white shadow-sm hover:opacity-95" style="background:#06C755;">
-          <i data-lucide="message-circle" class="w-4 h-4 inline mr-1.5"></i> <span data-i18n="contact_btn_line">แอด LINE: @matchatimes.thailand</span>
+          <i data-lucide="message-circle" class="w-4 h-4 inline mr-1.5"></i> <span data-i18n="contact_btn_line">แอด LINE คุยกับคุณปิ่นปัก</span>
         </a>
-        <a href="https://www.instagram.com/matchatimes.thailand?stkn=czJxb25xMmxzdjRz" target="_blank" rel="noopener noreferrer" class="block w-full py-3 rounded-2xl font-bold transition-colors text-center text-white" style="background:linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline mr-1.5" style="vertical-align:-3px;"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg> <span data-i18n="contact_btn_ig">ติดตาม Instagram: @matchatimes.thailand</span>
+
+        <a href="tel:0986035370" class="block w-full py-2.5 rounded-2xl font-bold transition-all text-center text-stone-800 bg-stone-50 border border-stone-200 hover:bg-stone-100 flex items-center justify-center gap-2">
+          <i data-lucide="phone-call" class="w-4 h-4 text-emerald-700"></i>
+          <span data-i18n="contact_btn_phone">โทรด่วน: 098-603-5370 (คุณปิ่นปัก)</span>
         </a>
-        <div class="p-4 rounded-2xl text-left space-y-1.5 text-[12px]" style="background:#f8f5f0;border:1px solid #e5e0d4;color:#5a5a50;">
-          <div data-i18n="contact_branches">📍 <strong>สาขา:</strong> Silom, Asok (Interchange 21), Phrakanong</div>
-          <div>📸 <strong>Instagram:</strong> <a href="https://www.instagram.com/matchatimes.thailand?stkn=czJxb25xMmxzdjRz" target="_blank" class="underline text-emerald-700">@matchatimes.thailand</a></div>
+
+        <a href="https://www.instagram.com/matchatimes.thailand/?hl=en" target="_blank" rel="noopener noreferrer" class="block w-full py-2.5 rounded-2xl font-bold transition-colors text-center text-white" style="background:linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline mr-1.5" style="vertical-align:-2px;"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg> <span data-i18n="contact_btn_ig">ติดตาม Instagram: @matchatimes.thailand</span>
+        </a>
+
+        <div class="p-3.5 rounded-2xl text-left space-y-1.5 text-[12px]" style="background:#f8f5f0;border:1px solid #e5e0d4;color:#5a5a50;">
+          <div>👩‍💼 <strong>เซลล์ผู้ดูแล:</strong> คุณปิ่นปัก · <a href="tel:0986035370" class="text-emerald-700 underline font-semibold">098-603-5370</a></div>
+          <div>📸 <strong>Instagram:</strong> <a href="https://www.instagram.com/matchatimes.thailand/?hl=en" target="_blank" class="underline text-emerald-700">@matchatimes.thailand</a></div>
+          <div data-i18n="contact_branches">📍 <strong>สาขาแบรนด์:</strong> Silom, Asok (Interchange 21), Phrakanong</div>
           <div>🌐 <strong>Website:</strong> matcha-times.com</div>
         </div>
       </div>
@@ -1216,5 +1313,6 @@
   <!-- Scripts -->
   <script src="assets/js/data.js"></script>
   <script src="assets/js/app.js"></script>
+  <script src="assets/js/ai-chat.js"></script>
 </body>
 </html>

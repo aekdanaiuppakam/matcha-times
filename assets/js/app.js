@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCompareDrawer();
   initMatchmaker();
   initNavScroll();
+  initComparisonObserver();
 });
 
 function initLucide() {
@@ -436,6 +437,13 @@ function selectCompareTeas(id1, id2) {
   document.getElementById("comparison-section")?.scrollIntoView({ behavior: "smooth" });
 }
 
+function clearCompareSelection() {
+  selectedCompareIds = [];
+  renderProducts();
+  renderComparisonTool();
+  updateCompareDrawer();
+}
+
 function updateCompareDrawer() {
   const drawer = document.getElementById("compare-drawer");
   const countText = document.getElementById("compare-drawer-text");
@@ -460,6 +468,26 @@ function updateCompareDrawer() {
   } else {
     drawer.classList.remove("visible");
   }
+
+  initLucide();
+}
+
+function initComparisonObserver() {
+  const section = document.getElementById("comparison-section");
+  const drawer  = document.getElementById("compare-drawer");
+  if (!section || !drawer) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        drawer.classList.add("hidden-in-section");
+      } else {
+        drawer.classList.remove("hidden-in-section");
+      }
+    });
+  }, { threshold: 0.12 });
+
+  observer.observe(section);
 }
 
 // ─── Comparison Matrix Table ──────────────────────────────────
@@ -511,7 +539,7 @@ function renderComparisonTool() {
           <h3 class="font-bold text-[16px]" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;">${currentLang === 'th' ? `เปรียบเทียบ ${items.length} รายการ` : `Comparing ${items.length} Matcha SKUs`}</h3>
           <p class="text-[12px] mt-0.5" style="color:#7a7468;">${currentLang === 'th' ? 'โปรไฟล์รสชาติ · แหล่งปลูก · สเปกราคา 3 ขนาด' : 'Taste Profiles · Terroirs · 3 Weight Tiers'}</p>
         </div>
-        <button onclick="selectedCompareIds=[];renderProducts();renderComparisonTool();updateCompareDrawer();" class="btn-ghost text-[12px]">
+        <button onclick="clearCompareSelection()" class="btn-ghost text-[12px]">
           <i data-lucide="x" class="w-3.5 h-3.5"></i> ${currentLang === 'th' ? 'ล้างการเปรียบเทียบ' : 'Clear Compare'}
         </button>
       </div>
@@ -910,7 +938,7 @@ function openProductModal(id) {
 }
 
 function openFlyerModal() {
-  document.getElementById("flyer-modal")?.classList.add("open");
+  // Flyer modal removed
 }
 
 function openContactModal() {
@@ -972,7 +1000,7 @@ function copyProductSpec(id) {
 ✨ รสสัมผัส: อูมามิ ${item.taste.umami}/5 | หวาน ${item.taste.sweetness}/5 | ถั่วคั่ว ${item.taste.nutty}/5 | กลิ่นหอม ${item.taste.aroma}/5 | ขมฝาด ${item.taste.bitterness}/5
 🥛 เหมาะสำหรับ: ${item.usages.join(', ')}
 💡 จุดเด่นสำหรับร้าน: ${pitch}
-🌐 MATCHA TIMES Thailand | LINE: https://line.me/ti/p/Q_YSqkj0Db | IG: @matchatimes.thailand`;
+📲 เซลล์ผู้ดูแล: คุณปิ่นปัก 098-603-5370 | LINE: https://line.me/ti/p/Q_YSqkj0Db | Official IG: https://www.instagram.com/matchatimes.thailand/?hl=en`;
   } else {
     text = `🍵 MATCHA TIMES — ${item.name} (${item.kanji})
 📍 Origin: ${item.origin}
@@ -981,7 +1009,7 @@ function copyProductSpec(id) {
 ✨ Taste: Umami ${item.taste.umami}/5 | Sweetness ${item.taste.sweetness}/5 | Nutty ${item.taste.nutty}/5 | Aroma ${item.taste.aroma}/5 | Bitterness ${item.taste.bitterness}/5
 🥛 Best For: ${item.usages.join(', ')}
 💡 Sales Pitch: ${pitch}
-🌐 MATCHA TIMES Thailand | LINE: https://line.me/ti/p/Q_YSqkj0Db | IG: @matchatimes.thailand`;
+📲 Dedicated Sales Rep: Pinpuk 098-603-5370 | LINE: https://line.me/ti/p/Q_YSqkj0Db | Official IG: https://www.instagram.com/matchatimes.thailand/?hl=en`;
   }
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
