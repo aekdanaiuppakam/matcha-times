@@ -2,10 +2,9 @@
   "name": "matcha-times",
   "version": "1.0.0",
   "description": "MATCHA TIMES — 100% Japanese Matcha Wholesale & Cafe Guide with MATTY AI Sommelier",
-  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "node dev-server.js",
+    "dev": "node dev-server.js"
   },
   "dependencies": {
     "qrcode": "^1.5.4"

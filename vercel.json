@@ -1,11 +1,5 @@
 {
-  "version": 2,
-  "rewrites": [
-    {
-      "source": "/api/chat",
-      "destination": "/api/chat"
-    }
-  ],
+  "cleanUrls": true,
   "headers": [
     {
       "source": "/assets/(.*)",
