@@ -13,7 +13,7 @@ if (!global.__matcha_analytics_store) {
 }
 
 const store = global.__matcha_analytics_store;
-const ADMIN_PIN = process.env.ADMIN_PIN || '888888';
+const ADMIN_PIN = process.env.ADMIN_PIN || '58110011';
 
 // Local storage file paths (for local dev server)
 const DATA_DIR = path.join(process.cwd(), 'data');

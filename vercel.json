@@ -1,5 +1,11 @@
 {
   "outputDirectory": ".",
+  "rewrites": [
+    {
+      "source": "/sales-report",
+      "destination": "/sales-report.html"
+    }
+  ],
   "headers": [
     {
       "source": "/assets/images/(.*)",

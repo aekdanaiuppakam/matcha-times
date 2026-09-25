@@ -1,7 +1,7 @@
 // ─── Vercel Serverless Function: /api/ai-analyst ─────────────────────
 // AI Sales Intelligence & Conversion Attribution Analyst
 
-const ADMIN_PIN = process.env.ADMIN_PIN || '888888';
+const ADMIN_PIN = process.env.ADMIN_PIN || '58110011';
 const GEMINI_MODELS = [
   'gemini-3.6-flash',
   'gemini-3.8-flash',
