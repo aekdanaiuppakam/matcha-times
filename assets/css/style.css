@@ -1132,6 +1132,9 @@ body.ai-chat-open .compare-bar {
 
 .floating-leaf {
   position: absolute;
+  max-width: 48px;
+  max-height: 75px;
+  overflow: hidden;
   filter: drop-shadow(0 4px 10px rgba(27, 58, 22, 0.15));
   opacity: 0.88;
   will-change: transform;
