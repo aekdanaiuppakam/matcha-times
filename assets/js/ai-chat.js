@@ -86,10 +86,21 @@
           sendMessage();
         }
       });
+
+      const form = input.closest("form");
+      if (form) {
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          sendMessage();
+        });
+      }
     }
 
     if (sendBtn) {
-      sendBtn.addEventListener("click", () => sendMessage());
+      sendBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        sendMessage();
+      });
     }
 
     // Close on Escape key
@@ -253,6 +264,10 @@
   window.sendQuickQuery = function(text) {
     const input = document.getElementById("ai-chat-input");
     if (input) input.value = text;
+    sendMessage();
+  };
+
+  window.sendAiMessage = function() {
     sendMessage();
   };
 
@@ -421,5 +436,9 @@
     return html;
   }
 
-  document.addEventListener("DOMContentLoaded", initChat);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initChat);
+  } else {
+    initChat();
+  }
 })();

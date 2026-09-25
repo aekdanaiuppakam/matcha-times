@@ -191,11 +191,56 @@ const MATCHA_SYSTEM_PROMPT = `คุณคือ "MATTY" (น้องแมต�
 6. อ้างอิงราคา ต้นทุนต่อแก้ว และสูตรคำนวณตามข้อมูลด้านบนอย่างแม่นยำ 100% เสมอ`;
 
 const GEMINI_MODELS = [
-  'gemini-3.1-flash-lite',
-  'gemini-3.5-flash-lite',
-  'gemini-3.5-flash',
-  'gemini-3.8-flash'
+  'gemini-3.6-flash',
+  'gemini-3.8-flash',
+  'gemini-flash-latest',
+  'gemini-3.1-flash-lite'
 ];
+
+function generateSommelierFallback(message = '', lang = 'th') {
+  const q = message.toLowerCase();
+  const isEn = lang === 'en';
+
+  if (/nutty|ถั่ว|ลาเต้|latte|oat/i.test(q)) {
+    if (isEn) {
+      return 'For rich, nutty iced lattes that cut cleanly through milk without getting muted, MATTY strongly recommends **STRONG NUTTY (八女芳香)**! 🥜🍵\n\n- **#1 Best Seller** for cafes, perfect for fresh dairy and oat milk.\n- **Taste Profile:** Nutty 5/5, Umami 4/5, Aroma 4/5, Bitterness only 2/5.\n- **B2B Wholesale:** 250g pouch = 1,350 ฿ (~21.6 ฿/cup at standard 4g dose).\n- Alternatively, for a silky smooth balanced house latte at a lower price point, try **YURANE (ゆらね)** at 1,130 ฿/250g (~18.1 ฿/cup).\n\nTo request sample pouches or get a custom cafe quotation, chat with **Pinpuk (098-603-5370)** directly on [LINE](https://line.me/ti/p/Q_YSqkj0Db)! 💚';
+    }
+    return 'ถ้าอยากได้มัทฉะชงลาเต้โทนถั่ว (Nutty) ชัดๆ บอดี้แน่น ชาไม่โดนนมกลบ น้องแมตตี้ขอแนะนำ **STRONG NUTTY (八女芳香)** จากยาเมะเลยครับ! 🥜🍵\n\n- เป็น **#1 Best Seller** ตลอดกาลของคาเฟ่ ชงเข้ากับนมสดและ Oat Milk ได้ลงตัวสุดๆ\n- **โปรไฟล์รสชาติ:** Nutty 5/5, Umami 4/5, Aroma 4/5 (ขมต่ำเพียง 2/5)\n- **ราคา B2B:** ถุง 250g = 1,350 ฿ (ต้นทุนชงมาตรฐาน 4g อยู่ที่เพียง **~21.6 ฿/แก้ว**) ชงได้ ~62 แก้ว/ถุง\n- หรือหากต้องการตัว House Blend บาลานซ์เนียนนุ่มราคาย่อมเยาลงมา แนะนำ **YURANE (ゆらね)** ถุง 250g = 1,130 ฿ (~18.1 ฿/แก้ว) ครับ\n\nสนใจรับชุดทดลองชง ติดต่อ **พี่ปิ่นปัก (ฝ่ายขาย)** ได้เลยที่ 098-603-5370 หรือ [LINE พี่ปิ่นปัก](https://line.me/ti/p/Q_YSqkj0Db) ครับ 💚';
+  }
+
+  if (/usucha|อุสุฉะ|ชงใส|พิธีการ|ceremonial|umami|อูมามิ|ไม่ขม/i.test(q)) {
+    if (isEn) {
+      return 'For ceremonial grade Usucha and pure matcha with vibrant emerald green color and zero harsh bitterness, here are our top picks: ✨🍵\n\n1. **SHOEN (松苑)** - Top Ceremonial Grade from Nishio: 5/5 umami, first harvest, smooth mouthfeel. 250g = 1,490 ฿ (~23.8 ฿/cup).\n2. **YAME B (八女極)** - Masterpiece Grade from Yame: 5/5 umami, 5/5 aroma, buttery nutty undertones. 250g = 2,740 ฿ (~43.8 ฿/cup).\n\nContact **Pinpuk (098-603-5370)** or chat via [LINE](https://line.me/ti/p/Q_YSqkj0Db) for wholesale orders! 🍵';
+    }
+    return 'สำหรับเมนูเกรดพิธีการ (Ceremonial Grade) ชงใส Usucha หรือ Premium Cold Whisk ที่สีเขียวมรกตสดใส อูมามิจัดเต็ม ไร้ความฝาดขมบาดคอ แนะนำ 2 ตัวนี้เลยครับ ✨🍵\n\n1. **SHOEN (松苑)**: ยอดใบชาแรกของฤดูจากนิชิโอะ อูมามิ 5/5 รสสัมผัสนุ่มลึก ถุง 250g = 1,490 ฿ (ต้นทุน ~23.8 ฿/แก้ว)\n2. **YAME B (八女極)**: ระดับ Masterpiece จากยาเมะ อูมามิ 5/5 อโรมา 5/5 โทนเนยถั่ว Buttery หอมฟุ้ง ถุง 250g = 2,740 ฿ (ต้นทุน ~43.8 ฿/แก้ว)\n\nสนใจขอใบเสนอราคา ติดต่อ **พี่ปิ่นปัก (ฝ่ายขาย)** ได้เลยที่ 098-603-5370 หรือ [LINE พี่ปิ่นปัก](https://line.me/ti/p/Q_YSqkj0Db) ครับ!';
+  }
+
+  if (/คุมต้นทุน|20|บาท|ถูก|ประหยัด|กำไร|margin|cost|budget/i.test(q)) {
+    if (isEn) {
+      return 'To optimize your cup cost under 20 THB and achieve 75-85%+ gross profit margins: 💰🍵\n\n1. **ZENRAKU (善楽)**: Only **~12.8 ฿/cup** (250g = 800 ฿). Deep green color, punchy body, #1 Value Pick.\n2. **OIKAWA (おいかわ)**: Only **~13.8 ฿/cup** (250g = 860 ฿). Clean and refreshing, perfect for fruit fusions.\n3. **ORGANIC (Signature)**: Only **~14.7 ฿/cup** (250g = 920 ฿). Certified organic Uji matcha.\n4. **YURANE (ゆらね)**: **~18.1 ฿/cup** (250g = 1,130 ฿). Baristas favorite house latte blend.\n\nUse our Cost Calculator above to model your profits or contact **Pinpuk (098-603-5370)** via [LINE](https://line.me/ti/p/Q_YSqkj0Db)!';
+    }
+    return 'สำหรับการคุมต้นทุนต่อแก้วให้ต่ำกว่า 20 ฿ เพื่อสร้าง Margin สูงสุด 75-85%+ ให้กับคาเฟ่ แมตตี้ขอแนะนำตัวคุ้มค่าดังนี้ครับ 💰🍵\n\n1. **ZENRAKU (善楽)**: ต้นทุนเพียง **~12.8 ฿/แก้ว** (ถุง 250g = 800 ฿) สีเขียวสด บอดี้ชัด คุ้มค่าอันดับ 1\n2. **OIKAWA (おいかわ)**: ต้นทุนเพียง **~13.8 ฿/แก้ว** (ถุง 250g = 860 ฿) สดชื่น คลีน เหมาะกับเมนูผลไม้และมัทฉะใส\n3. **ORGANIC (Signature)**: ต้นทุนเพียง **~14.7 ฿/แก้ว** (ถุง 250g = 920 ฿) ออร์แกนิกแท้จากอุจิ\n4. **YURANE (ゆらね)**: ต้นทุน **~18.1 ฿/แก้ว** (ถุง 250g = 1,130 ฿) ตัวหลักขวัญใจบาริสต้า\n\nลองใช้เครื่องคิดเลข Cost Calculator ด้านบนคำนวณกำไรได้ทันที หรือทักหา **พี่ปิ่นปัก (098-603-5370)** ทาง [LINE](https://line.me/ti/p/Q_YSqkj0Db) เพื่อรับเรทราคายกลังได้เลยครับ!';
+  }
+
+  if (/ขนม|เบเกอรี่|bakery|ปั่น|smoothie|เค้ก|cake|ไอศกรีม/i.test(q)) {
+    if (isEn) {
+      return 'For bakery, pastry, gelato, and high-volume smoothies, we recommend high-impact profiles that hold color and aroma after baking: 🥐🧁\n\n1. **ZENRAKU (善楽)**: 250g = 800 ฿ (1kg = 2,970 ฿). Bold flavor and vivid green color that punches through butter and flour.\n2. **ORGANIC (Classic)**: 250g = 1,070 ฿ (1kg = 3,100 ฿). Certified organic with rich body, ideal for organic baked goods.\n\nContact **Pinpuk (098-603-5370)** via [LINE](https://line.me/ti/p/Q_YSqkj0Db) for wholesale bags!';
+    }
+    return 'สำหรับงานเบเกอรี่ ขนมเค้ก ไอศกรีม และเมนูปั่นสมูทตี้ แนะนำ 2 ตัวที่สีสดสวย กลิ่นชาไม่ดรอปหลังผ่านความร้อนครับ 🥐🧁\n\n1. **ZENRAKU (善楽)**: ถุง 250g = 800 ฿ (ถุง 1kg = 2,970 ฿) สีเขียวสด บอดี้เข้ม กลิ่นทะลุเนยและแป้งได้ดีเยี่ยม\n2. **ORGANIC (Classic)**: ถุง 250g = 1,070 ฿ (ถุง 1kg = 3,100 ฿) บอดี้เข้มชัด เหมาะสำหรับชูความเป็นขนมออร์แกนิกแท้\n\nสนใจสั่งซื้อถุง 1kg ติดต่อ **พี่ปิ่นปัก (ฝ่ายขาย)** ทาง [LINE](https://line.me/ti/p/Q_YSqkj0Db) ได้เลยครับ!';
+  }
+
+  if (/sample|ทดลอง|ชิม|ตัวอย่าง|เทสต์|ชุดทดลอง/i.test(q)) {
+    if (isEn) {
+      return 'MATCHA TIMES offers a **Sample Kit** for cafes and baristas to test brew at their store! 📦🍵\n\n- Test our top varieties side-by-side with your milk and recipes.\n- Contact **Pinpuk (our dedicated Sales Representative)** directly:\n  📞 Tel: **098-603-5370**\n  💬 LINE: [Chat with Pinpuk on LINE](https://line.me/ti/p/Q_YSqkj0Db)\n  Or click the **Request Sample Kit** button on the website!';
+    }
+    return 'ทาง MATCHA TIMES มี **ชุดทดลองชง (Sample Kit)** สำหรับร้านกาแฟ คาเฟ่ และบาริสต้าที่ต้องการทดลองรสชาติก่อนสั่งซื้อจริงครับ! 📦🍵\n\n- มีผงชาคัดสรรตัวเด่นให้ทดลองชงจริงกับนมและสูตรของที่ร้าน\n- สามารถติดต่อ **พี่ปิ่นปัก (ตัวแทนฝ่ายขายประจำแบรนด์)** ได้โดยตรงที่:\n  📞 โทร: **098-603-5370**\n  💬 LINE: [คลิกเพื่อคุยกับพี่ปิ่นปักทาง LINE](https://line.me/ti/p/Q_YSqkj0Db)\n  หรือกดปุ่ม **"ขอรับชุดทดลองชง"** บนหน้าเว็บได้เลยครับ!';
+  }
+
+  if (isEn) {
+    return 'Hello! I am **MATTY**, your matcha sommelier panda from MATCHA TIMES! 🐼🍵✨\n\nWe provide 10 authentic Japanese matcha SKUs directly imported for cafes:\n- 👑 **Ceremonial:** Strong Nutty, Shoen\n- ✨ **Yame Specialty:** Yame B, Yame A, Ei\n- ⭐ **Signature:** Yurane, Organic (Signature)\n- 🍃 **Classic / Budget:** Zenraku, Oikawa, Organic (Classic)\n\nHow can I help you today? You can ask about flavor profiles, cost-per-cup calculations, or request a Sample Kit via **Pinpuk (098-603-5370)** on [LINE](https://line.me/ti/p/Q_YSqkj0Db)!';
+  }
+  return 'สวัสดีครับ! น้องแมตตี้ แพนด้ามัทฉะสุดน่ารัก ยินดีต้อนรับเจ้าของร้านกาแฟและบาริสต้าทุกท่านครับ 🐼🍵✨\n\nแมตตี้พร้อมแนะนำมัทฉะแท้ 100% จากญี่ปุ่นทั้ง 10 ชนิดของ MATCHA TIMES:\n- 👑 **Ceremonial:** Strong Nutty, Shoen\n- ✨ **Yame Specialty:** Yame B, Yame A, Ei\n- ⭐ **Signature:** Yurane, Organic (Signature)\n- 🍃 **Classic / Budget:** Zenraku, Oikawa, Organic (Classic)\n\nบอกน้องแมตตี้ได้เลยครับว่าต้องการมัทฉะไปทำเมนูแนวไหน หรือต้องการคำนวณต้นทุนตัวไหนเป็นพิเศษ! หากสนใจขอรับชุดทดลองชง สามารถติดต่อ **พี่ปิ่นปัก (ฝ่ายขาย)** ได้ที่โทร **098-603-5370** หรือ [LINE พี่ปิ่นปัก](https://line.me/ti/p/Q_YSqkj0Db) ได้เลยครับ 💚';
+}
 
 async function callGemini(message, history = [], lang = 'th') {
   const apiKey = process.env.GEMINI_API_KEY || '';
@@ -245,7 +290,7 @@ The user is viewing the website in English (EN).
     contents,
     generationConfig: {
       temperature: 0.7,
-      maxOutputTokens: 2500
+      maxOutputTokens: 1200
     }
   };
 
@@ -256,7 +301,8 @@ The user is viewing the website in English (EN).
       const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(6000)
       });
 
       if (res.ok) {
@@ -304,13 +350,8 @@ module.exports = async (req, res) => {
     const reply = await callGemini(message, history, lang || 'th');
     return res.status(200).json({ reply });
   } catch (err) {
-    console.error('Chat API Error:', err.message);
-    const errMsg = (lang === 'en')
-      ? 'Sorry, our AI sommelier is currently busy. Please try again or chat directly with Pinpuk on LINE! 🍵'
-      : 'ขออภัยครับ ขณะนี้ระบบ AI กำลังประมวลผล กรุณาลองใหม่อีกครั้ง หรือทักสอบถามพี่เซลล์ผู้ดูแลทาง LINE ได้เลยครับ 🍵';
-    return res.status(500).json({
-      error: errMsg,
-      details: err.message
-    });
+    console.warn('Gemini API call failed, using Sommelier engine:', err.message);
+    const fallbackReply = generateSommelierFallback(message, lang || 'th');
+    return res.status(200).json({ reply: fallbackReply, fallback: true });
   }
 };

@@ -1267,13 +1267,13 @@
 
       <!-- Input Area with Safe-Area Padding -->
       <div class="ai-chat-footer p-3 bg-white border-t border-[#e5e0d4] shrink-0">
-        <form onsubmit="event.preventDefault();" class="flex items-center gap-2">
-          <input id="ai-chat-input" type="text" 
+        <form onsubmit="event.preventDefault(); if (window.sendAiMessage) window.sendAiMessage();" class="flex items-center gap-2">
+          <input id="ai-chat-input" type="text" enterkeyhint="send"
                  placeholder="พิมพ์ถาม MATTY ได้เลยครับ..." 
                  data-i18n-placeholder="ai_input_placeholder"
                  class="flex-1 px-4 py-2.5 rounded-full bg-stone-50 border border-stone-200 focus:outline-none focus:border-emerald-600 focus:bg-white transition-all text-stone-800"
                  autocomplete="off">
-          <button id="ai-chat-send" type="button" 
+          <button id="ai-chat-send" type="submit" 
                   class="w-11 h-11 rounded-full flex items-center justify-center text-white shrink-0 shadow-xs transition-transform active:scale-95 hover:opacity-95" 
                   style="background:#2d5a27;" title="ส่งข้อความ" aria-label="ส่งข้อความ">
             <i data-lucide="send" class="w-4 h-4 ml-0.5"></i>
