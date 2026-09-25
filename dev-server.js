@@ -2,19 +2,24 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-// ─── Load .env file ──────────────────────────────────────────
+// ─── Load .env & .env.local files ───────────────────────────
 function loadEnv() {
-  const envPath = path.join(__dirname, '.env');
-  if (fs.existsSync(envPath)) {
-    const lines = fs.readFileSync(envPath, 'utf8').split('\n');
-    for (const line of lines) {
-      const trimmed = line.trim();
-      if (trimmed && !trimmed.startsWith('#')) {
-        const idx = trimmed.indexOf('=');
-        if (idx !== -1) {
-          const key = trimmed.slice(0, idx).trim();
-          const val = trimmed.slice(idx + 1).trim();
-          if (key && !process.env[key]) process.env[key] = val;
+  const envFiles = [path.join(__dirname, '.env'), path.join(__dirname, '.env.local')];
+  for (const envPath of envFiles) {
+    if (fs.existsSync(envPath)) {
+      const lines = fs.readFileSync(envPath, 'utf8').split('\n');
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (trimmed && !trimmed.startsWith('#')) {
+          const idx = trimmed.indexOf('=');
+          if (idx !== -1) {
+            let key = trimmed.slice(0, idx).trim();
+            let val = trimmed.slice(idx + 1).trim();
+            if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+              val = val.slice(1, -1);
+            }
+            if (key) process.env[key] = val;
+          }
         }
       }
     }

@@ -1,23 +1,67 @@
 // ─── Vercel Serverless Function: /api/analytics ──────────────────────
+// Persistent Cloud Storage via @vercel/blob + Local Disk Fallback
+
 const fs = require('fs');
 const path = require('path');
 
-// In-memory buffer for stateless serverless runtimes
+let blobMod = null;
+try {
+  blobMod = require('@vercel/blob');
+} catch (e) {}
+
+const BLOB_PATH = 'analytics/matcha_analytics_store.json';
+const ADMIN_PIN = process.env.ADMIN_PIN || '58110011';
+
+// In-memory cache
 if (!global.__matcha_analytics_store) {
   global.__matcha_analytics_store = {
     events: [],
     conversions: [],
-    chatLogs: [],
-    sessions: {}
+    lastSync: 0
   };
 }
 
 const store = global.__matcha_analytics_store;
-const ADMIN_PIN = process.env.ADMIN_PIN || '58110011';
 
 // Local storage file paths (for local dev server)
 const DATA_DIR = path.join(process.cwd(), 'data');
 const EVENTS_FILE = path.join(DATA_DIR, 'analytics_events.json');
+
+// Cloud Sync Helpers
+async function loadFromCloud() {
+  if (process.env.BLOB_READ_WRITE_TOKEN && blobMod) {
+    try {
+      const { head } = blobMod;
+      const meta = await head(BLOB_PATH);
+      if (meta && meta.url) {
+        const res = await fetch(meta.url, {
+          headers: { 'Authorization': 'Bearer ' + process.env.BLOB_READ_WRITE_TOKEN }
+        });
+        if (res.ok) {
+          return await res.json();
+        }
+      }
+    } catch (e) {
+      // file might not exist on first run
+    }
+  }
+  return null;
+}
+
+async function saveToCloud(data) {
+  if (process.env.BLOB_READ_WRITE_TOKEN && blobMod) {
+    try {
+      const { put } = blobMod;
+      await put(BLOB_PATH, JSON.stringify(data), {
+        access: 'private',
+        addRandomSuffix: false,
+        allowOverwrite: true
+      });
+    } catch (e) {
+      console.warn('Vercel Blob save warning:', e.message);
+    }
+  }
+}
 
 function saveToDisk(entry) {
   try {
@@ -75,39 +119,30 @@ module.exports = async (req, res) => {
       timestamp: body.timestamp || new Date().toISOString()
     };
 
-    // Store in memory
-    store.events.unshift(record);
-    if (store.events.length > 1000) store.events.pop();
-
-    if (record.type === 'conversion' || record.attribution) {
-      store.conversions.unshift(record);
-      if (store.conversions.length > 300) store.conversions.pop();
+    // Always fetch latest cloud events to ensure 100% persistent accumulation across all instances
+    const cloudData = await loadFromCloud();
+    let currentEvents = [];
+    if (cloudData && Array.isArray(cloudData.events)) {
+      currentEvents = cloudData.events;
+    } else if (store.events.length > 0) {
+      currentEvents = store.events;
+    } else {
+      currentEvents = loadFromDisk();
     }
 
-    // Keep session index
-    if (!store.sessions[record.sessionId]) {
-      store.sessions[record.sessionId] = {
-        sessionId: record.sessionId,
-        visitorId: record.visitorId,
-        startedAt: record.timestamp,
-        device: record.device,
-        eventCount: 0,
-        hasConverted: false,
-        conversionTriggers: []
-      };
-    }
-    const s = store.sessions[record.sessionId];
-    s.eventCount++;
-    s.lastSeen = record.timestamp;
-    if (record.type === 'conversion') {
-      s.hasConverted = true;
-      if (record.attribution?.catalyst) {
-        s.conversionTriggers.push(record.attribution.catalyst);
-      }
-    }
+    // Add to list
+    currentEvents.unshift(record);
+    if (currentEvents.length > 500) currentEvents = currentEvents.slice(0, 500);
+    store.events = currentEvents;
 
-    // Also persist to local file if available
+    // Save to local disk (for dev server)
     saveToDisk(record);
+
+    // Save to Vercel Blob Cloud (Persistent across cold starts & all containers)
+    await saveToCloud({
+      events: currentEvents,
+      updatedAt: new Date().toISOString()
+    });
 
     return res.status(200).json({ status: 'ok', id: record.id });
   }
@@ -119,17 +154,23 @@ module.exports = async (req, res) => {
       return res.status(401).json({ error: 'Unauthorized: Invalid Admin PIN' });
     }
 
-    // Merge disk data if memory is empty
-    let allEvents = store.events;
-    if (allEvents.length === 0) {
+    // Always fetch latest from Cloud Storage first to guarantee persistence
+    let allEvents = [];
+    const cloudData = await loadFromCloud();
+    if (cloudData && Array.isArray(cloudData.events) && cloudData.events.length > 0) {
+      allEvents = cloudData.events;
+      store.events = cloudData.events;
+    } else if (store.events.length > 0) {
+      allEvents = store.events;
+    } else {
       allEvents = loadFromDisk();
     }
 
     const totalEvents = allEvents.length;
     const conversions = allEvents.filter(e => e.type === 'conversion' || e.event === 'line_add_click' || e.event === 'sample_kit_click');
-    const uniqueSessions = new Set(allEvents.map(e => e.sessionId)).size || 1;
+    const uniqueSessions = new Set(allEvents.map(e => e.sessionId)).size || (totalEvents > 0 ? 1 : 0);
     const convertedSessions = new Set(conversions.map(e => e.sessionId)).size;
-    const conversionRate = ((convertedSessions / uniqueSessions) * 100).toFixed(1);
+    const conversionRate = uniqueSessions > 0 ? ((convertedSessions / uniqueSessions) * 100).toFixed(1) : '0';
 
     // Attribution breakdown
     const attributionCounts = {
@@ -191,7 +232,8 @@ module.exports = async (req, res) => {
       deviceCounts,
       productViews,
       recentConversions,
-      recentRawEvents: allEvents.slice(0, 50)
+      recentRawEvents: allEvents.slice(0, 50),
+      storageMode: process.env.BLOB_READ_WRITE_TOKEN ? 'Vercel Blob (Persistent Cloud)' : 'Local File / Memory'
     });
   }
 
