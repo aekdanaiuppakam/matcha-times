@@ -29,36 +29,40 @@ const EVENTS_FILE = path.join(DATA_DIR, 'analytics_events.json');
 
 // Cloud Sync Helpers
 async function loadFromCloud() {
-  if (process.env.BLOB_READ_WRITE_TOKEN && blobMod) {
+  const token = process.env.BLOB_READ_WRITE_TOKEN;
+  if (token && blobMod) {
     try {
       const { head } = blobMod;
-      const meta = await head(BLOB_PATH);
+      const meta = await head(BLOB_PATH, { token });
       if (meta && meta.url) {
-        const res = await fetch(meta.url, {
-          headers: { 'Authorization': 'Bearer ' + process.env.BLOB_READ_WRITE_TOKEN }
+        const res = await fetch(`${meta.url}?t=${Date.now()}`, {
+          headers: { 'Authorization': `Bearer ${token}` },
+          cache: 'no-store'
         });
         if (res.ok) {
           return await res.json();
         }
       }
     } catch (e) {
-      // file might not exist on first run
+      console.warn('loadFromCloud notice:', e.message);
     }
   }
   return null;
 }
 
 async function saveToCloud(data) {
-  if (process.env.BLOB_READ_WRITE_TOKEN && blobMod) {
+  const token = process.env.BLOB_READ_WRITE_TOKEN;
+  if (token && blobMod) {
     try {
       const { put } = blobMod;
       await put(BLOB_PATH, JSON.stringify(data), {
         access: 'private',
         addRandomSuffix: false,
-        allowOverwrite: true
+        allowOverwrite: true,
+        token
       });
     } catch (e) {
-      console.warn('Vercel Blob save warning:', e.message);
+      console.error('Vercel Blob save error:', e.message);
     }
   }
 }
@@ -153,6 +157,8 @@ module.exports = async (req, res) => {
     if (pin !== ADMIN_PIN) {
       return res.status(401).json({ error: 'Unauthorized: Invalid Admin PIN' });
     }
+
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
 
     // Always fetch latest from Cloud Storage first to guarantee persistence
     let allEvents = [];
