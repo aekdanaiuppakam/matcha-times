@@ -192,9 +192,8 @@ const MATCHA_SYSTEM_PROMPT = `คุณคือ "MATTY" (น้องแมต�
 
 const GEMINI_MODELS = [
   'gemini-3.6-flash',
-  'gemini-3.8-flash',
-  'gemini-flash-latest',
-  'gemini-3.1-flash-lite'
+  'gemini-3.1-flash-lite',
+  'gemini-3.8-flash'
 ];
 
 function generateSommelierFallback(message = '', lang = 'th') {
@@ -302,7 +301,7 @@ The user is viewing the website in English (EN).
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
-        signal: AbortSignal.timeout(6000)
+        signal: AbortSignal.timeout(25000)
       });
 
       if (res.ok) {
@@ -350,8 +349,11 @@ module.exports = async (req, res) => {
     const reply = await callGemini(message, history, lang || 'th');
     return res.status(200).json({ reply });
   } catch (err) {
-    console.warn('Gemini API call failed, using Sommelier engine:', err.message);
-    const fallbackReply = generateSommelierFallback(message, lang || 'th');
-    return res.status(200).json({ reply: fallbackReply, fallback: true });
+    console.error('Gemini API call failed:', err.message);
+    const isEn = (lang === 'en');
+    const errMsg = isEn
+      ? 'Sorry, our AI service is currently taking longer than usual. Please feel free to message Pinpuk (our Sales Representative, Tel: 098-603-5370) directly via [Pinpuk\'s LINE](https://line.me/ti/p/Q_YSqkj0Db) anytime! 🍵'
+      : 'ขออภัยครับ ขณะนี้ระบบประมวลผล AI กำลังเชื่อมต่อล่าช้า คุณลูกค้าสามารถทักคุยกับพี่ปิ่นปัก (ฝ่ายขาย โทร 098-603-5370) ทาง [LINE พี่ปิ่นปัก](https://line.me/ti/p/Q_YSqkj0Db) ได้เลยนะครับ 🍵';
+    return res.status(200).json({ reply: errMsg, error: true });
   }
 };

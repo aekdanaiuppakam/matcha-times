@@ -1,7 +1,26 @@
 // ─── AI Matcha Sommelier Chat Client ───────────────────────────
 (function() {
+  const CHAT_STORAGE_KEY = "matcha_times_chat_history";
   let chatHistory = [];
+  try {
+    const saved = localStorage.getItem(CHAT_STORAGE_KEY) || sessionStorage.getItem(CHAT_STORAGE_KEY);
+    if (saved) {
+      chatHistory = JSON.parse(saved);
+      if (!Array.isArray(chatHistory)) chatHistory = [];
+    }
+  } catch (e) {
+    chatHistory = [];
+  }
+
   let isSending = false;
+
+  function persistChatHistory() {
+    try {
+      if (chatHistory.length > 30) chatHistory = chatHistory.slice(-30);
+      localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(chatHistory));
+      sessionStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(chatHistory));
+    } catch (e) {}
+  }
 
   const QUICK_QUESTIONS_I18N = {
     th: [
@@ -27,8 +46,32 @@
   function initChat() {
     renderQuickQuestions();
     setupEventListeners();
+    restoreChatHistoryUI();
     // Auto-dismiss floating teaser bubble after 14s on first load
     scheduleTeaserDismiss(14000);
+  }
+
+  function restoreChatHistoryUI() {
+    if (!chatHistory || chatHistory.length === 0) return;
+
+    const messagesEl = document.getElementById("ai-chat-messages");
+    if (!messagesEl) return;
+
+    // Hide quick questions container if there is already prior dialogue
+    const quickEl = document.getElementById("ai-quick-container");
+    if (quickEl) quickEl.classList.add("hidden");
+
+    // Replay saved messages into the chat UI
+    for (const msg of chatHistory) {
+      if (msg && msg.role && msg.text) {
+        appendMessage(msg.role, msg.text, false);
+      }
+    }
+
+    setTimeout(() => {
+      scrollChatToBottom();
+      if (window.lucide) lucide.createIcons();
+    }, 150);
   }
 
   function scheduleTeaserDismiss(ms = 10000) {
@@ -253,6 +296,12 @@
 
   window.clearAiChat = function() {
     chatHistory = [];
+    try {
+      localStorage.removeItem(CHAT_STORAGE_KEY);
+      sessionStorage.removeItem(CHAT_STORAGE_KEY);
+      sessionStorage.removeItem('matcha_session_chat');
+    } catch (e) {}
+
     const messagesEl = document.getElementById("ai-chat-messages");
     if (messagesEl) {
       // Keep only initial welcome card
@@ -302,6 +351,7 @@
     // 1. Append User Message
     appendMessage("user", text);
     chatHistory.push({ role: "user", text });
+    persistChatHistory();
 
     // 2. Append Typing Indicator
     const typingId = showTypingIndicator();
@@ -331,18 +381,21 @@
 
       appendMessage("model", reply);
       chatHistory.push({ role: "model", text: reply });
+      persistChatHistory();
     } catch (err) {
       console.error("AI Chat error:", err);
       removeTypingIndicator(typingId);
       const fallbackMsg = (lang === "en")
-        ? "Sorry, our AI service is currently experiencing high demand. Please feel free to message Pinpuk (our dedicated Sales Representative) directly via [Pinpuk's LINE](https://line.me/ti/p/Q_YSqkj0Db) or call 098-603-5370 anytime! 🍵"
-        : "ขออภัยครับ ขณะนี้ระบบมีผู้ใช้งานหนาแน่น คุณลูกค้าสามารถทักคุยกับพี่ปิ่นปัก (เซลล์ผู้ดูแล) ได้โดยตรงทาง [LINE คุณปิ่นปัก](https://line.me/ti/p/Q_YSqkj0Db) หรือโทร 098-603-5370 ได้เลยนะครับ 🍵";
+        ? "Sorry, our AI service is taking longer than usual. Please feel free to message Pinpuk (our dedicated Sales Representative) directly via [Pinpuk's LINE](https://line.me/ti/p/Q_YSqkj0Db) or call 098-603-5370 anytime! 🍵"
+        : "ขออภัยครับ ขณะนี้ระบบกำลังประมวลผลคำตอบล่าช้า คุณลูกค้าสามารถกดส่งใหม่อีกครั้ง หรือทักคุยกับพี่ปิ่นปัก (ฝ่ายขาย) ได้โดยตรงทาง [LINE คุณปิ่นปัก](https://line.me/ti/p/Q_YSqkj0Db) หรือโทร 098-603-5370 ได้เลยนะครับ 🍵";
       
       if (typeof window.recordChatMessage === 'function') {
         window.recordChatMessage('model', fallbackMsg);
       }
       
       appendMessage("model", fallbackMsg);
+      chatHistory.push({ role: "model", text: fallbackMsg });
+      persistChatHistory();
     } finally {
       isSending = false;
       scrollChatToBottom();
@@ -350,7 +403,7 @@
     }
   }
 
-  function appendMessage(role, content) {
+  function appendMessage(role, content, shouldScroll = true) {
     const messagesEl = document.getElementById("ai-chat-messages");
     if (!messagesEl) return;
 
@@ -389,7 +442,9 @@
     }
 
     messagesEl.appendChild(msgDiv);
-    scrollChatToBottom();
+    if (shouldScroll) {
+      scrollChatToBottom();
+    }
   }
 
   function showTypingIndicator() {
