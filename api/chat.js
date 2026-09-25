@@ -191,8 +191,8 @@ const MATCHA_SYSTEM_PROMPT = `คุณคือ "MATTY" (น้องแมต�
 6. อ้างอิงราคา ต้นทุนต่อแก้ว และสูตรคำนวณตามข้อมูลด้านบนอย่างแม่นยำ 100% เสมอ`;
 
 const GEMINI_MODELS = [
-  'gemini-3.6-flash',
   'gemini-3.1-flash-lite',
+  'gemini-3.6-flash',
   'gemini-3.8-flash'
 ];
 
