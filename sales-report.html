@@ -124,7 +124,7 @@
       </div>
 
       <!-- ── TOP STATS SUMMARY (KPIS) ── -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         <!-- Visitors -->
         <div class="glass-card p-4 sm:p-5">
           <div class="flex items-center justify-between text-stone-500 mb-2">
@@ -153,6 +153,16 @@
           </div>
           <div class="text-2xl sm:text-3xl font-extrabold text-stone-900 font-en" id="stat-conv-rate">0%</div>
           <div class="text-[11px] text-stone-400 mt-1">สัดส่วนผู้เข้าชมที่เปลี่ยนเป็น Lead</div>
+        </div>
+
+        <!-- Chat Sessions -->
+        <div class="glass-card p-4 sm:p-5 border-l-4 border-l-amber-500">
+          <div class="flex items-center justify-between text-stone-500 mb-2">
+            <span class="text-xs font-semibold">คุยกับแมตตี้ (AI Chats)</span>
+            <i data-lucide="messages-square" class="w-4 h-4 text-amber-600"></i>
+          </div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-amber-700 font-en" id="stat-chats">0</div>
+          <div class="text-[11px] text-amber-600 mt-1 font-medium">ห้องสนทนาของลูกค้า</div>
         </div>
 
         <!-- Total Events -->
@@ -202,6 +212,35 @@
           <div class="mt-4 pt-3 border-t border-stone-100 text-[11.5px] text-stone-500">
             💡 <strong>คำแนะนำ:</strong> หากลูกค้าส่วนใหญ่ใช้ iPad หรือมือถือ การออกแบบปุ่มและฟอร์มต้องคำนึงถึงคีย์บอร์ดเสมือนจริงเสมอ
           </div>
+        </div>
+      </div>
+
+      <!-- ── LIVE CUSTOMER CHAT TRANSCRIPTS (WITH MATTY) ── -->
+      <div class="glass-card p-5 sm:p-6 border border-emerald-100">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-3 border-b border-stone-200">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800">
+                <i data-lucide="messages-square" class="w-4 h-4"></i>
+              </span>
+              <h3 class="font-bold text-base text-stone-900">
+                บทสนทนากับน้องแมตตี้ AI (Live Customer Chat Transcripts)
+              </h3>
+            </div>
+            <p class="text-xs text-stone-500 mt-1">
+              อ่านข้อความจริงที่ลูกค้าพิมพ์ถาม ส่องความกังวลเรื่องรสชาติ/ต้นทุน พร้อมดูว่าคุยแล้วตัดสินใจแอดไลน์ต่อหรือไม่
+            </p>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <span class="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200" id="badge-chat-count">
+              0 ห้องแชท
+            </span>
+          </div>
+        </div>
+
+        <div class="space-y-4" id="chat-transcript-list">
+          <!-- Populated via JS -->
+          <div class="text-center py-8 text-xs text-stone-400">ยังไม่มีประวัติการพูดคุยกับน้องแมตตี้ในรอบนี้</div>
         </div>
       </div>
 
@@ -306,6 +345,7 @@
       document.getElementById('stat-visitors').innerText = summary.totalVisitors || 0;
       document.getElementById('stat-conversions').innerText = summary.totalConversions || 0;
       document.getElementById('stat-conv-rate').innerText = (summary.conversionRatePercent || 0) + '%';
+      document.getElementById('stat-chats').innerText = summary.totalChatSessions || (data.recentChats?.length || 0);
       document.getElementById('stat-events').innerText = summary.totalEvents || 0;
 
       // Attribution Bars
@@ -313,6 +353,9 @@
 
       // Device Bars
       renderDeviceBars(data.deviceCounts || {}, summary.totalEvents || 0);
+
+      // Live Matty Chat Transcripts
+      renderChatTranscripts(data.recentChats || []);
 
       // Converted Customer Journeys
       renderJourneys(data.recentConversions || []);
@@ -385,6 +428,122 @@
       }).join('');
     }
 
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function renderChatTranscripts(recentChats) {
+      const container = document.getElementById('chat-transcript-list');
+      const badgeCount = document.getElementById('badge-chat-count');
+      if (badgeCount) badgeCount.innerText = (recentChats.length || 0) + ' ห้องแชท';
+      if (!container) return;
+
+      if (!recentChats || recentChats.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-8 text-xs text-stone-400">
+            ยังไม่มีประวัติการพูดคุยกับน้องแมตตี้ในระบบ (ข้อมูลจะบันทึกอัตโนมัติเมื่อลูกค้าพิมพ์แชท)
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = recentChats.map((cs, idx) => {
+        const timeStr = new Date(cs.timestamp).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+        const dateStr = new Date(cs.timestamp).toLocaleDateString('th-TH', { day: 'numeric', month: 'short' });
+        const messages = cs.messages || [];
+        const isConverted = cs.converted;
+        const device = cs.device || 'อุปกรณ์';
+
+        const copyTextPayload = messages.map(m => (m.role === 'user' ? 'ลูกค้า: ' : 'แมตตี้: ') + m.text).join('\n\n');
+
+        return `
+          <div class="p-4 sm:p-5 rounded-2xl border border-stone-200 bg-white hover:border-emerald-300 transition-all shadow-2xs">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b border-stone-100">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-xl bg-stone-100 text-stone-700 flex items-center justify-center font-bold text-xs shrink-0">
+                  #${recentChats.length - idx}
+                </span>
+                <div>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="font-bold text-stone-900 text-xs sm:text-sm">
+                      ลูกค้า (${device})
+                    </span>
+                    ${isConverted
+                      ? `<span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center gap-1">
+                          <i data-lucide="check-circle" class="w-3 h-3"></i> แอดไลน์สำเร็จ (Converted)
+                        </span>`
+                      : `<span class="px-2 py-0.5 rounded-full text-[10.5px] font-semibold bg-stone-100 text-stone-600 border border-stone-200">
+                          💬 สอบถามข้อมูล (${messages.length} ข้อความ)
+                        </span>`
+                    }
+                  </div>
+                  <div class="text-[11px] text-stone-400 mt-0.5">
+                    บันทึกเมื่อ: ${dateStr} ${timeStr} น. ${cs.conversionCatalyst ? `• ตัวกระตุ้น: ${cs.conversionCatalyst}` : ''}
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <button onclick="copySnippet('${encodeURIComponent(copyTextPayload)}', this)" 
+                        class="px-2.5 py-1.5 rounded-lg border border-stone-200 text-stone-600 hover:text-emerald-800 hover:bg-emerald-50 text-[11px] font-semibold flex items-center gap-1 transition-all">
+                  <i data-lucide="copy" class="w-3 h-3"></i>
+                  <span>คัดลอกบทสนทนา</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Dialogue thread -->
+            <div class="mt-3.5 space-y-2.5 max-h-72 overflow-y-auto pr-1">
+              ${messages.length === 0 ? `
+                <div class="text-xs text-stone-400 italic">เปิดแชทเข้ามาแต่ยังไม่ได้พิมพ์ข้อความ</div>
+              ` : messages.map(m => {
+                if (m.role === 'user') {
+                  return `
+                    <div class="flex items-start gap-2 max-w-2xl">
+                      <span class="w-6 h-6 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5" title="ลูกค้า">👤</span>
+                      <div class="px-3.5 py-2.5 rounded-2xl rounded-tl-xs bg-stone-100 text-stone-800 text-xs font-medium leading-relaxed">
+                        ${escapeHtml(m.text)}
+                      </div>
+                    </div>
+                  `;
+                } else {
+                  return `
+                    <div class="flex items-start gap-2 max-w-2xl ml-auto flex-row-reverse">
+                      <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5" title="น้องแมตตี้">🐼</span>
+                      <div class="px-3.5 py-2.5 rounded-2xl rounded-tr-xs bg-emerald-950 text-white text-xs leading-relaxed shadow-2xs">
+                        <div class="font-bold text-[10.5px] text-emerald-300 mb-1">น้องแมตตี้ (AI Sommelier)</div>
+                        <div>${escapeHtml(m.text).replace(/\n/g, '<br>')}</div>
+                      </div>
+                    </div>
+                  `;
+                }
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function copySnippet(encodedText, btnEl) {
+      const text = decodeURIComponent(encodedText);
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          const original = btnEl.innerHTML;
+          btnEl.innerHTML = `<i data-lucide="check" class="w-3 h-3 text-emerald-600"></i> <span class="text-emerald-700">คัดลอกแล้ว!</span>`;
+          lucide.createIcons();
+          setTimeout(() => {
+            btnEl.innerHTML = original;
+            lucide.createIcons();
+          }, 2000);
+        });
+      }
+    }
+
     function renderJourneys(conversions) {
       const container = document.getElementById('journey-list');
       if (!container) return;
@@ -429,6 +588,7 @@
                   if (s.name === 'page_view') badge = '👀 เข้าหน้าแรก';
                   else if (s.name === 'calculator_adjusted') badge = `💰 สไลด์คิดกำไร (${s.data?.margin || ''}%)`;
                   else if (s.name === 'matchmaker_complete') badge = `✦ ทำ Quiz (ได้ ${s.data?.recommended || ''})`;
+                  else if (s.name === 'chat_opened') badge = `🐼 เปิดแชทแมตตี้`;
                   else if (s.name === 'chat_message_sent') badge = `💬 คุยแชทกับแมตตี้`;
                   else if (s.name === 'line_add_click') badge = `🎉 กดแอดไลน์คุณปิ่นปัก!`;
                   else if (s.name === 'sample_kit_click') badge = `📦 ขอรับชุดทดลองชง`;
@@ -442,6 +602,26 @@
                 }).join('')}
               </div>
             </div>
+
+            <!-- Chat transcript excerpt if available -->
+            ${c.chatTranscript && c.chatTranscript.length > 0 ? `
+              <div class="mt-3 p-3 rounded-xl bg-emerald-50/60 border border-emerald-200/70 text-xs">
+                <div class="font-bold text-emerald-900 mb-1.5 flex items-center gap-1.5">
+                  <i data-lucide="message-square" class="w-3.5 h-3.5 text-emerald-700"></i>
+                  <span>บทสนทนาจริงก่อนตัดสินใจแอดไลน์ (${c.chatTranscript.length} ข้อความ):</span>
+                </div>
+                <div class="space-y-1.5 text-[11px] mt-1.5 max-h-36 overflow-y-auto">
+                  ${c.chatTranscript.slice(-4).map(m => `
+                    <div class="flex items-start gap-1.5">
+                      <span class="font-bold ${m.role === 'user' ? 'text-stone-800' : 'text-emerald-800'} shrink-0">
+                        ${m.role === 'user' ? '👤 ลูกค้า:' : '🐼 แมตตี้:'}
+                      </span>
+                      <span class="text-stone-700 leading-relaxed">${escapeHtml(m.text)}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            ` : ''}
           </div>
         `;
       }).join('');

@@ -120,6 +120,7 @@ module.exports = async (req, res) => {
       data: body.data || {},
       attribution: body.attribution || null,
       recentJourney: body.recentJourney || [],
+      chatTranscript: Array.isArray(body.chatTranscript) ? body.chatTranscript : [],
       timestamp: body.timestamp || new Date().toISOString()
     };
 
@@ -213,7 +214,7 @@ module.exports = async (req, res) => {
       }
     });
 
-    // Top recent conversions with journey stories
+    // Top recent conversions with journey stories & chat transcript
     const recentConversions = conversions.slice(0, 30).map(c => ({
       id: c.id,
       timestamp: c.timestamp,
@@ -223,8 +224,54 @@ module.exports = async (req, res) => {
       catalyst: c.attribution?.catalyst || 'เปิดดูเนื้อหาหน้าเว็บ',
       primaryDriver: c.attribution?.primaryDriver || 'direct_interest',
       details: c.attribution?.details || {},
-      recentJourney: c.recentJourney || []
+      recentJourney: c.recentJourney || [],
+      chatTranscript: c.chatTranscript || []
     }));
+
+    // Aggregate chat sessions
+    const chatMap = new Map();
+    allEvents.forEach(e => {
+      const sId = e.sessionId;
+      if (!sId) return;
+
+      const hasTranscript = Array.isArray(e.chatTranscript) && e.chatTranscript.length > 0;
+      const isChatEvent = e.event === 'chat_message_sent' || e.event === 'chat_opened';
+
+      if (hasTranscript || isChatEvent) {
+        if (!chatMap.has(sId)) {
+          chatMap.set(sId, {
+            sessionId: sId,
+            visitorId: e.visitorId || 'anon',
+            device: e.device?.type || 'Mobile',
+            timestamp: e.timestamp,
+            messages: hasTranscript ? [...e.chatTranscript] : [],
+            converted: false,
+            conversionCatalyst: null,
+            totalMessages: 0
+          });
+        }
+        const existing = chatMap.get(sId);
+        if (hasTranscript && e.chatTranscript.length > existing.messages.length) {
+          existing.messages = [...e.chatTranscript];
+        }
+      }
+
+      if (e.type === 'conversion' || e.event === 'line_add_click' || e.event === 'sample_kit_click') {
+        if (chatMap.has(sId)) {
+          const cSession = chatMap.get(sId);
+          cSession.converted = true;
+          cSession.conversionCatalyst = e.attribution?.catalyst || 'แอดไลน์สำเร็จ';
+        }
+      }
+    });
+
+    const recentChats = Array.from(chatMap.values())
+      .map(c => ({
+        ...c,
+        totalMessages: c.messages.length
+      }))
+      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+      .slice(0, 30);
 
     return res.status(200).json({
       summary: {
@@ -232,12 +279,14 @@ module.exports = async (req, res) => {
         totalEvents,
         totalConversions: conversions.length,
         convertedVisitors: convertedSessions,
-        conversionRatePercent: parseFloat(conversionRate)
+        conversionRatePercent: parseFloat(conversionRate),
+        totalChatSessions: recentChats.length
       },
       attributionCounts,
       deviceCounts,
       productViews,
       recentConversions,
+      recentChats,
       recentRawEvents: allEvents.slice(0, 50),
       storageMode: process.env.BLOB_READ_WRITE_TOKEN ? 'Vercel Blob (Persistent Cloud)' : 'Local File / Memory'
     });

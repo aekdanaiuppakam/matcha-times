@@ -116,14 +116,26 @@ module.exports = async (req, res) => {
   const apiKey = process.env.GEMINI_API_KEY || '';
   const dataSummaryStr = JSON.stringify(analyticsData || {}, null, 2);
 
-  const prompt = `นี่คือข้อมูลสถิติพฤติกรรมลูกค้าจริงบนเว็บไซต์ MATCHA TIMES:
+  // Extract recent chat dialogues for deep qualitative analysis
+  const chatSessions = analyticsData?.recentChats || [];
+  let chatContext = '';
+  if (chatSessions.length > 0) {
+    chatContext = `\n\nบทสนทนาจริงที่ลูกค้าคุยกับน้องแมตตี้ AI (Chat Transcripts ล่าสุด):\n` +
+      chatSessions.slice(0, 10).map((cs, i) => {
+        const msgs = (cs.messages || []).map(m => `  - [${m.role === 'user' ? 'ลูกค้า' : 'น้องแมตตี้'}]: ${m.text}`).join('\n');
+        return `[ห้องแชท #${i+1}] (อุปกรณ์: ${cs.device}, ผลลัพธ์: ${cs.converted ? 'แอดไลน์สำเร็จ 🎉' : 'สอบถามทั่วไป'})` + (msgs ? `:\n${msgs}` : ' (เปิดแชทแต่ยังไม่ได้ส่งข้อความ)');
+      }).join('\n\n');
+  }
+
+  const prompt = `นี่คือข้อมูลสถิติพฤติกรรมลูกค้าและบทสนทนาจริงบนเว็บไซต์ MATCHA TIMES:
 ${dataSummaryStr}
+${chatContext}
 
 กรุณาวิเคราะห์เจาะลึกอย่างเฉียบคม:
 1. อะไรคือพฤติกรรมและสิ่งกระตุ้น (Trigger) ที่ทำให้ลูกค้าตัดสินใจกด "แอดไลน์คุณปิ่นปัก" หรือขอ Sample Kit มากที่สุด?
-2. สินค้าตัวไหนมีแนวโน้มปิดยอดขายได้สูงที่สุด และกลุ่มลูกค้าคือใคร?
-3. จุดติดขัดหรือคำถามที่ลูกค้าอาจจะสงสัยมากที่สุดคืออะไร?
-4. สรุปเป็น 3 ข้อปฏิบัติ (Actionable Advice) ให้คุณปิ่นปัก (ตัวแทนฝ่ายขาย) นำไปคุยต่อในไลน์เพื่อปิดดีลง่ายขึ้น
+2. 💬 เจาะลึกบทสนทนากับน้องแมตตี้ AI (Chat Intelligence): ลูกค้าพิมพ์ถามอะไรบ้าง? กังวลเรื่องอะไร (รสชาติ, นมที่ชงคู่, หรือต้นทุน)? และน้องแมตตี้ช่วยนำทางให้แอดไลน์อย่างไร?
+3. สินค้าตัวไหนมีแนวโน้มปิดยอดขายได้สูงที่สุด และกลุ่มลูกค้าคือใคร?
+4. สรุปเป็น 3 ข้อปฏิบัติ (Actionable Advice) ให้คุณปิ่นปัก (ตัวแทนฝ่ายขาย) นำไปคุยต่อในไลน์เพื่อปิดดีลลูกค้ารายนี้ได้ง่ายและเร็วที่สุด
 5. สรุปภาพรวมสำหรับเสนอหัวหน้าหรือผู้บริหาร`;
 
   try {

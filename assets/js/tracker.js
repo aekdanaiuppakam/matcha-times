@@ -39,11 +39,17 @@
     };
   }
 
-  // 3. User Journey Memory
+  // 3. User Journey Memory & Chat Transcript Memory
   let journey = [];
   try {
     const saved = sessionStorage.getItem('matcha_session_journey');
     if (saved) journey = JSON.parse(saved);
+  } catch (e) {}
+
+  let sessionChat = [];
+  try {
+    const savedChat = sessionStorage.getItem('matcha_session_chat');
+    if (savedChat) sessionChat = JSON.parse(savedChat);
   } catch (e) {}
 
   function saveJourney() {
@@ -53,6 +59,27 @@
       sessionStorage.setItem('matcha_session_journey', JSON.stringify(journey));
     } catch (e) {}
   }
+
+  function saveChat() {
+    try {
+      if (sessionChat.length > 30) sessionChat = sessionChat.slice(-30);
+      sessionStorage.setItem('matcha_session_chat', JSON.stringify(sessionChat));
+    } catch (e) {}
+  }
+
+  window.recordChatMessage = function(role, text) {
+    if (!text) return;
+    sessionChat.push({
+      role: role === 'user' ? 'user' : 'model',
+      text: String(text).slice(0, 1000),
+      time: Date.now()
+    });
+    saveChat();
+  };
+
+  window.getChatTranscript = function() {
+    return sessionChat;
+  };
 
   // 4. Attribution Analyzer (What drove the user to take action?)
   function determineAttribution(targetEvent = 'line_click') {
@@ -160,6 +187,7 @@
       data: eventData,
       attribution,
       recentJourney: journey.slice(-12),
+      chatTranscript: sessionChat.slice(-20),
       timestamp: new Date().toISOString()
     };
 

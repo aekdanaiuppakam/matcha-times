@@ -223,6 +223,10 @@
     modal.classList.remove("hidden");
     document.body.classList.add("ai-chat-open");
     
+    if (typeof window.trackEvent === 'function') {
+      window.trackEvent('chat_opened', { source: 'floating_button' });
+    }
+    
     // Only auto-focus on desktop devices.
     // On mobile phones, auto-focus opens the soft keyboard immediately, covering half the screen!
     if (window.innerWidth > 640) {
@@ -285,6 +289,16 @@
     const quickEl = document.getElementById("ai-quick-container");
     if (quickEl) quickEl.classList.add("hidden");
 
+    // Record to global session chat
+    if (typeof window.recordChatMessage === 'function') {
+      window.recordChatMessage('user', text);
+    }
+
+    // Track user message event
+    if (typeof window.trackEvent === 'function') {
+      window.trackEvent('chat_message_sent', { message: text });
+    }
+
     // 1. Append User Message
     appendMessage("user", text);
     chatHistory.push({ role: "user", text });
@@ -310,6 +324,11 @@
       const defaultErr = (lang === "en") ? "Sorry, I could not retrieve an answer at this moment." : "ขออภัยครับ ไม่สามารถรับคำตอบได้ในขณะนี้";
       const reply = data.reply || data.error || defaultErr;
 
+      // Record model response to global session chat
+      if (typeof window.recordChatMessage === 'function') {
+        window.recordChatMessage('model', reply);
+      }
+
       appendMessage("model", reply);
       chatHistory.push({ role: "model", text: reply });
     } catch (err) {
@@ -318,6 +337,11 @@
       const fallbackMsg = (lang === "en")
         ? "Sorry, our AI service is currently experiencing high demand. Please feel free to message Pinpuk (our dedicated Sales Representative) directly via [Pinpuk's LINE](https://line.me/ti/p/Q_YSqkj0Db) or call 098-603-5370 anytime! 🍵"
         : "ขออภัยครับ ขณะนี้ระบบมีผู้ใช้งานหนาแน่น คุณลูกค้าสามารถทักคุยกับพี่ปิ่นปัก (เซลล์ผู้ดูแล) ได้โดยตรงทาง [LINE คุณปิ่นปัก](https://line.me/ti/p/Q_YSqkj0Db) หรือโทร 098-603-5370 ได้เลยนะครับ 🍵";
+      
+      if (typeof window.recordChatMessage === 'function') {
+        window.recordChatMessage('model', fallbackMsg);
+      }
+      
       appendMessage("model", fallbackMsg);
     } finally {
       isSending = false;
