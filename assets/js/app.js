@@ -344,7 +344,7 @@ function renderProducts() {
             <div class="flex flex-wrap gap-1.5 mb-4">
               ${item.usages.map(u => `
                 <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full" style="background:#f2ede3;color:#5a5040;border:1px solid #e5ddd0;">
-                  ${u === 'Usucha' ? '🍵 Usucha' : u === 'Koicha' ? '✨ Koicha' : u === 'Latte' ? '🥛 Latte' : u === 'Smoothie' ? '🥤 Smoothie' : '🥐 Bakery'}
+                  ${u === 'Usucha' ? '🍵 Usucha' : u === 'Koicha' ? '✨ Koicha' : u === 'Latte' ? '🥛 Latte' : u === 'Smoothie' ? '🥤 Smoothie' : u === 'Foodservice' ? '🏪 Foodservice' : '🥐 Bakery'}
                 </span>
               `).join('')}
             </div>
@@ -688,6 +688,14 @@ window.toggleCalcDetail = function(skuId, e) {
   }
 };
 
+window.setCalcOtherCost = function(val) {
+  const ci = document.getElementById("calc-other-cost");
+  if (ci) {
+    ci.value = val;
+    ci.dispatchEvent(new Event("input"));
+  }
+};
+
 function renderTastePips(score) {
   let pips = '';
   for (let i = 0; i < 5; i++) {
@@ -701,27 +709,35 @@ function initCostCalculator() {
   const gv  = document.getElementById("calc-grams-val");
   const pi  = document.getElementById("calc-selling-price");
   const pv  = document.getElementById("calc-selling-price-val");
+  const ci  = document.getElementById("calc-other-cost");
+  const cv  = document.getElementById("calc-other-cost-val");
   if (!gi || !pi) return;
 
   function recalc() {
-    const grams   = parseFloat(gi.value);
-    const selling = parseFloat(pi.value);
+    const grams     = parseFloat(gi.value);
+    const selling   = parseFloat(pi.value);
+    const otherCost = ci ? parseFloat(ci.value) : 15;
+
     if (gv) gv.textContent = currentLang === 'th' ? `${grams.toFixed(1)} กรัม` : `${grams.toFixed(1)} g`;
     if (pv) pv.textContent = currentLang === 'th' ? `${selling} บาท` : `${selling} THB`;
+    if (cv) cv.textContent = currentLang === 'th' ? `${otherCost} บาท` : `${otherCost} THB`;
 
     const body = document.getElementById("calc-table-body");
     if (!body) return;
 
     const rows = MATCHA_PRODUCTS.map(item => {
-      const cups   = Math.floor(250 / grams);
-      const cost   = parseFloat(((item.prices.g250 / 250) * grams).toFixed(1));
-      const profit = parseFloat((selling - cost).toFixed(1));
-      const margin = parseFloat((profit / selling * 100).toFixed(0));
-      return { item, cups, cost, profit, margin };
+      const cups             = Math.floor(250 / grams);
+      const powderCost       = parseFloat(((item.prices.g250 / 250) * grams).toFixed(1));
+      const totalCost        = parseFloat((powderCost + otherCost).toFixed(1));
+      const profit           = parseFloat((selling - totalCost).toFixed(1));
+      const margin           = parseFloat(((profit / selling) * 100).toFixed(0));
+      const teaGrossProfit   = parseFloat((selling - powderCost).toFixed(1));
+      const teaGrossMargin   = parseFloat(((teaGrossProfit / selling) * 100).toFixed(0));
+      return { item, cups, powderCost, totalCost, profit, margin, teaGrossProfit, teaGrossMargin };
     });
 
     // Summary highlights
-    const cheapest   = [...rows].sort((a,b) => a.cost - b.cost)[0];
+    const cheapest   = [...rows].sort((a,b) => a.totalCost - b.totalCost)[0];
     const bestMargin = [...rows].sort((a,b) => b.margin - a.margin)[0];
     const bestPick   = rows.find(r => r.item.id === "strong-nutty") || rows[0];
 
@@ -730,22 +746,28 @@ function initCostCalculator() {
       summaryEl.innerHTML = `
         <div class="calc-summary-grid">
           <div class="rounded-2xl p-4 text-center" style="background:#f0f8f0;border:1.5px solid #b8dec0;">
-            <div class="text-[10px] font-bold uppercase tracking-wider mb-1" style="color:#3d8535;">💰 ${currentLang === 'th' ? 'ต้นทุนถูกสุด' : 'Lowest Cost / Cup'}</div>
+            <div class="text-[10px] font-bold uppercase tracking-wider mb-1" style="color:#3d8535;">💰 ${currentLang === 'th' ? 'ต้นทุนรวมถูกสุด' : 'Lowest Total Cost'}</div>
             <div class="text-[16px] font-bold" style="color:#1a3a16;">${cheapest.item.name}</div>
-            <div class="text-[20px] font-bold mt-1" style="color:#2d5a27;">${cheapest.cost} ฿/${currentLang==='th'?'แก้ว':'cup'}</div>
-            <div class="text-[11px] mt-1" style="color:#6b7068;">${cheapest.margin}% margin</div>
+            <div class="text-[20px] font-bold mt-1" style="color:#2d5a27;">${cheapest.totalCost} ฿/${currentLang==='th'?'แก้ว':'cup'}</div>
+            <div class="text-[11px] mt-1" style="color:#6b7068;">
+              ${otherCost > 0 ? (currentLang === 'th' ? `ผงชา ${cheapest.powderCost}฿ + อื่นๆ ${otherCost}฿` : `Tea ${cheapest.powderCost}฿ + other ${otherCost}฿`) : (currentLang === 'th' ? 'เฉพาะผงชา' : 'Tea powder only')}
+            </div>
           </div>
           <div class="rounded-2xl p-4 text-center" style="background:#f8f5e8;border:1.5px solid #d4c080;">
-            <div class="text-[10px] font-bold uppercase tracking-wider mb-1" style="color:#a07020;">📈 ${currentLang === 'th' ? 'Margin ดีสุด' : 'Best Profit Margin'}</div>
+            <div class="text-[10px] font-bold uppercase tracking-wider mb-1" style="color:#a07020;">📈 ${currentLang === 'th' ? 'Margin กำไรดีสุด' : 'Best Profit Margin'}</div>
             <div class="text-[16px] font-bold" style="color:#1a3a16;">${bestMargin.item.name}</div>
             <div class="text-[20px] font-bold mt-1" style="color:#a07020;">${bestMargin.margin}%</div>
-            <div class="text-[11px] mt-1" style="color:#6b7068;">${currentLang === 'th' ? `ต้นทุน ${bestMargin.cost} ฿` : `Cost ${bestMargin.cost} ฿`}</div>
+            <div class="text-[11px] mt-1" style="color:#6b7068;">
+              ${currentLang === 'th' ? `กำไรจริง +${bestMargin.profit} ฿ (ทุนรวม ${bestMargin.totalCost}฿)` : `Net profit +${bestMargin.profit} ฿`}
+            </div>
           </div>
           <div class="rounded-2xl p-4 text-center" style="background:#f5f0fa;border:1.5px solid #c8b0d8;">
             <div class="text-[10px] font-bold uppercase tracking-wider mb-1" style="color:#6a40a0;">⭐ ${currentLang === 'th' ? 'แนะนำ Best Pick' : 'Editor Pick #1'}</div>
             <div class="text-[16px] font-bold" style="color:#1a3a16;">${bestPick.item.name}</div>
             <div class="text-[20px] font-bold mt-1" style="color:#6a40a0;">${bestPick.margin}%</div>
-            <div class="text-[11px] mt-1" style="color:#6b7068;">${currentLang === 'th' ? 'ขายดีอันดับ 1 + กำไรสูง' : '#1 Best Seller + High Margin'}</div>
+            <div class="text-[11px] mt-1" style="color:#6b7068;">
+              ${currentLang === 'th' ? `กำไรจริง +${bestPick.profit} ฿ (ขายดีอันดับ 1)` : `Net profit +${bestPick.profit} ฿ (#1)`}
+            </div>
           </div>
         </div>
       `;
@@ -753,21 +775,23 @@ function initCostCalculator() {
 
     const sortedRows = [...rows].sort((a, b) => b.margin - a.margin);
 
-    body.innerHTML = sortedRows.map(({item, cups, cost, profit, margin}, index) => {
+    body.innerHTML = sortedRows.map(({item, cups, powderCost, totalCost, profit, margin, teaGrossProfit, teaGrossMargin}, index) => {
       let rankMedal = index + 1;
       if (index === 0) rankMedal = '🥇';
       else if (index === 1) rankMedal = '🥈';
       else if (index === 2) rankMedal = '🥉';
 
       const profitPercent = Math.max(0, Math.min(100, (profit / selling) * 100));
-      const costPercent = Math.max(0, Math.min(100, (cost / selling) * 100));
+      const otherPercent  = otherCost > 0 ? Math.max(0, Math.min(100, (otherCost / selling) * 100)) : 0;
+      const powderPercent = Math.max(0, Math.min(100, (powderCost / selling) * 100));
       
-      const bgOpacity = Math.max(0, (margin - 50) / 160);
+      const bgOpacity = Math.max(0, (margin - 30) / 140);
       const rowBg = `rgba(139, 195, 74, ${bgOpacity.toFixed(2)})`;
       
       const profitLabel = currentLang === 'th' ? 'กำไร' : 'Profit';
-      const costLabel = currentLang === 'th' ? 'ทุน' : 'Cost';
-      const isExpanded = (expandedCalcSkuId === item.id);
+      const costLabel   = currentLang === 'th' ? 'ชา' : 'Tea';
+      const otherLabel  = currentLang === 'th' ? 'นม/แก้ว' : 'Other';
+      const isExpanded  = (expandedCalcSkuId === item.id);
 
       // Detail Panel calculations
       const monthly20 = Math.round(profit * 600);
@@ -803,8 +827,13 @@ function initCostCalculator() {
               <div class="calc-card-profit-bar" style="width: ${profitPercent}%">
                 ${profitPercent > 18 ? `${profitLabel} ${profit} ฿ (${margin}%)` : ''}
               </div>
-              <div class="calc-card-cost-bar" style="width: ${costPercent}%">
-                ${costPercent > 12 ? `${costLabel} ${cost} ฿` : ''}
+              ${otherPercent > 0 ? `
+                <div class="calc-card-other-bar" style="width: ${otherPercent}%; background: linear-gradient(90deg, #e6a23c, #f3b762); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #fff; overflow: hidden; white-space: nowrap; transition: width 0.3s ease;">
+                  ${otherPercent > 12 ? `${otherLabel} ${otherCost} ฿` : ''}
+                </div>
+              ` : ''}
+              <div class="calc-card-cost-bar" style="width: ${powderPercent}%">
+                ${powderPercent > 10 ? `${costLabel} ${powderCost} ฿` : ''}
               </div>
             </div>
             
@@ -834,15 +863,23 @@ function initCostCalculator() {
                 </div>
 
                 <div class="calc-metric-box">
-                  <span class="calc-metric-label">🍃 ${currentLang === 'th' ? 'ต้นทุนผงชาต่อแก้ว' : 'Powder Cost / Cup'}</span>
-                  <span class="calc-metric-val highlight-cost">${cost} ฿</span>
-                  <span class="calc-metric-sub">${currentLang === 'th' ? `คิดเป็น ${((cost / selling) * 100).toFixed(0)}% ของราคาขาย ${selling} ฿` : `${((cost / selling) * 100).toFixed(0)}% of ${selling} ฿ retail`}</span>
+                  <span class="calc-metric-label">🍃 ${currentLang === 'th' ? 'ต้นทุนรวมต่อแก้ว' : 'Total Cost / Cup'}</span>
+                  <span class="calc-metric-val highlight-cost">${totalCost} ฿</span>
+                  <span class="calc-metric-sub">
+                    ${otherCost > 0 
+                      ? (currentLang === 'th' ? `ผงชา ${powderCost}฿ + อื่นๆ ${otherCost}฿` : `Tea ${powderCost}฿ + other ${otherCost}฿`)
+                      : (currentLang === 'th' ? `เฉพาะผงชา (คิดเป็น ${((powderCost / selling) * 100).toFixed(0)}% ของราคาขาย)` : `Powder only (${((powderCost / selling) * 100).toFixed(0)}% of price)`)}
+                  </span>
                 </div>
 
                 <div class="calc-metric-box">
-                  <span class="calc-metric-label">💰 ${currentLang === 'th' ? 'กำไรหักผงชาต่อแก้ว' : 'Gross Profit / Cup'}</span>
+                  <span class="calc-metric-label">💰 ${currentLang === 'th' ? 'กำไรจริงต่อแก้ว' : 'Net Profit / Cup'}</span>
                   <span class="calc-metric-val highlight-profit">+${profit} ฿</span>
-                  <span class="calc-metric-sub">${currentLang === 'th' ? `Margin ${margin}% (กำไร ${(profit / cost).toFixed(1)} เท่าของทุน)` : `Margin ${margin}% (${(profit / cost).toFixed(1)}x cost)`}</span>
+                  <span class="calc-metric-sub">
+                    ${currentLang === 'th' 
+                      ? `Margin สุทธิ ${margin}% (เฉพาะผงชา ${teaGrossMargin}%)` 
+                      : `Net Margin ${margin}% (Tea only ${teaGrossMargin}%)`}
+                  </span>
                 </div>
               </div>
 
@@ -851,10 +888,12 @@ function initCostCalculator() {
                 <div class="calc-projection-header">
                   <div class="font-bold text-[13px] flex items-center gap-1.5" style="color:#1a3a16;">
                     <span>📈</span>
-                    <span>${currentLang === 'th' ? `จำลองผลกำไรต่อเดือนของร้านคุณเมื่อใช้ ${item.name}` : `Monthly Profit Projection with ${item.name}`}</span>
+                    <span>${currentLang === 'th' ? `จำลองผลกำไรสุทธิต่อเดือนของร้านคุณเมื่อใช้ ${item.name}` : `Monthly Net Profit Projection with ${item.name}`}</span>
                   </div>
                   <span class="text-[11px] text-stone-500 font-medium">
-                    ${currentLang === 'th' ? `อิงราคาขายหน้าร้าน ${selling} ฿ / แก้ว (ชง ${grams.toFixed(1)}g)` : `Based on ${selling} ฿ retail & ${grams.toFixed(1)}g dose`}
+                    ${currentLang === 'th' 
+                      ? `ขาย ${selling} ฿ (ต้นทุนรวม ${totalCost} ฿ = กำไรจริง +${profit} ฿/แก้ว)` 
+                      : `Retail ${selling} ฿ (Total Cost ${totalCost} ฿ = Net Profit +${profit} ฿/cup)`}
                   </span>
                 </div>
 
@@ -863,7 +902,7 @@ function initCostCalculator() {
                     <div class="calc-proj-title">${currentLang === 'th' ? 'ยอดขาย 20 แก้ว / วัน' : '20 cups / day'}</div>
                     <div class="calc-proj-cups">${currentLang === 'th' ? `600 แก้ว/เดือน (ใช้ผงชา ~${kg20} kg)` : `600 cups/mo (~${kg20} kg)`}</div>
                     <div class="calc-proj-profit">+${monthly20.toLocaleString()} ฿</div>
-                    <div class="calc-proj-desc">${currentLang === 'th' ? 'กำไรเฉพาะผงชาต่อเดือน' : 'Gross tea profit / month'}</div>
+                    <div class="calc-proj-desc">${currentLang === 'th' ? 'กำไรจริงสุทธิต่อเดือน' : 'Net monthly profit'}</div>
                   </div>
 
                   <div class="calc-proj-tier popular">
@@ -871,14 +910,14 @@ function initCostCalculator() {
                     <div class="calc-proj-title">${currentLang === 'th' ? 'ยอดขาย 40 แก้ว / วัน' : '40 cups / day'}</div>
                     <div class="calc-proj-cups">${currentLang === 'th' ? `1,200 แก้ว/เดือน (ใช้ผงชา ~${kg40} kg)` : `1,200 cups/mo (~${kg40} kg)`}</div>
                     <div class="calc-proj-profit highlight">+${monthly40.toLocaleString()} ฿</div>
-                    <div class="calc-proj-desc">${currentLang === 'th' ? 'กำไรเฉพาะผงชาต่อเดือน' : 'Gross tea profit / month'}</div>
+                    <div class="calc-proj-desc">${currentLang === 'th' ? 'กำไรจริงสุทธิต่อเดือน' : 'Net monthly profit'}</div>
                   </div>
 
                   <div class="calc-proj-tier">
                     <div class="calc-proj-title">${currentLang === 'th' ? 'ยอดขาย 60 แก้ว / วัน' : '60 cups / day'}</div>
                     <div class="calc-proj-cups">${currentLang === 'th' ? `1,800 แก้ว/เดือน (ใช้ผงชา ~${kg60} kg)` : `1,800 cups/mo (~${kg60} kg)`}</div>
                     <div class="calc-proj-profit">+${monthly60.toLocaleString()} ฿</div>
-                    <div class="calc-proj-desc">${currentLang === 'th' ? 'กำไรเฉพาะผงชาต่อเดือน' : 'Gross tea profit / month'}</div>
+                    <div class="calc-proj-desc">${currentLang === 'th' ? 'กำไรจริงสุทธิต่อเดือน' : 'Net monthly profit'}</div>
                   </div>
                 </div>
               </div>
@@ -928,7 +967,7 @@ function initCostCalculator() {
                   </div>
 
                   <div class="flex flex-wrap gap-2 pt-2.5" style="border-top:1px dashed #e2ded4;">
-                    <button type="button" onclick="event.stopPropagation(); openContactModal();" class="btn-primary text-[11.5px] py-2 px-3.5 flex-1 justify-center whitespace-nowrap">
+                    <button type="button" onclick="event.stopPropagation(); openContactModal(); trackEvent('sample_kit_click', { sku: '${item.id}' });" class="btn-primary text-[11.5px] py-2 px-3.5 flex-1 justify-center whitespace-nowrap">
                       💬 ${currentLang === 'th' ? `ขอรับตัวอย่าง ${item.name} กับพี่ปิ่นปัก` : `Request ${item.name} Sample`}
                     </button>
                     <a href="#recipes" onclick="event.stopPropagation();" class="btn-secondary text-[11.5px] py-2 px-3 whitespace-nowrap flex items-center justify-center">
@@ -951,6 +990,13 @@ function initCostCalculator() {
   let lastCelebration = 0;
   function onUserCalcInput() {
     recalc();
+    if (typeof window.trackEvent === 'function') {
+      window.trackEvent('calculator_adjusted', {
+        grams: parseFloat(gi.value),
+        sellingPrice: parseFloat(pi.value),
+        otherCost: ci ? parseFloat(ci.value) : 0
+      });
+    }
     const now = Date.now();
     if (now - lastCelebration > 5000 && typeof window.triggerConfetti === 'function') {
       lastCelebration = now;
@@ -960,33 +1006,74 @@ function initCostCalculator() {
 
   gi.addEventListener("input", onUserCalcInput);
   pi.addEventListener("input", onUserCalcInput);
+  if (ci) ci.addEventListener("input", onUserCalcInput);
   recalc();
 }
 
 // ─── Matchmaker Quiz ──────────────────────────────────────────
-let quizAnswers = { usage: "latte", flavor: "nutty", budget: "medium" };
+let quizAnswers = { usage: null, flavor: null, budget: null };
+
+function getMatchmakerReason(teaId, answers, lang) {
+  if (lang === 'th') {
+    if (teaId === 'strong-nutty') {
+      return 'คุณต้องการเมนู ลาเต้ + โทนนัตตี้: Strong Nutty คือ Best Seller อันดับ 1 สายนัตตี้ถั่วคั่วชัด 5/5 บอดี้แน่น ชงเข้ากับนมวัวและ Oat Milk ได้อย่างไร้ที่ติ ชาไม่โดนนมกลบ และให้กำไรสูง';
+    } else if (teaId === 'yurane') {
+      return 'คุณต้องการ ลาเต้ + รสชาติบาลานซ์กลมกล่อม ในงบประมาณมาตรฐาน: Yurane คือ House Blend ขวัญใจบาริสต้า สีเขียวสดสวย นุ่มนวล ดื่มง่าย ลูกค้าติดใจสั่งซ้ำสม่ำเสมอ';
+    } else if (teaId === 'shoen') {
+      return 'คุณเลือกเมนู Usucha ชงใสเพียว ในงบพรีเมียม: Shoen คือเกรดพิธีการสูงสุด ยอดใบแรกของฤดู อูมามิจัดเต็ม 5/5 นุ่มลึก ไร้ความฝาดขมบาดคอ สีเขียวมรกตงดงาม';
+    } else if (teaId === 'yame-b') {
+      return 'คุณเลือกความพรีเมียมระดับ Masterpiece: Yame B อูมามิ 5/5 อโรมา 5/5 โทนเนยถั่วและฟลอรัลหอมลึก ขมต่ำเพียง 1/5 เหมาะสำหรับทำแก้วซิกเนเจอร์ราคาสูง';
+    } else if (teaId === 'yame-a') {
+      return 'คุณเลือก ลาเต้พรีเมียม ในงบพรีเมียม: Yame A โทนถั่วคั่วนวลกรุ่น อูมามิ 4/5 มิติรสชาติซับซ้อน ยกระดับราคาขายหน้าร้านได้ดี';
+    } else if (teaId === 'zenraku') {
+      return 'คุณต้องการ คุมต้นทุนสุดคุ้ม: Zenraku คือราชาแห่งความคุ้มค่า ต้นทุนต่ำสุดเพียง ~12.8 ฿/แก้ว สีเขียวสด กลิ่นชัด เหมาะกับเมนูเย็น/ปั่น และเบเกอรี่ทำขนมล็อตใหญ่';
+    } else if (teaId === 'organic-signature') {
+      return 'คุณต้องการ สายออร์แกนิกแท้: Organic (Signature) จากอุจิ ได้มาตรฐาน JAS Certified หวานละมุนธรรมชาติ อูมามิ 4/5 เหมาะกับคาเฟ่สายสุขภาพและ Vegan';
+    } else if (teaId === 'organic-classic') {
+      return 'คุณต้องการ ออร์แกนิกคุ้มค่า: Organic (Classic) บอดี้เข้มชัด ตัดนม ชงสมูทตี้ ไอศกรีม และงานเบเกอรี่ได้รสชาเข้มข้นในงบประหยัด';
+    } else {
+      return 'Oikawa จากชิซูโอกะ โทนใบชาเขียวสดชื่น สะอาด ดื่มง่าย เหมาะกับ Clear Matcha, เครื่องดื่มผลไม้ฟิวชัน และขนม';
+    }
+  } else {
+    if (teaId === 'strong-nutty') {
+      return 'You chose Latte + Roasted Nutty tone: Strong Nutty is our #1 Best Seller with 5/5 nutty punch that cuts cleanly through both dairy and oat milk without getting muted.';
+    } else if (teaId === 'yurane') {
+      return 'You chose Latte + Balanced taste in standard budget: Yurane is our baristas’ favorite house blend, delivering vibrant emerald green color and velvety smooth mouthfeel.';
+    } else if (teaId === 'shoen') {
+      return 'You chose Pure Usucha in premium budget: Shoen represents our highest ceremonial grade from first-flush spring leaves with intense 5/5 umami and zero harsh bitterness.';
+    } else if (teaId === 'zenraku') {
+      return 'You chose maximum value: Zenraku is our cost-efficiency champion starting at only ~12.8 ฿/cup, delivering assertive green tea color and robust flavor for commercial menus.';
+    } else if (teaId === 'organic-signature') {
+      return 'You chose 100% Certified Organic: Organic (Signature) from Uji delivers clean floral notes and 4/5 umami for health-conscious menus and vegan lattes.';
+    } else if (teaId === 'organic-classic') {
+      return 'You chose Organic Value: Organic (Classic) provides assertive body that cuts through milk, pastry dough, and smoothies at an accessible cost.';
+    } else {
+      return 'Oikawa from Shizuoka offers clean vegetal brightness and refreshing notes, ideal for clear matcha and fruit fusions.';
+    }
+  }
+}
 
 function initMatchmaker() {
   updateMatchmakerResult();
 }
 
 function selectQuizOption(category, value, el) {
+  const isFirstSelection = (!quizAnswers.usage && !quizAnswers.flavor && !quizAnswers.budget);
   quizAnswers[category] = value;
   el.parentElement?.querySelectorAll(".quiz-option").forEach(b => b.classList.remove("selected"));
   el.classList.add("selected");
+  
+  if (isFirstSelection && typeof window.trackEvent === 'function') {
+    window.trackEvent('matchmaker_start', { category, value });
+  }
+
   updateMatchmakerResult();
 }
 
 function resetMatchmaker() {
-  quizAnswers = { usage: "latte", flavor: "nutty", budget: "medium" };
+  quizAnswers = { usage: null, flavor: null, budget: null };
   document.querySelectorAll("#matchmaker .quiz-option").forEach(btn => {
-    const cat = btn.getAttribute("data-quiz-cat");
-    const val = btn.getAttribute("data-quiz-val");
-    if (quizAnswers[cat] === val) {
-      btn.classList.add("selected");
-    } else {
-      btn.classList.remove("selected");
-    }
+    btn.classList.remove("selected");
   });
   updateMatchmakerResult();
 }
@@ -994,6 +1081,32 @@ function resetMatchmaker() {
 function updateMatchmakerResult() {
   const card = document.getElementById("quiz-result-card");
   if (!card) return;
+
+  const answeredCount = [quizAnswers.usage, quizAnswers.flavor, quizAnswers.budget].filter(Boolean).length;
+  if (answeredCount < 3) {
+    card.innerHTML = `
+      <div class="rounded-2xl p-7 text-center transition-all" style="background:#faf8f5;border:1.5px dashed #ded8cb;">
+        <div class="w-12 h-12 mx-auto mb-3 rounded-full flex items-center justify-center anim-float" style="background:rgba(61,133,53,0.1);color:#3d8535;">
+          <i data-lucide="sparkles" class="w-6 h-6"></i>
+        </div>
+        <div class="font-bold text-[15px]" style="color:#1a3a16;">
+          ${currentLang === 'th' ? 'เลือกความต้องการทั้ง 3 ขั้นตอนด้านบน เพื่อค้นหามัทฉะที่ลงตัวที่สุด' : 'Select all 3 steps above to reveal your ideal matcha match'}
+        </div>
+        <p class="text-[12.5px] text-stone-500 mt-1.5 max-w-md mx-auto">
+          ${currentLang === 'th' 
+            ? (answeredCount === 0 ? 'แตะเลือกเมนูหลัก, โทนรสชาติ และช่วงงบประมาณที่ต้องการ' : `เลือกแล้ว ${answeredCount}/3 ข้อ — เหลืออีก ${3 - answeredCount} ข้อเท่านั้น`) 
+            : (answeredCount === 0 ? 'Choose your menu type, flavor preference, and target pouch budget.' : `${answeredCount}/3 selected — ${3 - answeredCount} more to go`)}
+        </p>
+        <div class="flex justify-center items-center gap-2 mt-4">
+          <span class="w-8 h-1.5 rounded-full transition-all" style="background:${quizAnswers.usage ? '#2d5a27' : '#ded8cb'};"></span>
+          <span class="w-8 h-1.5 rounded-full transition-all" style="background:${quizAnswers.flavor ? '#2d5a27' : '#ded8cb'};"></span>
+          <span class="w-8 h-1.5 rounded-full transition-all" style="background:${quizAnswers.budget ? '#2d5a27' : '#ded8cb'};"></span>
+        </div>
+      </div>
+    `;
+    initLucide();
+    return;
+  }
 
   let id = "strong-nutty";
   if (quizAnswers.usage === "usucha") {
@@ -1012,23 +1125,31 @@ function updateMatchmakerResult() {
       else if (quizAnswers.flavor === "organic") id = "yame-a";
       else id = "shoen";
     } else if (quizAnswers.budget === "medium") {
-      // 900-1,200 THB range: yurane=1130, organic-signature=920, organic-classic=1070
       if (quizAnswers.flavor === "organic") id = "organic-signature";
       else id = "yurane";
     } else {
-      // low budget < 850 THB: zenraku=800, oikawa=860
       if (quizAnswers.flavor === "organic") id = "organic-classic";
       else id = "zenraku";
     }
+  }
+
+  if (typeof window.trackEvent === 'function') {
+    window.trackEvent('matchmaker_complete', {
+      usage: quizAnswers.usage,
+      flavor: quizAnswers.flavor,
+      budget: quizAnswers.budget,
+      recommended: id
+    });
   }
 
   const tea = MATCHA_PRODUCTS.find(p => p.id === id) || MATCHA_PRODUCTS[0];
   const pCls = POUCH_STYLE[tea.bagStyle] || "pouch-cream";
   const tagline = tea.tagline[currentLang] || tea.tagline.th;
   const highlight = tea.highlight[currentLang] || tea.highlight.th;
+  const reason = getMatchmakerReason(tea.id, quizAnswers, currentLang);
 
   card.innerHTML = `
-    <div class="rounded-2xl overflow-hidden" style="border:1px solid #e5e0d4;">
+    <div class="rounded-2xl overflow-hidden anim-fade-in" style="border:1.5px solid #2d5a27;box-shadow:0 6px 24px rgba(45,90,39,0.12);">
       <div class="${pCls} p-5 flex items-center gap-4">
         <div class="shrink-0 text-center">
           <div class="text-[26px] opacity-85 whitespace-nowrap" style="font-family:'Noto Serif JP',serif;line-height:1;">${tea.kanji}</div>
@@ -1044,7 +1165,17 @@ function updateMatchmakerResult() {
           <div class="text-[10px] opacity-75">฿ / 250g</div>
         </div>
       </div>
-      <div class="bg-white p-4 flex flex-wrap items-center justify-between gap-3" style="border-top:1px solid #e5e0d4;">
+
+      <!-- Why we recommend this box -->
+      <div class="p-3.5 mx-4 mt-3 rounded-xl flex items-start gap-2.5 text-[12px]" style="background:#f4f8f2;border:1px solid #cce2cb;color:#1e431b;">
+        <i data-lucide="check-circle-2" class="w-4 h-4 shrink-0 mt-0.5" style="color:#2d5a27;"></i>
+        <div>
+          <strong class="font-bold block mb-0.5" style="color:#1a3a16;">💡 ${currentLang === 'th' ? 'ทำไมถึงแนะนำตัวนี้สำหรับร้านคุณ:' : 'Why we recommend this for your cafe:'}</strong>
+          <span style="line-height:1.6;">${reason}</span>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 flex flex-wrap items-center justify-between gap-3 mt-1" style="border-top:1px solid #e5e0d4;">
         <p class="text-[12px] leading-relaxed" style="color:#6b7068;flex:1;min-width:200px;">${highlight}</p>
         <div class="flex items-center gap-2 shrink-0">
           <button onclick="resetMatchmaker()" class="quiz-reset-btn" title="รีเซ็ต">

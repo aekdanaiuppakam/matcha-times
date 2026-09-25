@@ -11,21 +11,36 @@
     const splash = document.getElementById('splash-screen');
     if (!splash) return;
 
-    const dismiss = () => {
-      if (splash.classList.contains('splash-exit')) return;
+    const dismiss = (instant = false) => {
+      if (splash.classList.contains('splash-exit') || splash.classList.contains('splash-hidden')) return;
+      if (instant) {
+        splash.classList.add('splash-exit', 'splash-hidden');
+        triggerHeroEntrance();
+        return;
+      }
       splash.classList.add('splash-exit');
       setTimeout(() => {
         splash.classList.add('splash-hidden');
         triggerHeroEntrance();
-      }, 650);
+      }, 450);
     };
 
-    // Auto-dismiss timer (2.4s)
-    setTimeout(dismiss, 2400);
+    // If returning visitor in current session, skip splash entirely
+    if (sessionStorage.getItem('matcha_splash_seen')) {
+      dismiss(true);
+      return;
+    }
+
+    try {
+      sessionStorage.setItem('matcha_splash_seen', '1');
+    } catch(e) {}
+
+    // Snappy auto-dismiss timer for first-time visitors (750ms)
+    setTimeout(() => dismiss(false), 750);
 
     // Tap to skip immediately
-    splash.addEventListener('click', dismiss);
-    splash.addEventListener('touchstart', dismiss, { passive: true });
+    splash.addEventListener('click', () => dismiss(false));
+    splash.addEventListener('touchstart', () => dismiss(false), { passive: true });
   }
 
 

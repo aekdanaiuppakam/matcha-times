@@ -2,9 +2,50 @@
 <html lang="th" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>MATCHA TIMES — คู่มือสินค้ามัทฉะแท้จากญี่ปุ่น</title>
-  <meta name="description" content="คู่มือนำเสนอและเปรียบเทียบมัทฉะแท้ 100% จากญี่ปุ่น ของ MATCHA TIMES Thailand">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>MATCHA TIMES — คู่มือสินค้ามัทฉะแท้จากญี่ปุ่น ราคาส่ง B2B สำหรับคาเฟ่</title>
+  <meta name="description" content="คู่มือนำเสนอและเปรียบเทียบมัทฉะแท้ 100% จากญี่ปุ่น (Nishio, Uji, Yame, Shizuoka) สำหรับร้านกาแฟ คาเฟ่ คำนวณต้นทุนต่อแก้ว ราคาส่ง B2B พร้อมผู้ช่วย AI Sommelier">
+  <meta name="keywords" content="มัทฉะ, ชาเขียวญี่ปุ่น, ราคาส่งมัทฉะ, มัทฉะลาเต้, MATCHA TIMES, B2B Cafe Matcha, Uji, Nishio, Yame">
+  <link rel="canonical" href="https://matcha-times.vercel.app">
+
+  <!-- Open Graph / Facebook / LINE -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://matcha-times.vercel.app/">
+  <meta property="og:title" content="MATCHA TIMES — 100% Japanese Sourced Matcha | คู่มือสินค้า B2B สำหรับคาเฟ่">
+  <meta property="og:description" content="คัดสรรสุดยอดมัทฉะแท้ 100% จาก 4 แหล่งปลูกชั้นนำในญี่ปุ่น คำนวณต้นทุนต่อแก้ว สเปกชา 10 ชนิด ราคาส่ง B2B และสูตรชงมาตรฐาน">
+  <meta property="og:image" content="https://matcha-times.vercel.app/assets/images/matty.jpg">
+  <meta property="og:site_name" content="MATCHA TIMES">
+  <meta property="og:locale" content="th_TH">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MATCHA TIMES — 100% Japanese Sourced Matcha">
+  <meta name="twitter:description" content="คู่มือมัทฉะแท้ 100% จากสวนชาญี่ปุ่นสำหรับร้านคาเฟ่ คำนวณต้นทุนและราคาส่ง B2B">
+  <meta name="twitter:image" content="https://matcha-times.vercel.app/assets/images/matty.jpg">
+
+  <!-- Schema.org Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "MATCHA TIMES",
+    "url": "https://matcha-times.vercel.app",
+    "logo": "https://matcha-times.vercel.app/assets/images/logo.png",
+    "image": "https://matcha-times.vercel.app/assets/images/matty.jpg",
+    "description": "100% Direct Import Japanese Matcha for Cafes and B2B Wholesale",
+    "telephone": "+66-98-603-5370",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+66-98-603-5370",
+      "contactType": "sales",
+      "areaServed": "TH",
+      "availableLanguage": ["Thai", "English"]
+    },
+    "sameAs": [
+      "https://www.instagram.com/matchatimes.thailand/?hl=en"
+    ]
+  }
+  </script>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,12 +76,25 @@
     }
   </script>
 
+  <!-- Lightweight Analytics Helper -->
+  <script>
+    window.trackEvent = function(eventName, params = {}) {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', eventName, params);
+      }
+      if (window.dataLayer && Array.isArray(window.dataLayer)) {
+        window.dataLayer.push({ event: eventName, ...params });
+      }
+      console.log('📊 [Analytics]', eventName, params);
+    };
+  </script>
+
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/style.css?v=2.1">
-  <link rel="stylesheet" href="assets/css/animations.css?v=2.1">
+  <link rel="stylesheet" href="assets/css/style.css?v=2.2">
+  <link rel="stylesheet" href="assets/css/animations.css?v=2.2">
   <link rel="icon" type="image/png" href="assets/images/logo.png">
   <link rel="apple-touch-icon" href="assets/images/logo.png">
 </head>
@@ -325,42 +379,22 @@
           คัดสรรสุดยอดมัทฉะเกรดพิธีการสู่เชิงพาณิชย์ ส่งตรงจากนิชิโอะ อุจิ ยาเมะ และชิซูโอกะ ออกแบบให้ร้านกาแฟคำนวณต้นทุนง่าย คุมกำไรได้สูงสุด และเลือกสเปกได้ตรงใจ
         </p>
 
-        <!-- CTA Row — Primary Conversion Buttons -->
-        <div class="flex flex-wrap items-center justify-center gap-3 mb-4">
-          <a href="https://line.me/ti/p/Q_YSqkj0Db" target="_blank" rel="noopener noreferrer" class="btn-primary shadow-sm hover:shadow-md transition-all" style="background:#06C755;border-color:#06C755;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="white" class="shrink-0"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.494.25l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
-            <span data-i18n="hero_cta_line">ติดต่อคุณปิ่นปักทาง LINE</span>
+        <!-- CTA Row — 2 Focused Primary Choices -->
+        <div class="flex flex-wrap items-center justify-center gap-3.5 mb-8">
+          <a href="#matchmaker" onclick="trackEvent('hero_matchmaker_click')" class="btn-primary shadow-md hover:shadow-lg transition-all text-[14.5px] px-6 py-3.5 flex items-center gap-2">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            <span data-i18n="hero_cta_matchmaker">ช่วยเลือกมัทฉะให้ร้านคุณ</span>
           </a>
-          <button onclick="openContactModal()" class="btn-secondary shadow-xs hover:shadow-sm transition-all bg-white/90 backdrop-blur-xs">
+          <button onclick="openContactModal(); trackEvent('hero_sample_click');" class="btn-secondary shadow-xs hover:shadow-sm transition-all bg-white/95 backdrop-blur-xs text-[14.5px] px-6 py-3.5 flex items-center gap-2">
             <i data-lucide="package" class="w-4 h-4" style="color:#3d8535;"></i>
             <span data-i18n="hero_cta_sample">ขอรับชุดทดลองชง</span>
           </button>
         </div>
-        <!-- Secondary Navigation CTAs -->
-        <div class="flex flex-wrap items-center justify-center gap-2">
-          <a href="#tier-list" class="btn-ghost text-[12px] py-1.5 px-3 bg-white/70 backdrop-blur-xs" style="border-color:rgba(45,90,39,0.2);">
-            <i data-lucide="award" class="w-3.5 h-3.5" style="color:#c9a84c;"></i>
-            <span data-i18n="nav_tier">อันดับ Best Seller</span>
-          </a>
-          <a href="#matchmaker" class="btn-ghost text-[12px] py-1.5 px-3 bg-white/70 backdrop-blur-xs" style="border-color:rgba(45,90,39,0.2);">
-            <i data-lucide="sparkles" class="w-3.5 h-3.5" style="color:#3d8535;"></i>
-            <span data-i18n="nav_matchmaker">ช่วยเลือกชา</span>
-          </a>
-          <a href="#catalog" class="btn-ghost text-[12px] py-1.5 px-3 bg-white/70 backdrop-blur-xs" style="border-color:rgba(45,90,39,0.2);">
-            <i data-lucide="search" class="w-3.5 h-3.5" style="color:#3d8535;"></i>
-            <span data-i18n="hero_cta_catalog">สินค้า 10 ชนิด</span>
-          </a>
-          <a href="#calculator" class="btn-ghost text-[12px] py-1.5 px-3 bg-white/70 backdrop-blur-xs" style="border-color:rgba(45,90,39,0.2);">
-            <i data-lucide="calculator" class="w-3.5 h-3.5" style="color:#c9a84c;"></i>
-            <span data-i18n="hero_cta_calc">คำนวณกำไรต่อแก้ว</span>
-          </a>
-        </div>
-
 
       </div>
 
       <!-- Trust strip -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-12 max-w-4xl mx-auto">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8 max-w-4xl mx-auto">
         <div class="text-center p-4 rounded-2xl shadow-xs transition-all hover:-translate-y-0.5" style="background:rgba(255,255,255,0.85);border:1px solid rgba(229,224,212,0.8);backdrop-filter:blur(10px);">
           <div class="text-[16px] font-bold" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;" data-i18n="stat_skus">10 สายพันธุ์คัดสรร</div>
           <div class="text-[11px] mt-0.5" style="color:#7a7468;" data-i18n="stat_skus_sub">เกรดพิธีการสู่คอมเมอร์เชียล</div>
@@ -371,11 +405,11 @@
         </div>
         <div class="text-center p-4 rounded-2xl shadow-xs transition-all hover:-translate-y-0.5" style="background:rgba(255,255,255,0.85);border:1px solid rgba(229,224,212,0.8);backdrop-filter:blur(10px);">
           <div class="text-[16px] font-bold" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;" data-i18n="stat_direct">100% Direct Import</div>
-          <div class="text-[11px] mt-0.5" style="color:#7a7468;" data-i18n="stat_direct_sub">นำเข้าตรง โม่หินแท้ FOB Japan</div>
+          <div class="text-[11px] mt-0.5" style="color:#7a7468;" data-i18n="stat_direct_sub">นำเข้าตรง โม่หินแท้จากญี่ปุ่น</div>
         </div>
         <div class="text-center p-4 rounded-2xl shadow-xs transition-all hover:-translate-y-0.5" style="background:rgba(255,255,255,0.85);border:1px solid rgba(229,224,212,0.8);backdrop-filter:blur(10px);">
-          <div class="text-[16px] font-bold" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;" data-i18n="stat_margin">กำไรสูงถึง 80%+</div>
-          <div class="text-[11px] mt-0.5" style="color:#7a7468;" data-i18n="stat_margin_sub">ต้นทุนเริ่มต้นเพียง ~12.8 ฿/แก้ว</div>
+          <div class="text-[16px] font-bold" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;" data-i18n="stat_margin">กำไรเฉพาะผงชา สูงสุด 80%+</div>
+          <div class="text-[11px] mt-0.5" style="color:#7a7468;" data-i18n="stat_margin_sub">ต้นทุนผงชาเริ่มต้นเพียง ~12.8 ฿/แก้ว</div>
         </div>
       </div>
 
@@ -415,7 +449,7 @@
             <div>
               <label class="block text-[12px] font-bold mb-3" style="color:#1a3a16;" data-i18n="quiz_q1_title">1. นำไปทำเมนูอะไรหลัก?</label>
               <div class="space-y-2">
-                <button onclick="selectQuizOption('usage','latte',this)" data-quiz-cat="usage" data-quiz-val="latte" class="quiz-option selected" data-i18n="quiz_q1_o1">🥛 มัทฉะลาเต้ (ใส่นม)</button>
+                <button onclick="selectQuizOption('usage','latte',this)" data-quiz-cat="usage" data-quiz-val="latte" class="quiz-option" data-i18n="quiz_q1_o1">🥛 มัทฉะลาเต้ (ใส่นม)</button>
                 <button onclick="selectQuizOption('usage','usucha',this)" data-quiz-cat="usage" data-quiz-val="usucha" class="quiz-option" data-i18n="quiz_q1_o2">🍵 ชงใสเพียวๆ (Usucha / Koicha)</button>
                 <button onclick="selectQuizOption('usage','bakery',this)" data-quiz-cat="usage" data-quiz-val="bakery" class="quiz-option" data-i18n="quiz_q1_o3">🥐 เบเกอรี่ / ปั่น / ไอศกรีม</button>
               </div>
@@ -425,7 +459,7 @@
             <div>
               <label class="block text-[12px] font-bold mb-3" style="color:#1a3a16;" data-i18n="quiz_q2_title">2. โทนรสชาติที่ชอบ?</label>
               <div class="space-y-2">
-                <button onclick="selectQuizOption('flavor','nutty',this)" data-quiz-cat="flavor" data-quiz-val="nutty" class="quiz-option selected" data-i18n="quiz_q2_o1">🥜 หอมถั่วคั่วชัด (Nutty)</button>
+                <button onclick="selectQuizOption('flavor','nutty',this)" data-quiz-cat="flavor" data-quiz-val="nutty" class="quiz-option" data-i18n="quiz_q2_o1">🥜 หอมถั่วคั่วชัด (Nutty)</button>
                 <button onclick="selectQuizOption('flavor','balanced',this)" data-quiz-cat="flavor" data-quiz-val="balanced" class="quiz-option" data-i18n="quiz_q2_o2">⚖️ บาลานซ์ กลมกล่อมนุ่มนวล</button>
                 <button onclick="selectQuizOption('flavor','organic',this)" data-quiz-cat="flavor" data-quiz-val="organic" class="quiz-option" data-i18n="quiz_q2_o3">🌿 ออร์แกนิกแท้ คลีนๆ</button>
               </div>
@@ -435,7 +469,7 @@
             <div>
               <label class="block text-[12px] font-bold mb-3" style="color:#1a3a16;" data-i18n="quiz_q3_title">3. งบต่อถุง 250g?</label>
               <div class="space-y-2">
-                <button onclick="selectQuizOption('budget','medium',this)" data-quiz-cat="budget" data-quiz-val="medium" class="quiz-option selected" data-i18n="quiz_q3_o1">⭐ มาตรฐาน (900–1,200 ฿)</button>
+                <button onclick="selectQuizOption('budget','medium',this)" data-quiz-cat="budget" data-quiz-val="medium" class="quiz-option" data-i18n="quiz_q3_o1">⭐ มาตรฐาน (900–1,200 ฿)</button>
                 <button onclick="selectQuizOption('budget','high',this)" data-quiz-cat="budget" data-quiz-val="high" class="quiz-option" data-i18n="quiz_q3_o2">👑 พรีเมียมท็อปเทียร์ (1,400+ ฿)</button>
                 <button onclick="selectQuizOption('budget','low',this)" data-quiz-cat="budget" data-quiz-val="low" class="quiz-option" data-i18n="quiz_q3_o3">💰 คุมต้นทุนสุดคุ้ม (&lt; 850 ฿)</button>
               </div>
@@ -631,7 +665,7 @@
             <span id="product-count-badge" class="text-[12px] font-semibold" style="color:#7a7468;">10 รายการ</span>
           </div>
           <h2 class="text-2xl sm:text-3xl font-bold" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;" data-i18n="catalog_heading">คอลเลกชันมัทฉะทั้ง 10 ชนิด (เรียงตามเกรด)</h2>
-          <p class="text-[13px] mt-1" style="color:#7a7468;" data-i18n="catalog_subheading">เรียงจากเกรดพิธีการ (Ceremonia) ลงมาสู่เกรดยาเมะ ซิกเนเจอร์ และคลาสสิกคอมเมอร์เชียล</p>
+          <p class="text-[13px] mt-1" style="color:#7a7468;" data-i18n="catalog_subheading">เรียงจากเกรดพิธีการ (Ceremonial) ลงมาสู่เกรดยาเมะ ซิกเนเจอร์ และคลาสสิกคอมเมอร์เชียล</p>
         </div>
         <!-- Sort -->
         <div class="flex items-center gap-2">
@@ -652,7 +686,7 @@
         <div class="flex items-center gap-2 flex-wrap" id="category-filters">
           <span class="text-[11px] font-semibold shrink-0" style="color:#9a9a90;min-width:65px;" data-i18n="filter_grade_label">เกรดสินค้า:</span>
           <button onclick="setCategoryFilter('all')" data-val="all" class="pill active" data-i18n="filter_all">ทั้งหมด (10)</button>
-          <button onclick="setCategoryFilter('ceremonia')" data-val="ceremonia" class="pill" data-i18n="filter_ceremonia">👑 Ceremonia (2)</button>
+          <button onclick="setCategoryFilter('ceremonia')" data-val="ceremonia" class="pill" data-i18n="filter_ceremonia">👑 Ceremonial (2)</button>
           <button onclick="setCategoryFilter('yame')" data-val="yame" class="pill" data-i18n="filter_yame">✨ Yame Collection (3)</button>
           <button onclick="setCategoryFilter('signature')" data-val="signature" class="pill" data-i18n="filter_signature">⭐ Signature (2)</button>
           <button onclick="setCategoryFilter('classic')" data-val="classic" class="pill" data-i18n="filter_classic">🍃 Classic (3)</button>
@@ -729,27 +763,52 @@
 
       <div class="bg-white rounded-3xl p-6 sm:p-10 sr" style="border:1px solid #e5e0d4;box-shadow:0 2px 24px rgba(0,0,0,0.05);">
 
-        <!-- Sliders -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pb-8 mb-8" style="border-bottom:1px solid #e5e0d4;">
+        <!-- Sliders: 3 Controls (Grams, Selling Price, Other Costs) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pb-6 mb-6" style="border-bottom:1px solid #e5e0d4;">
+          <!-- 1. Powder Grams -->
           <div>
-            <div class="flex justify-between items-center mb-3">
-              <span class="text-[13px] font-semibold" style="color:#3a3d38;" data-i18n="calc_grams_label">ปริมาณผงชาต่อแก้ว (g)</span>
-              <span id="calc-grams-val" class="text-[13px] font-bold px-3 py-1 rounded-lg" style="background:#eef5ec;color:#2d5a27;">4.0 g</span>
+            <div class="flex justify-between items-center mb-2.5">
+              <span class="text-[12.5px] font-semibold" style="color:#3a3d38;" data-i18n="calc_grams_label">ปริมาณผงชาต่อแก้ว (g)</span>
+              <span id="calc-grams-val" class="text-[12px] font-bold px-2.5 py-0.5 rounded-lg" style="background:#eef5ec;color:#2d5a27;">4.0 g</span>
             </div>
             <input id="calc-grams" type="range" min="3" max="6" step="0.5" value="4" class="w-full" style="accent-color:#1a3a16;">
-            <div class="flex justify-between text-[11px] mt-1.5" style="color:#aaa49a;">
+            <div class="flex justify-between text-[10.5px] mt-1 text-stone-400">
               <span data-i18n="calc_grams_light">3g (เบา)</span><span data-i18n="calc_grams_std">4g (มาตรฐาน)</span><span data-i18n="calc_grams_rich">6g (เข้มข้น)</span>
             </div>
           </div>
+
+          <!-- 2. Selling Price -->
           <div>
-            <div class="flex justify-between items-center mb-3">
-              <span class="text-[13px] font-semibold" style="color:#3a3d38;" data-i18n="calc_price_label">ราคาขายหน้าร้านเฉลี่ย</span>
-              <span id="calc-selling-price-val" class="text-[13px] font-bold px-3 py-1 rounded-lg" style="background:#eef5ec;color:#2d5a27;">95 บาท</span>
+            <div class="flex justify-between items-center mb-2.5">
+              <span class="text-[12.5px] font-semibold" style="color:#3a3d38;" data-i18n="calc_price_label">ราคาขายหน้าร้านเฉลี่ย</span>
+              <span id="calc-selling-price-val" class="text-[12px] font-bold px-2.5 py-0.5 rounded-lg" style="background:#eef5ec;color:#2d5a27;">95 บาท</span>
             </div>
             <input id="calc-selling-price" type="range" min="65" max="300" step="5" value="95" class="w-full" style="accent-color:#1a3a16;">
-            <div class="flex justify-between text-[11px] mt-1.5" style="color:#aaa49a;">
-              <span data-i18n="calc_price_grab">65 ฿ (Grab &amp; Go)</span><span data-i18n="calc_price_spec">95 ฿ (Specialty)</span><span data-i18n="calc_price_prem">300 ฿ (Premium)</span>
+            <div class="flex justify-between text-[10.5px] mt-1 text-stone-400">
+              <span data-i18n="calc_price_grab">65 ฿ (Grab&Go)</span><span data-i18n="calc_price_spec">95 ฿ (Specialty)</span><span data-i18n="calc_price_prem">300 ฿ (Prem)</span>
             </div>
+          </div>
+
+          <!-- 3. Other Costs (นม / แก้ว / น้ำแข็ง / หลอด) -->
+          <div>
+            <div class="flex justify-between items-center mb-2.5">
+              <span class="text-[12.5px] font-semibold" style="color:#3a3d38;" data-i18n="calc_other_cost_label">ต้นทุนอื่นต่อแก้ว (นม/แก้ว/น้ำแข็ง)</span>
+              <span id="calc-other-cost-val" class="text-[12px] font-bold px-2.5 py-0.5 rounded-lg" style="background:#fef7e6;color:#a07020;">15 บาท</span>
+            </div>
+            <input id="calc-other-cost" type="range" min="0" max="45" step="1" value="15" class="w-full" style="accent-color:#a07020;">
+            <div class="flex justify-between text-[10.5px] mt-1 text-stone-400">
+              <span class="cursor-pointer hover:text-stone-700" onclick="window.setCalcOtherCost(0)" title="คิดเฉพาะผงชา">0฿ (เฉพาะชา)</span>
+              <span class="cursor-pointer hover:text-stone-700" onclick="window.setCalcOtherCost(15)" title="นมสด+แก้วมาตรฐาน">15฿ (นมสด)</span>
+              <span class="cursor-pointer hover:text-stone-700" onclick="window.setCalcOtherCost(25)" title="โอ๊ตมิลค์+แก้วสกรีน">25฿ (โอ๊ตมิลค์)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cost Notice Banner -->
+        <div class="p-3.5 rounded-2xl mb-6 flex items-start gap-2.5 text-[12px]" style="background:#fffcf2;border:1px solid #f3e5bf;color:#856404;">
+          <i data-lucide="info" class="w-4 h-4 shrink-0 mt-0.5" style="color:#b8860b;"></i>
+          <div data-i18n="calc_notice">
+            <strong>⚠️ หมายเหตุ:</strong> การคิด Margin ทั่วไปจะหักเฉพาะ <em>"ต้นทุนผงชา"</em> (ยังไม่รวมนม น้ำเชื่อม แก้ว ฝา น้ำแข็ง ค่าแรง และค่าใช้จ่ายร้าน) คุณสามารถปรับสไลเดอร์ <strong>"ต้นทุนอื่นต่อแก้ว"</strong> ด้านบน เพื่อดูผลกำไรสุทธิจริงได้ทันที
           </div>
         </div>
 
@@ -765,7 +824,7 @@
         <div class="mt-6 p-5 rounded-2xl flex items-start gap-3 text-[13px]" style="background:#f2f8f0;border:1px solid #c8dec4;">
           <i data-lucide="lightbulb" class="w-5 h-5 shrink-0 mt-0.5" style="color:#3d8535;"></i>
           <div style="color:#2d5a27;line-height:1.7;" data-i18n="calc_tip">
-            <strong>💡 แนะนำสำหรับคาเฟ่:</strong> ใช้ <strong>Strong Nutty</strong> หรือ <strong>Yurane</strong> เป็นตัวหลักหน้าร้าน ต้นทุนเพียง ~18-21 ฿/แก้ว ขายที่ 85-95 ฿ จะมี Margin เฉพาะผงชามากกว่า 75-80% และเสริมด้วย <strong>Shoen</strong> หรือ <strong>Yame B</strong> เป็นซิกเนเจอร์พรีเมียม
+            <strong>💡 แนะนำสำหรับคาเฟ่:</strong> ใช้ <strong>Strong Nutty</strong> หรือ <strong>Yurane</strong> เป็นตัวหลักหน้าร้าน ต้นทุนผงชาเพียง ~18-21 ฿/แก้ว ขายที่ 85-95 ฿ กำไรขั้นต้นหลังหักเฉพาะต้นทุนผงชา สูงสุด 75-80%+ และเสริมด้วย <strong>Shoen</strong> หรือ <strong>Yame B</strong> เป็นซิกเนเจอร์พรีเมียม
           </div>
         </div>
 
@@ -806,7 +865,7 @@
               <div class="space-y-2 text-[12px]">
                 <div class="flex justify-between items-center py-1.5 border-b border-stone-100">
                   <span style="color:#5a5a50;" data-i18n="recipe_ing_matcha">ผงมัทฉะ (Matcha)</span>
-                  <span class="font-bold" style="color:#1a3a16;">4.0 กรัม</span>
+                  <span class="font-bold" style="color:#1a3a16;">4.0 g</span>
                 </div>
                 <div class="flex justify-between items-center py-1.5 border-b border-stone-100">
                   <span style="color:#5a5a50;" data-i18n="recipe_ing_water_hot">น้ำร้อน (อุณหภูมิ 75–80°C)</span>
