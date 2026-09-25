@@ -1,46 +1,4 @@
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
-
-// ─── Load .env file ──────────────────────────────────────────
-function loadEnv() {
-  const envPath = path.join(__dirname, '.env');
-  if (fs.existsSync(envPath)) {
-    const lines = fs.readFileSync(envPath, 'utf8').split('\n');
-    for (const line of lines) {
-      const trimmed = line.trim();
-      if (trimmed && !trimmed.startsWith('#')) {
-        const idx = trimmed.indexOf('=');
-        if (idx !== -1) {
-          const key = trimmed.slice(0, idx).trim();
-          const val = trimmed.slice(idx + 1).trim();
-          if (key && !process.env[key]) process.env[key] = val;
-        }
-      }
-    }
-  }
-}
-loadEnv();
-
-const PORT = process.env.PORT || 3000;
-const BASE_DIR = __dirname;
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
-
-const MIME_TYPES = {
-  '.html': 'text/html; charset=utf-8',
-  '.css': 'text/css; charset=utf-8',
-  '.js': 'application/javascript; charset=utf-8',
-  '.json': 'application/json; charset=utf-8',
-  '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg',
-  '.png': 'image/png',
-  '.svg': 'image/svg+xml',
-  '.ico': 'image/x-icon',
-  '.woff': 'font/woff',
-  '.woff2': 'font/woff2'
-};
-
-// ─── Matcha Knowledge Base & System Prompt ────────────────────
+// ─── Vercel Serverless Function: POST /api/chat ───────────────────
 const MATCHA_SYSTEM_PROMPT = `คุณคือ "MATTY" (น้องแมตตี้) (AI Matcha Sommelier) ผู้ช่วยและที่ปรึกษาด้านมัทฉะแท้ 100% จากญี่ปุ่น ประจำทีมฝ่ายขาย MATCHA TIMES
 บทบาทของคุณคือเป็นที่ปรึกษาด้านผงมัทฉะและการบริหารต้นทุนสำหรับ "เจ้าของร้านกาแฟ คาเฟ่ และบาริสต้า" (กลุ่มลูกค้า B2B) ที่กำลังพูดคุยและได้รับการดูแลจากคุณปิ่นปัก (พี่ปิ่นปัก — ตัวแทนฝ่ายขายประจำแบรนด์ เบอร์โทร 098-603-5370)
 
@@ -69,23 +27,20 @@ const MATCHA_SYSTEM_PROMPT = `คุณคือ "MATTY" (น้องแมต�
 - เมื่อลูกค้าสนใจขอรับชุดทดลอง, สนใจใบเสนอราคา B2B, หรือต้องการสั่งซื้อ ให้แนะนำให้ลูกค้าทักหา "พี่ปิ่นปัก" ผ่านปุ่ม LINE หรือคลิกลิงก์ [LINE คุณปิ่นปัก](https://line.me/ti/p/Q_YSqkj0Db) หรือโทรหาพี่ปิ่นปักได้ที่เบอร์ 098-603-5370 ได้เลยทันที พี่ปิ่นปักจะจัดส่งตัวอย่างชาและดูแลราคาส่งพร้อมสูตรชงให้อย่างรวดเร็วและเป็นกันเองครับ
 - สำหรับ Instagram ([@matchatimes.thailand](https://www.instagram.com/matchatimes.thailand/?hl=en)) คือช่องทาง Official ของแบรนด์ MATCHA TIMES สำหรับชมภาพสินค้า เมนูคาเฟ่ และอัปเดตบรรยากาศ`;
 
-// ─── Gemini API Calling with Fallback Models ───────────────────
 const GEMINI_MODELS = [
-  'gemini-3.1-flash-lite',
-  'gemini-3.5-flash-lite',
-  'gemini-3.5-flash',
-  'gemini-3.8-flash'
+  'gemini-2.5-flash',
+  'gemini-1.5-flash'
 ];
 
 async function callGemini(message, history = [], lang = 'th') {
-  if (!GEMINI_API_KEY) {
-    throw new Error('GEMINI_API_KEY is not configured');
+  const apiKey = process.env.GEMINI_API_KEY || '';
+  if (!apiKey) {
+    throw new Error('GEMINI_API_KEY is not configured in environment variables');
   }
 
-  // Build contents array with history
   const contents = [];
   if (Array.isArray(history)) {
-    for (const h of history.slice(-6)) { // keep last 6 turns for context
+    for (const h of history.slice(-6)) {
       if (h.role && h.text) {
         contents.push({
           role: h.role === 'assistant' || h.role === 'model' ? 'model' : 'user',
@@ -121,7 +76,7 @@ The user is viewing the website in English (EN).
   let lastError = null;
   for (const model of GEMINI_MODELS) {
     try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
       const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -144,75 +99,42 @@ The user is viewing the website in English (EN).
   throw lastError || new Error('All Gemini models failed');
 }
 
-// ─── HTTP Server ──────────────────────────────────────────────
-const server = http.createServer(async (req, res) => {
-  let reqPath = decodeURI(req.url.split('?')[0]);
+module.exports = async (req, res) => {
+  // CORS configuration
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
+  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Content-Type');
 
-  // Route: POST /api/chat
-  if (req.method === 'POST' && reqPath === '/api/chat') {
-    let body = '';
-    req.on('data', chunk => body += chunk);
-    req.on('end', async () => {
-      try {
-        const { message, history, lang } = JSON.parse(body || '{}');
-        if (!message || typeof message !== 'string') {
-          res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
-          return res.end(JSON.stringify({ error: 'Message is required' }));
-        }
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
 
-        const reply = await callGemini(message, history, lang || 'th');
-        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
-        res.end(JSON.stringify({ reply }));
-      } catch (err) {
-        console.error('Chat API Error:', err.message);
-        res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
-        const errMsg = (lang === 'en')
-          ? 'Sorry, our AI sommelier is currently busy. Please try again or chat directly with Pinpuk on LINE! 🍵'
-          : 'ขออภัยครับ ขณะนี้ระบบ AI กำลังประมวลผล กรุณาลองใหม่อีกครั้ง หรือทักสอบถามพี่เซลล์ผู้ดูแลทาง LINE ได้เลยครับ 🍵';
-        res.end(JSON.stringify({
-          error: errMsg,
-          details: err.message
-        }));
-      }
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method Not Allowed' });
+  }
+
+  let body = req.body;
+  if (typeof body === 'string') {
+    try { body = JSON.parse(body); } catch (e) {}
+  }
+  const { message, history, lang } = body || {};
+
+  if (!message || typeof message !== 'string') {
+    return res.status(400).json({ error: 'Message is required' });
+  }
+
+  try {
+    const reply = await callGemini(message, history, lang || 'th');
+    return res.status(200).json({ reply });
+  } catch (err) {
+    console.error('Chat API Error:', err.message);
+    const errMsg = (lang === 'en')
+      ? 'Sorry, our AI sommelier is currently busy. Please try again or chat directly with Pinpuk on LINE! 🍵'
+      : 'ขออภัยครับ ขณะนี้ระบบ AI กำลังประมวลผล กรุณาลองใหม่อีกครั้ง หรือทักสอบถามพี่เซลล์ผู้ดูแลทาง LINE ได้เลยครับ 🍵';
+    return res.status(500).json({
+      error: errMsg,
+      details: err.message
     });
-    return;
   }
-
-  // Static file serving
-  if (reqPath === '/' || reqPath === '') {
-    reqPath = '/index.html';
-  }
-
-  const filePath = path.join(BASE_DIR, reqPath);
-
-  // Security check: stay within BASE_DIR
-  if (!filePath.startsWith(BASE_DIR)) {
-    res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
-    res.end('403 Forbidden');
-    return;
-  }
-
-  fs.stat(filePath, (err, stats) => {
-    if (err || !stats.isFile()) {
-      res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-      res.end('404 Not Found');
-      return;
-    }
-
-    const ext = path.extname(filePath).toLowerCase();
-    const contentType = MIME_TYPES[ext] || 'application/octet-stream';
-
-    res.writeHead(200, {
-      'Content-Type': contentType,
-      'Cache-Control': 'no-cache'
-    });
-
-    const stream = fs.createReadStream(filePath);
-    stream.pipe(res);
-  });
-});
-
-server.listen(PORT, () => {
-  console.log(`🍵 MATCHA TIMES Sales App with AI Chat is running!`);
-  console.log(`👉 Access URL: http://localhost:${PORT}`);
-});
+};

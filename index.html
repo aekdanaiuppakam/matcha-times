@@ -40,11 +40,36 @@
 
   <!-- Custom Styles -->
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
   <link rel="icon" type="image/png" href="assets/images/logo.png">
   <link rel="apple-touch-icon" href="assets/images/logo.png">
 </head>
 
 <body class="text-stone-800 antialiased">
+
+  <!-- ═══ SPLASH SCREEN ═══════════════════════════════════════ -->
+  <div id="splash-screen" class="splash-screen">
+    <div class="splash-matty">
+      <img src="assets/images/matty.jpg" alt="MATTY (แมตตี้)">
+      <div class="splash-particles">
+        <div class="splash-particle"></div>
+        <div class="splash-particle"></div>
+        <div class="splash-particle"></div>
+        <div class="splash-particle"></div>
+        <div class="splash-particle"></div>
+      </div>
+    </div>
+    <div class="splash-logo">
+      <img src="assets/images/logo.png" alt="MATCHA TIMES">
+      <span>MATCHA TIMES</span>
+    </div>
+    <div class="splash-subtitle">100% Japanese Matcha</div>
+    <div class="splash-loading">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
 
   <!-- ═══════════════════════════════════════════════════════════════
        NAV BAR
@@ -308,7 +333,7 @@
           </a>
           <button onclick="openContactModal()" class="btn-secondary shadow-xs hover:shadow-sm transition-all bg-white/90 backdrop-blur-xs">
             <i data-lucide="package" class="w-4 h-4" style="color:#3d8535;"></i>
-            <span data-i18n="hero_cta_sample">ขอรับ Sample Kit ทดลองชง</span>
+            <span data-i18n="hero_cta_sample">ขอรับชุดทดลองชง</span>
           </button>
         </div>
         <!-- Secondary Navigation CTAs -->
@@ -1028,9 +1053,9 @@
               <i data-lucide="package-check" class="w-5 h-5" style="color:#6a40a0;"></i>
             </div>
             <div>
-              <h3 class="text-[16px] font-bold mb-2" style="color:#1a3a16;" data-i18n="faq_q4_title">ราคาส่งคาเฟ่ &amp; การขอชุดตัวอย่าง (Sample Kit)?</h3>
+              <h3 class="text-[16px] font-bold mb-2" style="color:#1a3a16;" data-i18n="faq_q4_title">ราคาส่งคาเฟ่ &amp; การขอชุดทดลองชง?</h3>
               <p class="text-[13px] leading-relaxed" style="color:#6b7068;" data-i18n="faq_q4_desc">
-                สำหรับผู้ประกอบการที่เปิดร้านกาแฟ หรือกำลังจะเปิดร้าน สามารถติดต่อฝ่ายขายผ่าน LINE <strong>@matchatimes.thailand</strong> เพื่อแจ้งขอรับชุด <strong>Matcha Times Sample Kit</strong> สำหรับทดลองชงจริงที่ร้านได้ทันที ทีมงานพร้อมให้คำแนะนำเรื่องอัตราส่วนและคำนวณต้นทุนต่อแก้วให้ฟรี
+                สำหรับผู้ประกอบการที่เปิดร้านกาแฟ หรือกำลังจะเปิดร้าน สามารถติดต่อฝ่ายขายผ่าน LINE <strong>@matchatimes.thailand</strong> เพื่อแจ้งขอรับ <strong>ชุดทดลอง Matcha Times</strong> สำหรับทดลองชงจริงที่ร้านได้ทันที ทีมงานพร้อมให้คำแนะนำเรื่องอัตราส่วนและคำนวณต้นทุนต่อแก้วให้ฟรี
               </p>
             </div>
           </div>
@@ -1048,17 +1073,17 @@
             เปิดร้านกาแฟ หรือต้องการยกระดับเมนูมัทฉะ?
           </h3>
           <p class="text-[13px] leading-relaxed opacity-85" data-i18n="banner_desc">
-            ขอรับชุด <strong>Matcha Times Sample Kit</strong> สำหรับทดลองชงจริงที่ร้าน พร้อมรับคำปรึกษาเรื่องอัตราส่วนและคำนวณต้นทุนต่อแก้วฟรีจากผู้เชี่ยวชาญ
+            ขอรับ <strong>ชุดทดลอง Matcha Times</strong> สำหรับทดลองชงจริงที่ร้าน พร้อมรับคำปรึกษาเรื่องอัตราส่วนและคำนวณต้นทุนต่อแก้วฟรีจากผู้เชี่ยวชาญ
           </p>
         </div>
         <div class="shrink-0 flex flex-col sm:flex-row gap-3 w-full md:w-auto">
           <button onclick="openContactModal()" class="py-3 px-6 rounded-xl font-bold text-[13px] transition-all flex items-center justify-center gap-2" style="background:#c9a84c;color:#1a1a1a;">
             <i data-lucide="package" class="w-4 h-4"></i>
-            <span data-i18n="banner_btn_kit">ขอรับชุด Sample Kit</span>
+            <span data-i18n="banner_btn_kit">ขอรับชุดทดลอง</span>
           </button>
           <a href="https://line.me/ti/p/Q_YSqkj0Db" target="_blank" rel="noopener noreferrer" class="py-3 px-5 rounded-xl font-bold text-[13px] transition-all flex items-center justify-center gap-2" style="background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.25);">
             <i data-lucide="message-circle" class="w-4 h-4" style="color:#06C755;"></i>
-            <span>ทัก LINE คุณปิ่นปัก</span>
+            <span data-i18n="banner_btn_line">ทัก LINE คุณปิ่นปัก</span>
           </a>
         </div>
       </div>
@@ -1095,9 +1120,9 @@
       <img src="assets/images/matty.jpg" alt="MATTY (แมตตี้)" class="w-8 h-8 rounded-full object-cover border border-emerald-300 shadow-2xs shrink-0">
       <div>
         <div class="flex items-center gap-1">
-          <span class="text-[12px] font-bold text-stone-800">มีคำถามเรื่องชา?</span>
+          <span class="text-[12px] font-bold text-stone-800" data-i18n="ai_teaser_title">มีคำถามเรื่องชา?</span>
         </div>
-        <div class="text-[11px] text-stone-500 mt-0.5">แตะถาม MATTY (แมตตี้) AI ได้เลยครับ 🐼🍵</div>
+        <div class="text-[11px] text-stone-500 mt-0.5" data-i18n="ai_teaser_sub">แตะถาม MATTY (แมตตี้) AI ได้เลยครับ 🐼🍵</div>
       </div>
       <button onclick="event.stopPropagation(); dismissAiTeaser();" class="ai-teaser-close" title="ปิดการแจ้งเตือน">×</button>
     </div>
@@ -1155,10 +1180,10 @@
           </div>
           <div>
             <div class="font-bold text-[14px] leading-tight flex items-center gap-1.5">
-              <span>MATTY (แมตตี้)</span>
+              <span data-i18n="ai_chat_name">MATTY (แมตตี้)</span>
               <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30">AI Sommelier</span>
             </div>
-            <div class="text-[11px] text-emerald-200/80">มาสคอตที่ปรึกษามัทฉะ · ออนไลน์ 🐼</div>
+            <div class="text-[11px] text-emerald-200/80" data-i18n="ai_chat_status">มาสคอตที่ปรึกษามัทฉะ · ออนไลน์ 🐼</div>
           </div>
         </div>
         <div class="flex items-center gap-1.5">
@@ -1179,17 +1204,17 @@
             <div class="bg-white rounded-2xl p-4 border border-[#e5e0d4] shadow-xs text-[13px] leading-relaxed text-stone-700">
               <div class="flex items-center gap-2.5 mb-2">
                 <img src="assets/images/matty.jpg" alt="MATTY (แมตตี้)" class="w-8 h-8 rounded-full object-cover border border-emerald-300 shadow-2xs">
-                <span class="font-bold text-[14px]" style="color:#1a3a16;">สวัสดีครับพี่เจ้าของร้านคาเฟ่!</span>
+                <span class="font-bold text-[14px]" style="color:#1a3a16;" data-i18n="ai_welcome_greeting">สวัสดีครับพี่เจ้าของร้านคาเฟ่!</span>
               </div>
-              <p>ผมคือ <strong>MATTY (แมตตี้)</strong> มาสคอต AI Matcha Sommelier ประจำ <strong>MATCHA TIMES</strong> ครับ 🐼🍵</p>
-              <p class="mt-1.5 text-stone-600">สงสัยเรื่องการเลือกเกรดชา, โทนรสชาติ, การคุมต้นทุนต่อแก้ว, หรือสูตรชงลาเต้/เดอร์ตี้ ลองถามผมได้เลยครับ!</p>
+              <p data-i18n="ai_welcome_p1">ผมคือ <strong>MATTY (แมตตี้)</strong> มาสคอต AI Matcha Sommelier ประจำ <strong>MATCHA TIMES</strong> ครับ 🐼🍵</p>
+              <p class="mt-1.5 text-stone-600" data-i18n="ai_welcome_p2">สงสัยเรื่องการเลือกเกรดชา, โทนรสชาติ, การคุมต้นทุนต่อแก้ว, หรือสูตรชงลาเต้/เดอร์ตี้ ลองถามผมได้เลยครับ!</p>
             </div>
           </div>
         </div>
 
         <!-- Quick Questions Container -->
         <div id="ai-quick-container" class="mt-2 mb-3">
-          <div class="text-[11px] font-bold uppercase tracking-wider mb-2 text-stone-400">คำถามยอดฮิตสำหรับคาเฟ่:</div>
+          <div class="text-[11px] font-bold uppercase tracking-wider mb-2 text-stone-400" data-i18n="ai_quick_label">คำถามยอดฮิตสำหรับคาเฟ่:</div>
           <div id="ai-quick-questions" class="flex flex-col gap-2"></div>
         </div>
       </div>
@@ -1199,6 +1224,7 @@
         <form onsubmit="event.preventDefault();" class="flex items-center gap-2">
           <input id="ai-chat-input" type="text" 
                  placeholder="พิมพ์ถาม MATTY ได้เลยครับ..." 
+                 data-i18n-placeholder="ai_input_placeholder"
                  class="flex-1 px-4 py-2.5 rounded-full bg-stone-50 border border-stone-200 focus:outline-none focus:border-emerald-600 focus:bg-white transition-all text-stone-800"
                  autocomplete="off">
           <button id="ai-chat-send" type="button" 
@@ -1207,7 +1233,7 @@
             <i data-lucide="send" class="w-4 h-4 ml-0.5"></i>
           </button>
         </form>
-        <div class="text-center text-[10px] text-stone-400 mt-1.5">
+        <div class="text-center text-[10px] text-stone-400 mt-1.5" data-i18n="ai_footer_notice">
           ตอบโดย Gemini AI อ้างอิงข้อมูลสต็อกและสเปกจริง MATCHA TIMES
         </div>
       </div>
@@ -1233,7 +1259,7 @@
       </button>
       <img src="assets/images/logo.png" alt="MATCHA TIMES" class="w-16 h-16 rounded-2xl mx-auto mb-3 bg-black p-1 shadow-md ring-1 ring-stone-900/10">
       <h3 class="text-[20px] font-bold mb-1" style="color:#1a3a16;font-family:'Plus Jakarta Sans',sans-serif;" data-i18n="contact_modal_title">ติดต่อฝ่ายขาย: คุณปิ่นปัก (MATCHA TIMES)</h3>
-      <p class="text-[12px] mb-5" style="color:#7a7468;" data-i18n="contact_modal_sub">ที่ปรึกษาด้านมัทฉะสำหรับร้านคาเฟ่ ยินดีให้คำแนะนำเรื่องสเปกชา ราคาส่ง B2B และจัดส่ง Sample Kit</p>
+      <p class="text-[12px] mb-5" style="color:#7a7468;" data-i18n="contact_modal_sub">ที่ปรึกษาด้านมัทฉะสำหรับร้านคาเฟ่ ยินดีให้คำแนะนำเรื่องสเปกชา ราคาส่ง B2B และจัดส่งชุดทดลอง</p>
 
       <div class="inline-block p-4 rounded-2xl mb-4 bg-white" style="border:1px solid #e5e0d4;box-shadow:0 4px 14px rgba(0,0,0,0.04);">
         <div class="w-44 h-44 rounded-xl overflow-hidden flex items-center justify-center p-1" style="border:1px solid #eef0ec;">
@@ -1247,7 +1273,7 @@
         <div class="p-3 rounded-xl text-left flex items-start gap-2.5" style="background:#f2f8f0;border:1px solid #c8dec4;">
           <i data-lucide="package" class="w-4 h-4 mt-0.5 shrink-0" style="color:#2d5a27;"></i>
           <div class="text-[11px] leading-relaxed" style="color:#2d5a27;" data-i18n="contact_tip_box">
-            <strong>สำหรับร้านเปิดใหม่:</strong> ทักหาคุณปิ่นปักว่า <em>"ขอรับชุด Sample Kit ทดลองชงที่ร้าน"</em> เพื่อรับตัวอย่างชาและคำแนะนำอัตราส่วนสูตรชงเฉพาะร้านคุณ
+            <strong>สำหรับร้านเปิดใหม่:</strong> ทักหาคุณปิ่นปักว่า <em>"ขอรับชุดทดลองเพื่อทดลองชงที่ร้าน"</em> เพื่อรับตัวอย่างชาและคำแนะนำอัตราส่วนสูตรชงเฉพาะร้านคุณ
           </div>
         </div>
 
@@ -1265,7 +1291,7 @@
         </a>
 
         <div class="p-3.5 rounded-2xl text-left space-y-1.5 text-[12px]" style="background:#f8f5f0;border:1px solid #e5e0d4;color:#5a5a50;">
-          <div>👩‍💼 <strong>เซลล์ผู้ดูแล:</strong> คุณปิ่นปัก · <a href="tel:0986035370" class="text-emerald-700 underline font-semibold">098-603-5370</a></div>
+          <div><span data-i18n="contact_rep">👩‍💼 <strong>เซลล์ผู้ดูแล:</strong> คุณปิ่นปัก · </span><a href="tel:0986035370" class="text-emerald-700 underline font-semibold">098-603-5370</a></div>
           <div>📸 <strong>Instagram:</strong> <a href="https://www.instagram.com/matchatimes.thailand/?hl=en" target="_blank" class="underline text-emerald-700">@matchatimes.thailand</a></div>
           <div data-i18n="contact_branches">📍 <strong>สาขาแบรนด์:</strong> Silom, Asok (Interchange 21), Phrakanong</div>
           <div>🌐 <strong>Website:</strong> matcha-times.com</div>
@@ -1314,5 +1340,6 @@
   <script src="assets/js/data.js"></script>
   <script src="assets/js/app.js"></script>
   <script src="assets/js/ai-chat.js"></script>
+  <script src="assets/js/animations.js"></script>
 </body>
 </html>

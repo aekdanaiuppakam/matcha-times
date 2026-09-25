@@ -64,6 +64,11 @@ function setLanguage(lang) {
   const gi = document.getElementById("calc-grams");
   if (gi) gi.dispatchEvent(new Event("input"));
   initLucide();
+
+  // Every time language is changed, pop up the AI speech bubble teaser in that language
+  if (typeof window.showAiTeaser === "function") {
+    window.showAiTeaser(lang);
+  }
 }
 
 function applyLanguage(lang) {
@@ -92,6 +97,19 @@ function applyLanguage(lang) {
       el.innerHTML = I18N_TEXTS[lang][key];
     }
   });
+
+  // Update placeholders
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+    const key = el.getAttribute("data-i18n-placeholder");
+    if (I18N_TEXTS[lang] && I18N_TEXTS[lang][key]) {
+      el.placeholder = I18N_TEXTS[lang][key];
+    }
+  });
+
+  // Update AI Chat components
+  if (typeof window.updateAiChatLanguage === "function") {
+    window.updateAiChatLanguage(lang);
+  }
 
   // Update Compare Drawer labels
   updateCompareDrawer();
@@ -736,8 +754,18 @@ function initCostCalculator() {
     }).join('');
   }
 
-  gi.addEventListener("input", recalc);
-  pi.addEventListener("input", recalc);
+  let lastCelebration = 0;
+  function onUserCalcInput() {
+    recalc();
+    const now = Date.now();
+    if (now - lastCelebration > 5000 && typeof window.triggerConfetti === 'function') {
+      lastCelebration = now;
+      window.triggerConfetti(35);
+    }
+  }
+
+  gi.addEventListener("input", onUserCalcInput);
+  pi.addEventListener("input", onUserCalcInput);
   recalc();
 }
 

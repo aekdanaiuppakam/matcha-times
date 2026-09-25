@@ -3,26 +3,50 @@
   let chatHistory = [];
   let isSending = false;
 
-  const QUICK_QUESTIONS = [
-    { text: "🥜 แนะนำมัทฉะลาเต้โทนถั่วเข้มๆ", query: "ร้านกาแฟอยากได้มัทฉะชงลาเต้โทนถั่ว (Nutty) ชัดๆ บอดี้แน่น ไม่ขม แนะนำตัวไหนดี?" },
-    { text: "💰 ตัวไหนคุมต้นทุนต่ำกว่า 20 ฿/แก้ว?", query: "อยากได้มัทฉะที่คุมต้นทุนต่อแก้วไม่เกิน 20 บาท สำหรับเมนูขายดีหน้าร้าน แนะนำตัวไหนบ้าง?" },
-    { text: "⚖️ Strong Nutty vs Yurane ต่างกันยังไง?", query: "Strong Nutty กับ Yurane แตกต่างกันอย่างไร ตัวไหนเหมาะกับร้านแบบไหน?" },
-    { text: "📦 ขอรับ Sample Kit ทดลองชงยังไง?", query: "สนใจรับชุด Sample Kit ไปทดลองชงที่ร้าน มีกี่ตัว และต้องทำอย่างไรบ้าง?" }
-  ];
+  const QUICK_QUESTIONS_I18N = {
+    th: [
+      { text: "🥜 แนะนำมัทฉะลาเต้โทนถั่วเข้มๆ", query: "ร้านกาแฟอยากได้มัทฉะชงลาเต้โทนถั่ว (Nutty) ชัดๆ บอดี้แน่น ไม่ขม แนะนำตัวไหนดี?" },
+      { text: "💰 ตัวไหนคุมต้นทุนต่ำกว่า 20 ฿/แก้ว?", query: "อยากได้มัทฉะที่คุมต้นทุนต่อแก้วไม่เกิน 20 บาท สำหรับเมนูขายดีหน้าร้าน แนะนำตัวไหนบ้าง?" },
+      { text: "⚖️ Strong Nutty vs Yurane ต่างกันยังไง?", query: "Strong Nutty กับ Yurane แตกต่างกันอย่างไร ตัวไหนเหมาะกับร้านแบบไหน?" },
+      { text: "📦 ขอรับชุดทดลองชงยังไง?", query: "สนใจรับชุดทดลองไปทดลองชงที่ร้าน มีกี่ตัว และต้องทำอย่างไรบ้าง?" }
+    ],
+    en: [
+      { text: "🥜 Best rich & nutty matcha for latte?", query: "Which matcha do you recommend for a rich, nutty latte with full body and zero bitterness?" },
+      { text: "💰 Which SKU keeps cost < 20 THB/cup?", query: "Which matcha varieties keep cost under 20 THB per cup for high-margin cafe bestsellers?" },
+      { text: "⚖️ Strong Nutty vs Yurane comparison?", query: "What is the difference between Strong Nutty and Yurane? Which one suits my cafe better?" },
+      { text: "📦 How to request a Sample Kit?", query: "How can my cafe request a Sample Kit for test brewing? What are the details?" }
+    ]
+  };
+
+  let teaserDismissTimer = null;
+
+  function getActiveLang() {
+    return localStorage.getItem("matcha_times_lang") || document.documentElement.lang || "th";
+  }
 
   function initChat() {
     renderQuickQuestions();
     setupEventListeners();
-    // Auto-dismiss floating teaser bubble after 14s
-    setTimeout(() => {
+    // Auto-dismiss floating teaser bubble after 14s on first load
+    scheduleTeaserDismiss(14000);
+  }
+
+  function scheduleTeaserDismiss(ms = 10000) {
+    if (teaserDismissTimer) {
+      clearTimeout(teaserDismissTimer);
+    }
+    teaserDismissTimer = setTimeout(() => {
       dismissAiTeaser();
-    }, 14000);
+    }, ms);
   }
 
   function renderQuickQuestions() {
     const container = document.getElementById("ai-quick-questions");
     if (!container) return;
-    container.innerHTML = QUICK_QUESTIONS.map((q) => `
+    const lang = getActiveLang();
+    const questions = QUICK_QUESTIONS_I18N[lang] || QUICK_QUESTIONS_I18N.th;
+
+    container.innerHTML = questions.map((q) => `
       <button onclick="window.sendQuickQuery('${q.query.replace(/'/g, "\\'")}')" 
               class="text-left text-[12px] px-3.5 py-2 rounded-xl border transition-all hover:bg-emerald-50 hover:border-emerald-600 active:scale-[0.98] shadow-2xs leading-snug"
               style="background:#fff;border-color:#e5e0d4;color:#2d5a27;">
@@ -30,6 +54,26 @@
       </button>
     `).join('');
   }
+
+  window.updateAiChatLanguage = function(lang) {
+    renderQuickQuestions();
+
+    // Update welcome card text if available
+    const greetingEl = document.querySelector('[data-i18n="ai_welcome_greeting"]');
+    const p1El = document.querySelector('[data-i18n="ai_welcome_p1"]');
+    const p2El = document.querySelector('[data-i18n="ai_welcome_p2"]');
+    if (window.I18N_TEXTS && window.I18N_TEXTS[lang]) {
+      if (greetingEl && window.I18N_TEXTS[lang].ai_welcome_greeting) {
+        greetingEl.innerHTML = window.I18N_TEXTS[lang].ai_welcome_greeting;
+      }
+      if (p1El && window.I18N_TEXTS[lang].ai_welcome_p1) {
+        p1El.innerHTML = window.I18N_TEXTS[lang].ai_welcome_p1;
+      }
+      if (p2El && window.I18N_TEXTS[lang].ai_welcome_p2) {
+        p2El.innerHTML = window.I18N_TEXTS[lang].ai_welcome_p2;
+      }
+    }
+  };
 
   function setupEventListeners() {
     const input = document.getElementById("ai-chat-input");
@@ -83,12 +127,71 @@
   }
 
   window.dismissAiTeaser = function() {
+    if (teaserDismissTimer) {
+      clearTimeout(teaserDismissTimer);
+      teaserDismissTimer = null;
+    }
     const el = document.getElementById("ai-fab-teaser");
     if (el) {
       el.style.opacity = "0";
       el.style.transform = "translateX(10px) scale(0.9)";
-      setTimeout(() => el.remove(), 300);
+      setTimeout(() => {
+        if (el) el.style.display = "none";
+      }, 260);
     }
+  };
+
+  window.showAiTeaser = function(lang) {
+    const currentLang = lang || getActiveLang();
+    let el = document.getElementById("ai-fab-teaser");
+    const container = document.querySelector(".fab-container");
+    if (!container) return;
+
+    // If chat modal is currently open, don't show the teaser bubble
+    const modal = document.getElementById("ai-chat-modal");
+    if (modal && !modal.classList.contains("hidden")) {
+      return;
+    }
+
+    const titleText = (currentLang === "en") ? "Have tea questions?" : "มีคำถามเรื่องชา?";
+    const subText = (currentLang === "en") ? "Tap to ask MATTY AI sommelier 🐼🍵" : "แตะถาม MATTY (แมตตี้) AI ได้เลยครับ 🐼🍵";
+    const closeTitle = (currentLang === "en") ? "Close notification" : "ปิดการแจ้งเตือน";
+
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "ai-fab-teaser";
+      el.className = "ai-fab-teaser flex items-center gap-2.5";
+      el.setAttribute("onclick", "openAiChat()");
+      el.innerHTML = `
+        <img src="assets/images/matty.jpg" alt="MATTY" class="w-8 h-8 rounded-full object-cover border border-emerald-300 shadow-2xs shrink-0">
+        <div>
+          <div class="flex items-center gap-1">
+            <span class="text-[12px] font-bold text-stone-800" data-i18n="ai_teaser_title">${titleText}</span>
+          </div>
+          <div class="text-[11px] text-stone-500 mt-0.5" data-i18n="ai_teaser_sub">${subText}</div>
+        </div>
+        <button onclick="event.stopPropagation(); dismissAiTeaser();" class="ai-teaser-close" title="${closeTitle}">×</button>
+      `;
+      container.insertBefore(el, container.firstChild);
+    } else {
+      const titleEl = el.querySelector('[data-i18n="ai_teaser_title"]');
+      const subEl = el.querySelector('[data-i18n="ai_teaser_sub"]');
+      const closeBtn = el.querySelector(".ai-teaser-close");
+      if (titleEl) titleEl.textContent = titleText;
+      if (subEl) subEl.textContent = subText;
+      if (closeBtn) closeBtn.title = closeTitle;
+      el.style.display = "flex";
+    }
+
+    // Force animation reset to replay pop-in
+    el.style.animation = "none";
+    void el.offsetWidth; // trigger reflow
+    el.style.animation = "aiTeaserPop 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards";
+    el.style.opacity = "1";
+    el.style.transform = "";
+
+    // Auto-dismiss after 10s
+    scheduleTeaserDismiss(10000);
   };
 
   window.toggleAiChat = function() {
@@ -142,7 +245,9 @@
       messagesEl.innerHTML = "";
       if (welcome) messagesEl.appendChild(welcome);
     }
-    renderQuickQuestions();
+    const quickEl = document.getElementById("ai-quick-container");
+    if (quickEl) quickEl.classList.remove("hidden");
+    window.updateAiChatLanguage(getActiveLang());
   };
 
   window.sendQuickQuery = function(text) {
@@ -172,11 +277,12 @@
     // 2. Append Typing Indicator
     const typingId = showTypingIndicator();
 
+    const lang = getActiveLang();
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text, history: chatHistory })
+        body: JSON.stringify({ message: text, history: chatHistory, lang })
       });
 
       removeTypingIndicator(typingId);
@@ -186,14 +292,18 @@
       }
 
       const data = await res.json();
-      const reply = data.reply || data.error || "ขออภัยครับ ไม่สามารถรับคำตอบได้ในขณะนี้";
+      const defaultErr = (lang === "en") ? "Sorry, I could not retrieve an answer at this moment." : "ขออภัยครับ ไม่สามารถรับคำตอบได้ในขณะนี้";
+      const reply = data.reply || data.error || defaultErr;
 
       appendMessage("model", reply);
       chatHistory.push({ role: "model", text: reply });
     } catch (err) {
       console.error("AI Chat error:", err);
       removeTypingIndicator(typingId);
-      appendMessage("model", "ขออภัยครับ ขณะนี้ระบบมีผู้ใช้งานหนาแน่น คุณลูกค้าสามารถทักคุยกับพี่ปิ่นปัก (เซลล์ผู้ดูแล) ได้โดยตรงทาง [LINE คุณปิ่นปัก](https://line.me/ti/p/Q_YSqkj0Db) หรือโทร 098-603-5370 ได้เลยนะครับ 🍵");
+      const fallbackMsg = (lang === "en")
+        ? "Sorry, our AI service is currently experiencing high demand. Please feel free to message Pinpuk (our dedicated Sales Representative) directly via [Pinpuk's LINE](https://line.me/ti/p/Q_YSqkj0Db) or call 098-603-5370 anytime! 🍵"
+        : "ขออภัยครับ ขณะนี้ระบบมีผู้ใช้งานหนาแน่น คุณลูกค้าสามารถทักคุยกับพี่ปิ่นปัก (เซลล์ผู้ดูแล) ได้โดยตรงทาง [LINE คุณปิ่นปัก](https://line.me/ti/p/Q_YSqkj0Db) หรือโทร 098-603-5370 ได้เลยนะครับ 🍵";
+      appendMessage("model", fallbackMsg);
     } finally {
       isSending = false;
       scrollChatToBottom();
@@ -217,18 +327,22 @@
       `;
     } else {
       const formatted = formatMarkdown(content);
+      const isEn = getActiveLang() === "en";
+      const senderName = isEn ? "MATTY · Sommelier" : "MATTY (แมตตี้) · Sommelier";
+      const lineBtnText = isEn ? "Chat with Pinpuk on LINE" : "ทัก LINE คุณปิ่นปัก";
+
       msgDiv.innerHTML = `
         <img src="assets/images/matty.jpg" alt="MATTY" class="w-8 h-8 rounded-full object-cover shrink-0 border border-emerald-300 shadow-2xs">
         <div class="rounded-2xl rounded-tl-xs p-4 max-w-[88%] text-[13px] leading-relaxed shadow-xs bg-white text-stone-800"
              style="border:1px solid #e5e0d4;">
-          <div class="font-bold text-[11px] mb-1 uppercase tracking-wider" style="color:#2d5a27;">MATTY (แมตตี้) · Sommelier</div>
+          <div class="font-bold text-[11px] mb-1 uppercase tracking-wider" style="color:#2d5a27;">${senderName}</div>
           <div class="ai-msg-content">${formatted}</div>
           <div class="mt-3 pt-2 flex items-center gap-2 border-t border-stone-100">
             <a href="https://line.me/ti/p/Q_YSqkj0Db" target="_blank" rel="noopener noreferrer" 
                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-white shadow-xs transition-opacity hover:opacity-90"
                style="background:#06C755;">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.494.25l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
-              <span>ทัก LINE คุณปิ่นปัก</span>
+              <span>${lineBtnText}</span>
             </a>
           </div>
         </div>
