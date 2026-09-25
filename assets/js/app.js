@@ -678,6 +678,24 @@ function renderComparisonTool() {
 }
 
 // ─── Cost Calculator ──────────────────────────────────────────
+let expandedCalcSkuId = 'strong-nutty'; // Show #1 Best Seller expanded by default as a showcase
+
+window.toggleCalcDetail = function(skuId, e) {
+  if (e) e.stopPropagation();
+  expandedCalcSkuId = (expandedCalcSkuId === skuId) ? null : skuId;
+  if (typeof window.recalcCostCalculator === 'function') {
+    window.recalcCostCalculator();
+  }
+};
+
+function renderTastePips(score) {
+  let pips = '';
+  for (let i = 0; i < 5; i++) {
+    pips += `<span class="calc-taste-pip ${i < score ? 'filled' : ''}"></span>`;
+  }
+  return pips;
+}
+
 function initCostCalculator() {
   const gi  = document.getElementById("calc-grams");
   const gv  = document.getElementById("calc-grams-val");
@@ -741,45 +759,194 @@ function initCostCalculator() {
       else if (index === 1) rankMedal = '🥈';
       else if (index === 2) rankMedal = '🥉';
 
-      const profitPercent = (profit / selling) * 100;
-      const costPercent = (cost / selling) * 100;
+      const profitPercent = Math.max(0, Math.min(100, (profit / selling) * 100));
+      const costPercent = Math.max(0, Math.min(100, (cost / selling) * 100));
       
-      const bgOpacity = Math.max(0, (margin - 50) / 150);
+      const bgOpacity = Math.max(0, (margin - 50) / 160);
       const rowBg = `rgba(139, 195, 74, ${bgOpacity.toFixed(2)})`;
       
       const profitLabel = currentLang === 'th' ? 'กำไร' : 'Profit';
-      
+      const costLabel = currentLang === 'th' ? 'ทุน' : 'Cost';
+      const isExpanded = (expandedCalcSkuId === item.id);
+
+      // Detail Panel calculations
+      const monthly20 = Math.round(profit * 600);
+      const monthly40 = Math.round(profit * 1200);
+      const monthly60 = Math.round(profit * 1800);
+      const kg20 = ((grams * 600) / 1000).toFixed(1);
+      const kg40 = ((grams * 1200) / 1000).toFixed(1);
+      const kg60 = ((grams * 1800) / 1000).toFixed(1);
+
+      let suggestedPrice = '85 – 110 ฿';
+      if (item.prices.g250 >= 1600) suggestedPrice = '130 – 180 ฿';
+      else if (item.prices.g250 < 900) suggestedPrice = '65 – 85 ฿';
+
       return `
-        <div class="calc-card" style="background: ${rowBg}">
-          <div class="calc-card-rank">${rankMedal}</div>
-          <div class="flex items-center calc-card-info">
-            <div class="calc-card-collection calc-card-${item.collection || 'classic'}"></div>
-            <div>
-              <div class="font-bold text-[13px]" style="color:#1a3a16;">
-                ${item.name}
+        <div class="calc-card ${isExpanded ? 'expanded' : ''}" style="background: ${rowBg}">
+          <div class="calc-card-header" onclick="toggleCalcDetail('${item.id}', event)">
+            <div class="calc-card-rank">${rankMedal}</div>
+            
+            <div class="flex items-center calc-card-info">
+              <div class="calc-card-collection calc-card-${item.collection || 'classic'}"></div>
+              <div>
+                <div class="font-bold text-[13px] flex items-center gap-1.5" style="color:#1a3a16;">
+                  <span>${item.name}</span>
+                  ${item.badge ? `<span class="text-[9px] px-1.5 py-0.5 rounded font-bold ${item.badge.cls || ''}">${item.badge[currentLang] || ''}</span>` : ''}
+                </div>
+                <div class="text-[10px] text-stone-500">
+                  ${item.kanji || ''} • ${item.origin ? item.origin.split(',')[0] : ''}
+                </div>
               </div>
-              <div class="text-[10px] text-stone-500">
-                ${item.kanji || ''} • ${item.origin ? item.origin.split(',')[0] : ''}
+            </div>
+            
+            <div class="calc-card-bar-container">
+              <div class="calc-card-profit-bar" style="width: ${profitPercent}%">
+                ${profitPercent > 18 ? `${profitLabel} ${profit} ฿ (${margin}%)` : ''}
+              </div>
+              <div class="calc-card-cost-bar" style="width: ${costPercent}%">
+                ${costPercent > 12 ? `${costLabel} ${cost} ฿` : ''}
               </div>
             </div>
-          </div>
-          
-          <div class="calc-card-bar-container">
-            <div class="calc-card-profit-bar" style="width: ${profitPercent}%">
-              ${profitPercent > 15 ? `${profitLabel} ${profit} ฿ (${margin}%)` : ''}
+            
+            <div class="calc-card-margin-ring" style="background: conic-gradient(#2d5a27 0% ${margin}%, #e5e0d4 ${margin}% 100%);">
+              <span>${margin}%</span>
             </div>
-            <div class="calc-card-cost-bar" style="width: ${costPercent}%">
-              ${costPercent > 10 ? `${cost} ฿` : ''}
+
+            <div class="calc-card-toggle-btn">
+              <span>${isExpanded ? (currentLang === 'th' ? 'ย่อเก็บ ▲' : 'Less ▲') : (currentLang === 'th' ? 'ดูวิเคราะห์ละเอียด ▼' : 'Details ▼')}</span>
             </div>
           </div>
-          
-          <div class="calc-card-margin-ring" style="background: conic-gradient(#2d5a27 0% ${margin}%, #e5e0d4 ${margin}% 100%);">
-            <span>${margin}%</span>
-          </div>
+
+          ${isExpanded ? `
+            <div class="calc-card-detail">
+              <!-- 1. B2B Financial 4 Pillars -->
+              <div class="calc-detail-grid">
+                <div class="calc-metric-box">
+                  <span class="calc-metric-label">📦 ${currentLang === 'th' ? 'ราคาส่ง B2B (ถุง 250g)' : 'Wholesale / 250g'}</span>
+                  <span class="calc-metric-val">${item.prices.g250.toLocaleString()} ฿</span>
+                  <span class="calc-metric-sub">100g: ${item.prices.g100} ฿ • 1kg: ${item.prices.kg.toLocaleString()} ฿</span>
+                </div>
+
+                <div class="calc-metric-box">
+                  <span class="calc-metric-label">☕ ${currentLang === 'th' ? 'จำนวนแก้วที่ชงได้' : 'Yield / Pouch'}</span>
+                  <span class="calc-metric-val">${cups} <small>${currentLang === 'th' ? 'แก้ว' : 'cups'}</small></span>
+                  <span class="calc-metric-sub">${currentLang === 'th' ? `สูตรชง ${grams.toFixed(1)}g / แก้ว` : `Formula ${grams.toFixed(1)}g / cup`}</span>
+                </div>
+
+                <div class="calc-metric-box">
+                  <span class="calc-metric-label">🍃 ${currentLang === 'th' ? 'ต้นทุนผงชาต่อแก้ว' : 'Powder Cost / Cup'}</span>
+                  <span class="calc-metric-val highlight-cost">${cost} ฿</span>
+                  <span class="calc-metric-sub">${currentLang === 'th' ? `คิดเป็น ${((cost / selling) * 100).toFixed(0)}% ของราคาขาย ${selling} ฿` : `${((cost / selling) * 100).toFixed(0)}% of ${selling} ฿ retail`}</span>
+                </div>
+
+                <div class="calc-metric-box">
+                  <span class="calc-metric-label">💰 ${currentLang === 'th' ? 'กำไรหักผงชาต่อแก้ว' : 'Gross Profit / Cup'}</span>
+                  <span class="calc-metric-val highlight-profit">+${profit} ฿</span>
+                  <span class="calc-metric-sub">${currentLang === 'th' ? `Margin ${margin}% (กำไร ${(profit / cost).toFixed(1)} เท่าของทุน)` : `Margin ${margin}% (${(profit / cost).toFixed(1)}x cost)`}</span>
+                </div>
+              </div>
+
+              <!-- 2. Monthly Profit Simulator -->
+              <div class="calc-projection-box">
+                <div class="calc-projection-header">
+                  <div class="font-bold text-[13px] flex items-center gap-1.5" style="color:#1a3a16;">
+                    <span>📈</span>
+                    <span>${currentLang === 'th' ? `จำลองผลกำไรต่อเดือนของร้านคุณเมื่อใช้ ${item.name}` : `Monthly Profit Projection with ${item.name}`}</span>
+                  </div>
+                  <span class="text-[11px] text-stone-500 font-medium">
+                    ${currentLang === 'th' ? `อิงราคาขายหน้าร้าน ${selling} ฿ / แก้ว (ชง ${grams.toFixed(1)}g)` : `Based on ${selling} ฿ retail & ${grams.toFixed(1)}g dose`}
+                  </span>
+                </div>
+
+                <div class="calc-projection-cards">
+                  <div class="calc-proj-tier">
+                    <div class="calc-proj-title">${currentLang === 'th' ? 'ยอดขาย 20 แก้ว / วัน' : '20 cups / day'}</div>
+                    <div class="calc-proj-cups">${currentLang === 'th' ? `600 แก้ว/เดือน (ใช้ผงชา ~${kg20} kg)` : `600 cups/mo (~${kg20} kg)`}</div>
+                    <div class="calc-proj-profit">+${monthly20.toLocaleString()} ฿</div>
+                    <div class="calc-proj-desc">${currentLang === 'th' ? 'กำไรเฉพาะผงชาต่อเดือน' : 'Gross tea profit / month'}</div>
+                  </div>
+
+                  <div class="calc-proj-tier popular">
+                    <div class="calc-proj-badge">${currentLang === 'th' ? 'เป้าหมายแนะนำ' : 'Target'}</div>
+                    <div class="calc-proj-title">${currentLang === 'th' ? 'ยอดขาย 40 แก้ว / วัน' : '40 cups / day'}</div>
+                    <div class="calc-proj-cups">${currentLang === 'th' ? `1,200 แก้ว/เดือน (ใช้ผงชา ~${kg40} kg)` : `1,200 cups/mo (~${kg40} kg)`}</div>
+                    <div class="calc-proj-profit highlight">+${monthly40.toLocaleString()} ฿</div>
+                    <div class="calc-proj-desc">${currentLang === 'th' ? 'กำไรเฉพาะผงชาต่อเดือน' : 'Gross tea profit / month'}</div>
+                  </div>
+
+                  <div class="calc-proj-tier">
+                    <div class="calc-proj-title">${currentLang === 'th' ? 'ยอดขาย 60 แก้ว / วัน' : '60 cups / day'}</div>
+                    <div class="calc-proj-cups">${currentLang === 'th' ? `1,800 แก้ว/เดือน (ใช้ผงชา ~${kg60} kg)` : `1,800 cups/mo (~${kg60} kg)`}</div>
+                    <div class="calc-proj-profit">+${monthly60.toLocaleString()} ฿</div>
+                    <div class="calc-proj-desc">${currentLang === 'th' ? 'กำไรเฉพาะผงชาต่อเดือน' : 'Gross tea profit / month'}</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3. Taste Profile & Action Recommendations -->
+              <div class="calc-taste-action-grid">
+                <div class="calc-taste-panel">
+                  <div class="text-[12px] font-bold mb-2.5 flex items-center justify-between" style="color:#1a3a16;">
+                    <span>👅 ${currentLang === 'th' ? 'โปรไฟล์รสชาติ (Taste Profile)' : 'Taste Profile'}</span>
+                    <span class="text-[11px] text-stone-500 font-normal">${item.origin}</span>
+                  </div>
+                  <div class="space-y-1.5 text-[11px]">
+                    <div class="flex items-center justify-between">
+                      <span class="text-stone-600">${currentLang === 'th' ? '🥜 นัตตี้ถั่วคั่ว (Nutty)' : '🥜 Roasted Nutty'}</span>
+                      <div class="flex items-center">${renderTastePips(item.taste.nutty)} <span class="font-bold text-[10px] text-stone-700 ml-1">${item.taste.nutty}/5</span></div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <span class="text-stone-600">${currentLang === 'th' ? '✨ อูมามิกลมกล่อม (Umami)' : '✨ Umami'}</span>
+                      <div class="flex items-center">${renderTastePips(item.taste.umami)} <span class="font-bold text-[10px] text-stone-700 ml-1">${item.taste.umami}/5</span></div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <span class="text-stone-600">${currentLang === 'th' ? '🌸 กลิ่นหอม (Aroma)' : '🌸 Aroma'}</span>
+                      <div class="flex items-center">${renderTastePips(item.taste.aroma)} <span class="font-bold text-[10px] text-stone-700 ml-1">${item.taste.aroma}/5</span></div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <span class="text-stone-600">${currentLang === 'th' ? '🍯 หวานธรรมชาติ (Sweetness)' : '🍯 Natural Sweetness'}</span>
+                      <div class="flex items-center">${renderTastePips(item.taste.sweetness)} <span class="font-bold text-[10px] text-stone-700 ml-1">${item.taste.sweetness}/5</span></div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <span class="text-stone-600">${currentLang === 'th' ? '🍃 ความฝาดขม (Bitterness)' : '🍃 Bitterness'}</span>
+                      <div class="flex items-center">${renderTastePips(item.taste.bitterness)} <span class="font-bold text-[10px] text-stone-700 ml-1">${item.taste.bitterness}/5</span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="calc-action-panel">
+                  <div>
+                    <div class="text-[12px] font-bold mb-1.5 flex items-center justify-between" style="color:#1a3a16;">
+                      <span>💡 ${currentLang === 'th' ? 'คำแนะนำสำหรับร้านคาเฟ่' : 'Barista Recommendation'}</span>
+                      <span class="text-[10.5px] px-2 py-0.5 rounded-md font-semibold" style="background:#eef5ec;color:#2d5a27;">
+                        ${currentLang === 'th' ? `ราคาแนะนำ: ${suggestedPrice}` : `Suggested: ${suggestedPrice}`}
+                      </span>
+                    </div>
+                    <p class="text-[11.5px] text-stone-600 leading-relaxed mb-3">
+                      ${item.recommendedFor ? (item.recommendedFor[currentLang] || '') : (item.description ? item.description[currentLang] : '')}
+                    </p>
+                  </div>
+
+                  <div class="flex flex-wrap gap-2 pt-2.5" style="border-top:1px dashed #e2ded4;">
+                    <button type="button" onclick="event.stopPropagation(); openContactModal();" class="btn-primary text-[11.5px] py-2 px-3.5 flex-1 justify-center whitespace-nowrap">
+                      💬 ${currentLang === 'th' ? `ขอรับตัวอย่าง ${item.name} กับพี่ปิ่นปัก` : `Request ${item.name} Sample`}
+                    </button>
+                    <a href="#recipes" onclick="event.stopPropagation();" class="btn-secondary text-[11.5px] py-2 px-3 whitespace-nowrap flex items-center justify-center">
+                      📖 ${currentLang === 'th' ? 'สูตรชง' : 'Recipe'}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ` : ''}
         </div>
       `;
     }).join('');
+
+    if (window.lucide) window.lucide.createIcons();
   }
+
+  window.recalcCostCalculator = recalc;
 
   let lastCelebration = 0;
   function onUserCalcInput() {
