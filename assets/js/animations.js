@@ -54,6 +54,14 @@
     }, 450);
   }
 
+  function getGraphemeClusters(text) {
+    if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+      const segmenter = new Intl.Segmenter('th', { granularity: 'grapheme' });
+      return Array.from(segmenter.segment(text), s => s.segment);
+    }
+    return text.match(/[\u0E00-\u0E7F][\u0E30-\u0E4E]*|[^\u0E00-\u0E7F]/gu) || text.split('');
+  }
+
   function initHeroTypewriter() {
     const titleEl = document.querySelector('h1[data-i18n="hero_title_1"]');
     if (!titleEl) return;
@@ -61,25 +69,32 @@
     const fullText = titleEl.textContent.trim();
     if (!fullText) return;
 
+    const graphemes = getGraphemeClusters(fullText);
     titleEl.textContent = '';
+
+    const textNode = document.createTextNode('');
     const cursor = document.createElement('span');
     cursor.className = 'typing-cursor';
+    titleEl.appendChild(textNode);
     titleEl.appendChild(cursor);
 
-    let charIdx = 0;
-    const typeSpeed = 38; // ms per char
+    let clusterIdx = 0;
+    const typeSpeed = 45; // ms per cluster
 
     function typeNext() {
-      if (charIdx < fullText.length) {
-        titleEl.insertBefore(document.createTextNode(fullText[charIdx]), cursor);
-        charIdx++;
+      if (clusterIdx < graphemes.length) {
+        clusterIdx++;
+        textNode.nodeValue = graphemes.slice(0, clusterIdx).join('');
         setTimeout(typeNext, typeSpeed);
       } else {
-        // Blinking cursor stays for 2 seconds then fades
+        // Complete text: clean up cursor after 2s
         setTimeout(() => {
-          cursor.style.transition = 'opacity 0.5s ease';
+          cursor.style.transition = 'opacity 0.4s ease';
           cursor.style.opacity = '0';
-          setTimeout(() => cursor.remove(), 500);
+          setTimeout(() => {
+            cursor.remove();
+            titleEl.textContent = fullText;
+          }, 400);
         }, 2000);
       }
     }
