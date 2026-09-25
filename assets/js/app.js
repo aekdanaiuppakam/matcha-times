@@ -837,7 +837,7 @@ function initCostCalculator() {
               </div>
             </div>
             
-            <div class="calc-card-margin-ring" style="background: conic-gradient(#2d5a27 0% ${margin}%, #e5e0d4 ${margin}% 100%);">
+            <div class="calc-card-margin-ring" style="background: conic-gradient(var(--ring-fill, #2d5a27) 0% ${margin}%, var(--ring-track, #e5e0d4) ${margin}% 100%);">
               <span>${margin}%</span>
             </div>
 

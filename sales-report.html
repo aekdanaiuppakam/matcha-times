@@ -10,8 +10,28 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet">
   
+  <!-- Theme Initializer (Pre-render Dark/Light detection) -->
+  <script src="assets/js/theme.js"></script>
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            matcha: {
+              50: '#f2f8f0', 100: '#e0f0db', 200: '#bcdcb3',
+              300: '#8cc280', 400: '#5fa353', 500: '#3d8535',
+              600: '#2d6a28', 700: '#255421', 800: '#1e431b',
+              900: '#173618', 950: '#0b1e0a'
+            }
+          }
+        }
+      }
+    }
+  </script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <!-- Chart.js CDN -->
@@ -24,12 +44,203 @@
     .pin-input { font-family: monospace; letter-spacing: 0.6em; text-align: center; font-size: 1.5rem; }
     .anim-fade { animation: fadeIn 0.3s ease-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ── Dark Mode Overrides for Sales Intelligence Portal ── */
+    html.dark body {
+      background-color: #0c130c;
+      color: #cbd6c7;
+    }
+    html.dark .glass-card {
+      background: rgba(20, 29, 19, 0.95);
+      border-color: #273824;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    }
+    html.dark header.bg-white {
+      background-color: #121a11 !important;
+      border-bottom-color: #243522 !important;
+    }
+    html.dark #pin-modal .glass-card {
+      background: #141d13 !important;
+      border-color: #273824 !important;
+    }
+    html.dark #admin-pin-input {
+      background-color: #1a2618 !important;
+      border-color: #2a3d27 !important;
+      color: #f4f7f2 !important;
+    }
+    html.dark #admin-pin-input:focus {
+      border-color: #34d399 !important;
+    }
+
+    /* Text Colors */
+    html.dark .text-stone-900 {
+      color: #f4f7f2 !important;
+    }
+    html.dark .text-stone-800 {
+      color: #e5ece2 !important;
+    }
+    html.dark .text-stone-700 {
+      color: #cbd6c7 !important;
+    }
+    html.dark .text-stone-600 {
+      color: #b2c0ae !important;
+    }
+    html.dark .text-stone-500 {
+      color: #92a48f !important;
+    }
+    html.dark .text-stone-400 {
+      color: #798b75 !important;
+    }
+
+    /* KPI Highlights in Dark Mode */
+    html.dark #stat-conversions {
+      color: #34d399 !important;
+    }
+    html.dark #stat-chats {
+      color: #fbbf24 !important;
+    }
+    html.dark .bg-emerald-100 {
+      background-color: #14351a !important;
+      color: #34d399 !important;
+    }
+    html.dark .text-emerald-800,
+    html.dark .text-emerald-700 {
+      color: #34d399 !important;
+    }
+    html.dark .border-emerald-100,
+    html.dark .border-emerald-200 {
+      border-color: #273824 !important;
+    }
+    html.dark .bg-emerald-50 {
+      background-color: #162917 !important;
+    }
+
+    /* Cards, Items, and Hover */
+    html.dark .bg-white {
+      background-color: #151e14 !important;
+    }
+    html.dark .bg-stone-50 {
+      background-color: #172316 !important;
+    }
+    html.dark .bg-stone-100 {
+      background-color: #1c2b1a !important;
+    }
+    html.dark .bg-stone-200 {
+      background-color: #243522 !important;
+    }
+    html.dark .border-stone-100,
+    html.dark .border-stone-200,
+    html.dark .border-stone-300 {
+      border-color: #273824 !important;
+    }
+    html.dark .hover\:bg-stone-50:hover {
+      background-color: #1b2819 !important;
+    }
+    html.dark .hover\:bg-stone-100:hover {
+      background-color: #20311e !important;
+    }
+
+    /* Attribution & Device Bars */
+    html.dark #attribution-bars .bg-white {
+      background: #172216 !important;
+      border-color: #273824 !important;
+    }
+    html.dark #attribution-bars .bg-stone-100 {
+      background: #243522 !important;
+    }
+    html.dark #device-bars .bg-stone-100 {
+      background: #243522 !important;
+    }
+    html.dark #device-bars .bg-stone-600 {
+      background: #34d399 !important;
+    }
+
+    /* Chat Transcripts & Bubbles */
+    html.dark #chat-transcript-list .bg-white {
+      background: #151e14 !important;
+      border-color: #273824 !important;
+    }
+    html.dark #chat-transcript-list .border-stone-100 {
+      border-color: #243522 !important;
+    }
+    html.dark #chat-transcript-list .bg-stone-100 {
+      background: #1e2c1c !important;
+      color: #f4f7f2 !important;
+    }
+    html.dark #chat-transcript-list .bg-stone-200 {
+      background: #253823 !important;
+      color: #cbd6c7 !important;
+    }
+    html.dark #chat-transcript-list .bg-emerald-950 {
+      background-color: #0b2210 !important;
+      border: 1px solid #1a4d25 !important;
+    }
+
+    /* Customer Journeys */
+    html.dark #journey-list .bg-white {
+      background: #151e14 !important;
+      border-color: #273824 !important;
+    }
+    html.dark #journey-list .border-stone-100 {
+      border-color: #243522 !important;
+    }
+    html.dark #journey-list .bg-stone-100 {
+      background: #1e2c1c !important;
+      color: #d1d8cd !important;
+    }
+    html.dark #journey-list .text-stone-300 {
+      color: #4b6247 !important;
+    }
+    html.dark #journey-list .bg-emerald-50\/60 {
+      background-color: rgba(14, 38, 18, 0.6) !important;
+      border-color: rgba(52, 211, 153, 0.25) !important;
+    }
+    html.dark #journey-list .text-emerald-900 {
+      color: #34d399 !important;
+    }
+
+    /* AI Executive Report Result Container */
+    html.dark #ai-report-box {
+      background-color: #141f13 !important;
+      border-color: rgba(52, 211, 153, 0.4) !important;
+    }
+    html.dark #ai-report-content {
+      color: #cbd6c7 !important;
+    }
+    html.dark #ai-report-content h3 {
+      color: #34d399 !important;
+    }
+    html.dark #ai-report-content h4 {
+      color: #f4f7f2 !important;
+    }
+    html.dark #ai-report-content strong {
+      color: #f4f7f2 !important;
+    }
+
+    /* Buttons */
+    html.dark .theme-toggle-btn {
+      background: #182417;
+      border-color: #273824;
+      color: #fbbf24;
+    }
+    html.dark .theme-toggle-btn:hover {
+      background: #233422;
+      border-color: #34d399;
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased">
 
   <!-- ═══ 1. SECURITY LOCK SCREEN (PIN MODAL) ═══ -->
   <div id="pin-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-md">
+    <!-- Top-Right Theme Toggle on PIN Screen -->
+    <div class="absolute top-4 right-4 z-50">
+      <button onclick="toggleTheme()" class="theme-toggle-btn w-9 h-9 rounded-full flex items-center justify-center bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm border border-white/20 transition-all cursor-pointer shadow-sm" title="สลับโหมดมืด/สว่าง">
+        <i data-lucide="moon" class="w-4 h-4 moon-icon"></i>
+        <i data-lucide="sun" class="w-4 h-4 sun-icon hidden"></i>
+      </button>
+    </div>
+
     <div class="glass-card max-w-sm w-full p-7 text-center shadow-2xl bg-white border border-stone-200">
       <div class="w-14 h-14 mx-auto mb-4 rounded-2xl flex items-center justify-center text-white" style="background:#1a3a16;">
         <i data-lucide="shield-check" class="w-7 h-7"></i>
@@ -45,7 +256,7 @@
                  autocomplete="off" autofocus>
           <div id="pin-error" class="text-xs text-rose-600 mt-1.5 hidden font-medium">รหัส PIN ไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง</div>
         </div>
-        <button type="submit" class="w-full py-3 rounded-xl text-white font-bold text-sm shadow-md transition-all active:scale-95 flex items-center justify-center gap-2" style="background:#2d5a27;">
+        <button type="submit" class="w-full py-3 rounded-xl text-white font-bold text-sm shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer" style="background:#2d5a27;">
           <i data-lucide="lock-open" class="w-4 h-4"></i>
           <span>เข้าสู่ระบบ Dashboard</span>
         </button>
@@ -71,12 +282,18 @@
           <p class="text-[11px] text-stone-500">ระบบวิเคราะห์พฤติกรรมลูกค้า & Conversion Attribution หลังบ้าน</p>
         </div>
       </div>
-      <div class="flex items-center gap-2.5">
-        <button onclick="fetchAnalyticsData()" class="p-2 rounded-xl border border-stone-200 hover:bg-stone-50 text-stone-700 text-xs font-semibold flex items-center gap-1.5 transition-all">
+      <div class="flex items-center gap-2 sm:gap-2.5">
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle-btn" onclick="toggleTheme()" class="theme-toggle-btn p-2 rounded-xl border border-stone-200 text-stone-700 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer" title="สลับโหมดมืด/สว่าง">
+          <i data-lucide="moon" class="w-3.5 h-3.5 moon-icon"></i>
+          <i data-lucide="sun" class="w-3.5 h-3.5 sun-icon hidden"></i>
+          <span class="hidden sm:inline theme-label">โหมดมืด</span>
+        </button>
+        <button onclick="fetchAnalyticsData()" class="p-2 rounded-xl border border-stone-200 hover:bg-stone-50 text-stone-700 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer">
           <i data-lucide="refresh-cw" class="w-3.5 h-3.5" id="refresh-icon"></i>
           <span class="hidden sm:inline">รีเฟรชข้อมูล</span>
         </button>
-        <button onclick="logoutAdmin()" class="p-2 rounded-xl text-stone-500 hover:text-stone-800 hover:bg-stone-100 transition-all" title="ออกจากระบบ">
+        <button onclick="logoutAdmin()" class="p-2 rounded-xl text-stone-500 hover:text-stone-800 hover:bg-stone-100 transition-all cursor-pointer" title="ออกจากระบบ">
           <i data-lucide="log-out" class="w-4 h-4"></i>
         </button>
       </div>

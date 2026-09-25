@@ -22,6 +22,10 @@
   --border:       #e5e0d4;
   --border-dark:  #c8c0b0;
 
+  --ring-track:   #e5e0d4;
+  --ring-fill:    #2d5a27;
+  --ring-center:  #ffffff;
+
   --radius-sm:    8px;
   --radius-md:    14px;
   --radius-lg:    20px;
@@ -1040,7 +1044,7 @@ body.ai-chat-open .compare-bar {
   content: "";
   position: absolute;
   inset: 4.5px;
-  background: #fff;
+  background: var(--ring-center, #fff);
   border-radius: 50%;
   z-index: 0;
 }
@@ -1755,3 +1759,695 @@ body.ai-chat-open .compare-bar {
     height: 400px;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   THEME TOGGLE BUTTON
+   ═══════════════════════════════════════════════════════════════ */
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 99px;
+  background: #ede8df;
+  border: 1px solid var(--border);
+  color: #4a5a46;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+.theme-toggle-btn:hover {
+  background: var(--matcha-pale);
+  color: var(--matcha);
+  border-color: var(--matcha);
+  transform: scale(1.05);
+}
+.theme-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MATCHA TIMES — JAPANESE ZEN DARK MODE THEME
+   Crisp Contrast • Deep Organic Tea Tones • Highly Legible
+   ═══════════════════════════════════════════════════════════════ */
+
+html.dark {
+  --matcha:       #34d399;
+  --matcha-deep:  #10b981;
+  --matcha-mid:   #059669;
+  --matcha-pale:  #142817;
+  --gold:         #fbbf24;
+  --gold-light:   #3a2c0f;
+  --sand:         #0d130c;
+  --sand-card:    #151f15;
+  --parchment:    #182417;
+  --ink:          #f4f7f2;
+  --ink-mid:      #d1d9cd;
+  --ink-light:    #95a591;
+  --border:       #273824;
+  --border-dark:  #384e34;
+  --ring-track:   #273824;
+  --ring-fill:    #34d399;
+  --ring-center:  #141d13;
+}
+
+html.dark body {
+  background-color: #0d130c !important;
+  color: #d1d8cd !important;
+}
+
+/* Custom Scrollbar in Dark Mode */
+html.dark ::-webkit-scrollbar-track { background: #131c12; }
+html.dark ::-webkit-scrollbar-thumb { background: #2e432c; border-radius: 3px; }
+html.dark ::-webkit-scrollbar-thumb:hover { background: #3d5b3a; }
+
+/* ── Typography & Global Overrides ── */
+html.dark h1, html.dark h2, html.dark h3, html.dark h4, html.dark h5, html.dark h6 {
+  color: #f4f7f2 !important;
+}
+html.dark [style*="color:#1a3a16"],
+html.dark [style*="color:#1a1c19"] {
+  color: #f4f7f2 !important;
+}
+html.dark [style*="color:#3a3d38"],
+html.dark [style*="color:#4a5a46"],
+html.dark [style*="color:#5a5a50"],
+html.dark [style*="color:#2c332b"] {
+  color: #cbd6c7 !important;
+}
+html.dark [style*="color:#6b7068"],
+html.dark [style*="color:#7a7468"] {
+  color: #92a48f !important;
+}
+html.dark [style*="color:#2d5a27"] {
+  color: #34d399 !important;
+}
+html.dark [style*="border:1px solid #e5e0d4"],
+html.dark [style*="border-top:1px solid #e5e0d4"],
+html.dark [style*="border-bottom:1px solid #e5e0d4"],
+html.dark [style*="border: 1px solid #e5e0d4"],
+html.dark [style*="border-top: 1px solid #e5e0d4"],
+html.dark [style*="border-bottom: 1px solid #e5e0d4"] {
+  border-color: #273824 !important;
+}
+
+html.dark .text-stone-900,
+html.dark .text-stone-800 {
+  color: #f4f7f2 !important;
+}
+html.dark .text-stone-700 {
+  color: #d1d8cd !important;
+}
+html.dark .text-stone-600 {
+  color: #b2c0ae !important;
+}
+html.dark .text-stone-500 {
+  color: #92a48f !important;
+}
+html.dark .text-stone-400 {
+  color: #798b75 !important;
+}
+
+/* ── Surfaces & Borders ── */
+html.dark .bg-white {
+  background-color: #141d13 !important;
+}
+html.dark .bg-stone-50 {
+  background-color: #172216 !important;
+}
+html.dark .border-stone-100,
+html.dark .border-stone-200,
+html.dark .border-stone-300 {
+  border-color: #273824 !important;
+}
+
+/* ── Navigation & Header ── */
+html.dark .nav-glass {
+  background: rgba(13, 19, 12, 0.94) !important;
+  border-bottom: 1px solid #273824 !important;
+}
+html.dark #main-nav div[style*="color:#1a3a16"] {
+  color: #f4f7f2 !important;
+}
+html.dark #main-nav div[style*="color:#7a9a74"] {
+  color: #34d399 !important;
+}
+html.dark #main-nav nav a {
+  color: #cbd6c7 !important;
+}
+html.dark #main-nav nav a:hover {
+  color: #34d399 !important;
+}
+
+/* Theme toggle in dark mode */
+html.dark .theme-toggle-btn {
+  background: #192518;
+  border-color: #2e432c;
+  color: #fbbf24;
+}
+html.dark .theme-toggle-btn:hover {
+  background: #233422;
+  border-color: #34d399;
+  color: #fde047;
+}
+
+/* Language switch */
+html.dark .lang-switch {
+  background: #182417;
+  border-color: #273824;
+}
+html.dark .lang-btn {
+  color: #92a48f;
+}
+html.dark .lang-btn.active {
+  background: #255421;
+  color: #ffffff;
+}
+
+/* Mobile drawer */
+html.dark .mobile-drawer {
+  background: #111a11 !important;
+  box-shadow: -12px 0 48px rgba(0,0,0,0.6) !important;
+  border-left: 1px solid #273824;
+}
+html.dark .mobile-drawer a {
+  color: #cbd6c7 !important;
+}
+html.dark .mobile-drawer a:hover {
+  background: #182517 !important;
+  color: #34d399 !important;
+}
+html.dark .hamburger-btn {
+  background: #182417;
+  border-color: #273824;
+}
+html.dark .hamburger-btn span {
+  background: #f4f7f2;
+}
+
+/* ── Hero Japanese Tea Farm ── */
+html.dark .hero-tea-farm {
+  background: linear-gradient(175deg, #091209 0%, #0d170d 40%, #121e12 100%) !important;
+}
+html.dark .hero-sunrise-aura {
+  background: radial-gradient(ellipse 60% 50% at 50% 30%, rgba(201, 168, 76, 0.12) 0%, rgba(45, 90, 39, 0.22) 50%, transparent 80%) !important;
+}
+html.dark .hero-tea-farm .grid > div,
+html.dark .hero-tea-farm .anim-float {
+  background: rgba(18, 28, 18, 0.9) !important;
+  border-color: rgba(39, 56, 36, 0.95) !important;
+}
+html.dark .hero-tea-farm .grid > div div:first-child {
+  color: #f4f7f2 !important;
+}
+html.dark .hero-tea-farm .grid > div div:last-child {
+  color: #92a48f !important;
+}
+html.dark .hero-tea-farm .btn-secondary {
+  background: rgba(22, 35, 22, 0.95) !important;
+  border-color: #273824 !important;
+  color: #f4f7f2 !important;
+}
+html.dark .hero-tea-farm .btn-secondary:hover {
+  background: #254024 !important;
+  border-color: #34d399 !important;
+}
+html.dark .hero-tea-farm [style*="color:#5a8054"] {
+  color: #6ee7b7 !important;
+}
+html.dark .hero-tea-farm [style*="color:#4a5046"] {
+  color: #cbd6c7 !important;
+}
+html.dark .tea-hill-back path {
+  fill: #0d1f0d !important;
+}
+html.dark .tea-hill-mid path {
+  fill: #112711 !important;
+}
+html.dark .tea-hill-front path {
+  fill: #153215 !important;
+}
+html.dark .tea-mist-layer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 30%, rgba(45,90,39,0.12) 50%, rgba(255,255,255,0.04) 70%, transparent 100%) !important;
+}
+html.dark .scroll-mouse-pill {
+  border-color: rgba(52, 211, 153, 0.45);
+  background: rgba(19, 29, 18, 0.8);
+}
+html.dark .scroll-dot {
+  background: #34d399;
+}
+html.dark .scroll-hint-text {
+  color: #8fa78a !important;
+}
+html.dark .scroll-hint-text:hover {
+  color: #34d399 !important;
+}
+
+/* ── Matchmaker Quiz ── */
+html.dark #matchmaker {
+  background: #0f160e !important;
+  border-top-color: #273824 !important;
+}
+html.dark .quiz-option {
+  background: #151e14 !important;
+  border-color: #273824 !important;
+  color: #d1d8cd !important;
+}
+html.dark .quiz-option:hover {
+  border-color: #34d399 !important;
+  background: #1b281a !important;
+  color: #f4f7f2 !important;
+}
+html.dark .quiz-option.selected {
+  border-color: #34d399 !important;
+  background: #182e18 !important;
+  color: #f4f7f2 !important;
+}
+html.dark .quiz-reset-btn {
+  background: #182417 !important;
+  border-color: #273824 !important;
+  color: #92a48f !important;
+}
+html.dark .quiz-reset-btn:hover {
+  border-color: #34d399 !important;
+  color: #34d399 !important;
+}
+html.dark #quiz-result-card > div {
+  background: #141d13 !important;
+  border-color: #273824 !important;
+}
+
+/* ── Tier List Best Sellers ── */
+html.dark #tier-list {
+  background: #0c130c !important;
+  border-top-color: #273824 !important;
+}
+html.dark .tier-row {
+  background: #141d13 !important;
+  border-color: #273824 !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+}
+html.dark .tier-item-chip {
+  background: #182417 !important;
+  border-color: #273824 !important;
+  color: #f4f7f2 !important;
+}
+html.dark .tier-item-chip:hover {
+  background: #1e2e1c !important;
+  border-color: #34d399 !important;
+}
+
+/* ── Product Catalog (10 SKUs) ── */
+html.dark #catalog {
+  background: #0d130c !important;
+}
+html.dark .tea-card {
+  background: #141d13 !important;
+  border-color: #273824 !important;
+}
+html.dark .tea-card:hover {
+  border-color: #34d399 !important;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.45) !important;
+}
+html.dark .tea-card .bg-white {
+  background-color: #141d13 !important;
+}
+html.dark .tea-card [style*="border-top:1px solid #ede8df"] {
+  border-top-color: #273824 !important;
+}
+html.dark .tea-card [style*="background:#f2ede3"] {
+  background: #1a2719 !important;
+  color: #cbd6c7 !important;
+  border-color: #2c4129 !important;
+}
+html.dark .tea-card label [style*="background:#fff"] {
+  background: #182417 !important;
+  border-color: #273824 !important;
+  color: #cbd6c7 !important;
+}
+html.dark .tea-card label [style*="background:#1a3a16"] {
+  background: #255421 !important;
+  border-color: #34d399 !important;
+  color: #ffffff !important;
+}
+
+html.dark .pill {
+  background: #162115 !important;
+  border-color: #273824 !important;
+  color: #cbd6c7 !important;
+}
+html.dark .pill:hover {
+  border-color: #34d399 !important;
+  color: #f4f7f2 !important;
+  background: #1e2c1c !important;
+}
+html.dark .pill.active {
+  background: #255421 !important;
+  border-color: #34d399 !important;
+  color: #ffffff !important;
+}
+html.dark select {
+  background: #162115 !important;
+  border-color: #273824 !important;
+  color: #f4f7f2 !important;
+}
+html.dark .taste-bar-track {
+  background: #233421 !important;
+}
+
+/* ── Comparison Section ── */
+html.dark #comparison-section {
+  background: #0f160e !important;
+  border-top-color: #273824 !important;
+}
+html.dark #comparison-table-container > div {
+  background: #141d13 !important;
+  border-color: #273824 !important;
+}
+html.dark .cmp-table td, html.dark .cmp-table th {
+  border-bottom-color: #273824 !important;
+  color: #d1d8cd !important;
+}
+html.dark .cmp-table tr:hover td {
+  background: #182517 !important;
+}
+html.dark .cmp-winner {
+  background: #183318 !important;
+}
+html.dark .compare-bar {
+  background: #121c12 !important;
+  border-color: #2d4529 !important;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.55) !important;
+}
+
+/* ── Cost Calculator ── */
+html.dark #calculator {
+  background: #0d130c !important;
+  border-top-color: #273824 !important;
+}
+html.dark #calculator .bg-white.rounded-3xl {
+  background: #131c12 !important;
+  border-color: #273824 !important;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.35) !important;
+}
+html.dark #calculator [style*="border-bottom:1px solid #e5e0d4"] {
+  border-bottom-color: #273824 !important;
+}
+html.dark input[type="range"] {
+  background: #243522 !important;
+}
+html.dark [style*="background:#fffcf2"] {
+  background: #201a11 !important;
+  border-color: #44371a !important;
+  color: #f6d27e !important;
+}
+html.dark [style*="background:#f2f8f0"] {
+  background: #162617 !important;
+  border-color: #264327 !important;
+}
+html.dark .calc-summary-grid > div:nth-child(1) {
+  background: #142918 !important;
+  border-color: #27592e !important;
+}
+html.dark .calc-summary-grid > div:nth-child(2) {
+  background: #2b2311 !important;
+  border-color: #5c471c !important;
+}
+html.dark .calc-summary-grid > div:nth-child(3) {
+  background: #24192b !important;
+  border-color: #4b305c !important;
+}
+
+html.dark .calc-card {
+  background-color: #151e14 !important;
+  border-color: #273824 !important;
+}
+html.dark .calc-card:hover {
+  border-color: #34d399 !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35) !important;
+}
+html.dark .calc-card.expanded {
+  background-color: #182517 !important;
+  border-color: #34d399 !important;
+}
+html.dark .calc-card-bar-container {
+  background: #243522 !important;
+}
+html.dark .calc-card-margin-ring {
+  color: #34d399 !important;
+}
+html.dark .calc-card-margin-ring::before {
+  background: #151e14 !important;
+}
+html.dark .calc-card.expanded .calc-card-margin-ring::before {
+  background: #182517 !important;
+}
+html.dark .calc-card-toggle-btn {
+  background: #1a2919 !important;
+  color: #34d399 !important;
+  border-color: #294027 !important;
+}
+html.dark .calc-card:hover .calc-card-toggle-btn {
+  background: #255421 !important;
+  color: #ffffff !important;
+}
+html.dark .calc-card-detail {
+  border-top-color: #273824 !important;
+}
+html.dark .calc-metric-box {
+  background: #1a2719 !important;
+  border-color: #273824 !important;
+}
+html.dark .calc-metric-box:hover {
+  background: #1e2f1d !important;
+  border-color: #34d399 !important;
+}
+html.dark .calc-metric-label {
+  color: #92a48f !important;
+}
+html.dark .calc-metric-val {
+  color: #f4f7f2 !important;
+}
+html.dark .calc-metric-val small {
+  color: #8c9f8a !important;
+}
+html.dark .calc-projection-box {
+  background: linear-gradient(180deg, #152214 0%, #192718 100%) !important;
+  border-color: #273824 !important;
+}
+html.dark .calc-proj-tier {
+  background: #182517 !important;
+  border-color: #273824 !important;
+}
+html.dark .calc-proj-tier.popular {
+  border-color: #34d399 !important;
+  background: #1b291a !important;
+}
+html.dark .calc-proj-title {
+  color: #f4f7f2 !important;
+}
+html.dark .calc-proj-cups {
+  color: #92a48f !important;
+}
+html.dark .calc-proj-profit {
+  color: #34d399 !important;
+}
+html.dark .calc-taste-panel,
+html.dark .calc-action-panel {
+  background: #182517 !important;
+  border-color: #273824 !important;
+}
+html.dark .calc-taste-pip {
+  background: #243522 !important;
+}
+html.dark .calc-taste-pip.filled {
+  background: #34d399 !important;
+}
+
+/* ── Barista Recipes, Terroirs, FAQ ── */
+html.dark .recipe-card {
+  background: #141d13 !important;
+  border-color: #273824 !important;
+}
+html.dark .recipe-card > div:first-child {
+  background: linear-gradient(145deg, #182617 0%, #141f13 100%) !important;
+  border-bottom-color: #273824 !important;
+}
+html.dark .recipe-card [style*="background:#f2f8f0"] {
+  background: #162617 !important;
+  border-color: #274026 !important;
+  color: #34d399 !important;
+}
+html.dark .recipe-card [style*="background:#f0f8f8"] {
+  background: #132628 !important;
+  border-color: #1e454a !important;
+  color: #2dd4bf !important;
+}
+html.dark .ratio-pill {
+  background: #182517 !important;
+  border-color: #273824 !important;
+  color: #cbd6c7 !important;
+}
+
+html.dark #terroirs {
+  background: #0f160e !important;
+  border-top-color: #273824 !important;
+}
+html.dark #terroirs .bg-white {
+  background: #141d13 !important;
+  border-color: #273824 !important;
+}
+html.dark #terroirs [style*="border-top:1px solid #e5e0d4"] {
+  border-top-color: #273824 !important;
+}
+
+html.dark #faq {
+  background: #0c130c !important;
+  border-top-color: #273824 !important;
+}
+html.dark .faq-card {
+  background: #141d13 !important;
+  border-color: #273824 !important;
+}
+html.dark .faq-card [style*="background:#f2f8f0"],
+html.dark .faq-card [style*="background:#eef5ec"] {
+  background: #182818 !important;
+  border-color: #274026 !important;
+}
+html.dark .faq-card [style*="background:#fdf6e6"] {
+  background: #282112 !important;
+  border-color: #4c3c1e !important;
+}
+html.dark .faq-card [style*="background:#f5f0fa"] {
+  background: #23182b !important;
+  border-color: #462c57 !important;
+}
+
+/* ── Modals & Drawers ── */
+html.dark .modal-box {
+  background: #141d13 !important;
+  border: 1px solid #2d4529 !important;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.65) !important;
+  color: #f4f7f2 !important;
+}
+html.dark #product-modal-content .bg-white {
+  background-color: #141d13 !important;
+}
+html.dark #product-modal-content [style*="background:#f8f5f0"] {
+  background-color: #1a2719 !important;
+  border-color: #273824 !important;
+}
+html.dark #product-modal-content [style*="background:#f2f8f0"] {
+  background-color: #172818 !important;
+  border-color: #2b4528 !important;
+}
+html.dark #product-modal-content .text-matcha-900 {
+  color: #34d399 !important;
+}
+html.dark #product-modal-content .text-matcha-700 {
+  color: #a7f3d0 !important;
+}
+html.dark #product-modal-content .border-stone-200 {
+  border-color: #273824 !important;
+}
+
+html.dark #contact-modal .modal-box {
+  background-color: #141d13 !important;
+}
+html.dark #contact-modal [style*="background:#f2f8f0"] {
+  background-color: #172818 !important;
+  border-color: #2b4528 !important;
+}
+html.dark #contact-modal [style*="background:#f8f5f0"] {
+  background-color: #1a2719 !important;
+  border-color: #273824 !important;
+}
+html.dark #contact-modal .bg-stone-50 {
+  background-color: #182517 !important;
+  border-color: #273824 !important;
+  color: #f4f7f2 !important;
+}
+html.dark #contact-modal .bg-white {
+  background-color: #162115 !important;
+  border-color: #273824 !important;
+}
+
+/* ── AI Sommelier Chat Window ── */
+html.dark .ai-chat-window {
+  background: #131c12 !important;
+  border-color: #283d26 !important;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.65) !important;
+}
+html.dark #ai-chat-scroll {
+  background: #0f160e !important;
+}
+html.dark #ai-chat-welcome .bg-white {
+  background: #162215 !important;
+  border-color: #283d26 !important;
+  color: #d1d8cd !important;
+}
+html.dark .ai-chat-footer {
+  background: #141e13 !important;
+  border-top-color: #273824 !important;
+}
+html.dark #ai-chat-input {
+  background: #1b2819 !important;
+  border-color: #293e27 !important;
+  color: #f4f7f2 !important;
+}
+html.dark #ai-chat-input:focus {
+  border-color: #34d399 !important;
+  background: #1e2c1c !important;
+}
+html.dark #ai-chat-messages .bg-white {
+  background-color: #172416 !important;
+  border-color: #273824 !important;
+  color: #f4f7f2 !important;
+}
+html.dark #ai-chat-messages [style*="background:#1a3a16"] {
+  background-color: #1e3d1c !important;
+  color: #ffffff !important;
+  border: 1px solid #2d5a27 !important;
+}
+html.dark #ai-chat-messages .ai-msg-content {
+  color: #d1d8cd !important;
+}
+html.dark #ai-chat-messages .ai-msg-content strong {
+  color: #f4f7f2 !important;
+}
+html.dark #ai-quick-questions button {
+  background-color: #162115 !important;
+  border-color: #263824 !important;
+  color: #34d399 !important;
+}
+html.dark #ai-quick-questions button:hover {
+  background-color: #1c2b1b !important;
+  border-color: #34d399 !important;
+  color: #f4f7f2 !important;
+}
+
+html.dark .ai-fab-teaser {
+  background: #152214 !important;
+  border-color: #2d462a !important;
+  color: #f4f7f2 !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+}
+html.dark .ai-fab-teaser::after {
+  background: #152214 !important;
+  border-color: #2d462a !important;
+}
+html.dark .ai-teaser-close {
+  color: #92a48f !important;
+}
+html.dark .ai-teaser-close:hover {
+  background: #1f301d !important;
+  color: #ffffff !important;
+}
+html.dark .fab-tooltip {
+  background: #162215 !important;
+  color: #f4f7f2 !important;
+  border-color: #273824 !important;
+}
+

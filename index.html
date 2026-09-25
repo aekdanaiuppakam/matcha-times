@@ -52,10 +52,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Serif+JP:wght@600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+  <!-- Theme Initializer (Pre-render Dark/Light detection) -->
+  <script src="assets/js/theme.js"></script>
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
@@ -159,6 +163,11 @@
           <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
         </div>
 
+        <!-- Theme Toggle (Desktop & Mobile) -->
+        <button id="theme-toggle-btn" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="สลับโหมดมืด/สว่าง" title="สลับโหมดมืด/สว่าง">
+          <i data-lucide="moon" class="w-4 h-4 moon-icon"></i>
+          <i data-lucide="sun" class="w-4 h-4 sun-icon hidden"></i>
+        </button>
 
         <button onclick="openContactModal()" class="btn-primary text-[12px] py-2.5 px-4 hidden sm:inline-flex">
           <i data-lucide="message-circle" class="w-3.5 h-3.5" style="color:#f3e8c4;"></i>
@@ -192,6 +201,10 @@
           <button class="lang-btn active" data-lang="th" onclick="setLanguage('th')">TH</button>
           <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
         </div>
+        <button id="theme-toggle-mobile" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="สลับโหมดมืด/สว่าง" title="สลับโหมดมืด/สว่าง">
+          <i data-lucide="moon" class="w-4 h-4 moon-icon"></i>
+          <i data-lucide="sun" class="w-4 h-4 sun-icon hidden"></i>
+        </button>
         <button onclick="closeMobileMenu()" class="w-8 h-8 rounded-full flex items-center justify-center" style="background:#f5f0e8;border:1px solid #e5e0d4;">
           <i data-lucide="x" class="w-4 h-4" style="color:#6b7068;"></i>
         </button>
