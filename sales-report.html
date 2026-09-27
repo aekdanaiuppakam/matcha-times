@@ -276,10 +276,14 @@
           <div class="flex items-center gap-2">
             <h1 class="text-base sm:text-lg font-bold text-stone-900 leading-tight">MATCHA TIMES <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">Intelligence</span></h1>
             <span class="inline-flex items-center gap-1 text-[11px] text-emerald-700 font-medium">
-              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Live
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> คลาวด์เรียลไทม์
             </span>
           </div>
-          <p class="text-[11px] text-stone-500">ระบบวิเคราะห์พฤติกรรมลูกค้า & Conversion Attribution หลังบ้าน</p>
+          <div class="flex items-center gap-2 mt-0.5">
+            <p class="text-[11px] text-stone-500">ระบบวิเคราะห์พฤติกรรมลูกค้า & Conversion Attribution หลังบ้าน</p>
+            <span class="text-stone-300 hidden sm:inline">|</span>
+            <span id="last-sync-time" class="text-[11px] text-emerald-800 font-medium hidden sm:inline"></span>
+          </div>
         </div>
       </div>
       <div class="flex items-center gap-2 sm:gap-2.5">
@@ -349,7 +353,7 @@
             <i data-lucide="users" class="w-4 h-4 text-stone-400"></i>
           </div>
           <div class="text-2xl sm:text-3xl font-extrabold text-stone-900 font-en" id="stat-visitors">0</div>
-          <div class="text-[11px] text-stone-400 mt-1">นับแยกตาม Unique Session</div>
+          <div class="text-[11px] text-stone-400 mt-1" id="stat-visitors-sub">นับแยกตาม Unique Session</div>
         </div>
 
         <!-- Conversions -->
@@ -359,7 +363,7 @@
             <i data-lucide="user-check" class="w-4 h-4 text-emerald-600"></i>
           </div>
           <div class="text-2xl sm:text-3xl font-extrabold text-emerald-700 font-en" id="stat-conversions">0</div>
-          <div class="text-[11px] text-emerald-600 mt-1 font-medium">รวมคลิก LINE + Sample Kit</div>
+          <div class="text-[11px] text-emerald-600 mt-1 font-medium" id="stat-conversions-sub">รวมคลิก LINE + Sample Kit</div>
         </div>
 
         <!-- Conversion Rate -->
@@ -432,6 +436,35 @@
         </div>
       </div>
 
+      <!-- ── REAL-TIME VISITOR TRAFFIC & ACTIVITY FEED ── -->
+      <div class="glass-card p-5 sm:p-6 border border-emerald-100">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-3 border-b border-stone-200">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800">
+                <i data-lucide="activity" class="w-4 h-4"></i>
+              </span>
+              <h3 class="font-bold text-base text-stone-900">
+                ประวัติการเข้าชมและกิจกรรมล่าสุด (Real-Time Visitor Activity Feed)
+              </h3>
+            </div>
+            <p class="text-xs text-stone-500 mt-1">
+              บันทึกทุกพฤติกรรมของลูกค้าที่เปิดเว็บทันที (รวมถึงการดูแคตตาล็อก, สไลด์เครื่องคิดเลข, เลื่อนอ่านหน้าเว็บ, และเปิดแชท)
+            </p>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <span class="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200" id="badge-activity-count">
+              0 กิจกรรม
+            </span>
+          </div>
+        </div>
+
+        <div class="space-y-2.5 max-h-[460px] overflow-y-auto pr-1" id="live-activity-list">
+          <!-- Populated via JS -->
+          <div class="text-center py-8 text-xs text-stone-400">กำลังโหลดประวัติกิจกรรม...</div>
+        </div>
+      </div>
+
       <!-- ── LIVE CUSTOMER CHAT TRANSCRIPTS (WITH MATTY) ── -->
       <div class="glass-card p-5 sm:p-6 border border-emerald-100">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-3 border-b border-stone-200">
@@ -490,6 +523,14 @@
     const DEFAULT_PIN = '58110011';
     let currentPin = sessionStorage.getItem('matcha_admin_pin') || '';
     let cachedAnalytics = null;
+
+    // Check PIN from URL query param (e.g. /sales-report?pin=58110011)
+    const urlParams = new URLSearchParams(window.location.search);
+    const pinFromUrl = urlParams.get('pin');
+    if (pinFromUrl && (pinFromUrl === DEFAULT_PIN || pinFromUrl === '58110011')) {
+      currentPin = pinFromUrl;
+      sessionStorage.setItem('matcha_admin_pin', currentPin);
+    }
 
     // 1. PIN Verification
     function verifyPin() {
@@ -559,11 +600,33 @@
     // 3. Render Dashboard Components
     function renderDashboard(data) {
       const summary = data.summary || {};
+      const rawEvents = data.recentRawEvents || [];
+
       document.getElementById('stat-visitors').innerText = summary.totalVisitors || 0;
       document.getElementById('stat-conversions').innerText = summary.totalConversions || 0;
       document.getElementById('stat-conv-rate').innerText = (summary.conversionRatePercent || 0) + '%';
       document.getElementById('stat-chats').innerText = summary.totalChatSessions || (data.recentChats?.length || 0);
       document.getElementById('stat-events').innerText = summary.totalEvents || 0;
+
+      // Real-time Today Subtitle Indicators
+      const todayStr = new Date().toDateString();
+      const todayEvents = rawEvents.filter(e => new Date(e.timestamp).toDateString() === todayStr);
+      const todayVisitors = new Set(todayEvents.map(e => e.sessionId)).size;
+
+      const visitorSubEl = document.getElementById('stat-visitors-sub');
+      if (visitorSubEl) {
+        visitorSubEl.innerHTML = todayVisitors > 0 
+          ? `<span class="text-emerald-700 font-bold">✨ วันนี้ +${todayVisitors} คน (${todayEvents.length} ครั้ง)</span>`
+          : 'นับแยกตาม Unique Session';
+      }
+
+      const todayConv = todayEvents.filter(e => e.type === 'conversion' || e.event === 'line_add_click' || e.event === 'sample_kit_click').length;
+      const convSubEl = document.getElementById('stat-conversions-sub');
+      if (convSubEl) {
+        convSubEl.innerHTML = todayConv > 0
+          ? `<span class="text-emerald-700 font-bold">✨ วันนี้ +${todayConv} ราย</span>`
+          : '<span class="text-stone-400">วันนี้ยังไม่มีกดแอดไลน์</span>';
+      }
 
       // Attribution Bars
       renderAttributionBars(data.attributionCounts || {}, summary.totalConversions || 0);
@@ -571,11 +634,17 @@
       // Device Bars
       renderDeviceBars(data.deviceCounts || {}, summary.totalEvents || 0);
 
+      // Live Visitor Activity Feed
+      renderLiveActivity(rawEvents);
+
       // Live Matty Chat Transcripts
       renderChatTranscripts(data.recentChats || []);
 
       // Converted Customer Journeys
       renderJourneys(data.recentConversions || []);
+
+      // Update sync timestamp
+      updateLastSyncTime();
 
       lucide.createIcons();
     }
@@ -653,6 +722,145 @@
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
+    }
+
+    function updateLastSyncTime() {
+      const el = document.getElementById('last-sync-time');
+      if (el) {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const dateStr = now.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
+        el.innerText = `อัปเดตล่าสุด: ${dateStr} ${timeStr} น.`;
+      }
+    }
+
+    function renderLiveActivity(rawEvents) {
+      const container = document.getElementById('live-activity-list');
+      const badgeCount = document.getElementById('badge-activity-count');
+      if (badgeCount) badgeCount.innerText = (rawEvents.length || 0) + ' กิจกรรมล่าสุด';
+      if (!container) return;
+
+      if (!rawEvents || rawEvents.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-8 text-xs text-stone-400">
+            ยังไม่มีบันทึกกิจกรรมในระบบ
+          </div>
+        `;
+        return;
+      }
+
+      const todayStr = new Date().toDateString();
+
+      container.innerHTML = rawEvents.map((evt) => {
+        const evtDate = new Date(evt.timestamp);
+        const isToday = evtDate.toDateString() === todayStr;
+        const timeStr = evtDate.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const dateStr = evtDate.toLocaleDateString('th-TH', { day: 'numeric', month: 'short' });
+
+        const diffMs = Date.now() - evtDate.getTime();
+        const diffMins = Math.floor(diffMs / 60000);
+        let relTime = '';
+        if (diffMins < 1) relTime = 'เมื่อสักครู่';
+        else if (diffMins < 60) relTime = `เมื่อ ${diffMins} นาทีที่แล้ว`;
+        else {
+          const diffHours = Math.floor(diffMins / 60);
+          if (diffHours < 24) relTime = `เมื่อ ${diffHours} ชั่วโมงที่แล้ว`;
+          else relTime = `เมื่อ ${Math.floor(diffHours / 24)} วันก่อน`;
+        }
+
+        const devType = evt.device?.type || 'Device';
+        const platform = evt.device?.platform || 'Unknown';
+        const screen = evt.device?.screenWidth ? `${evt.device.screenWidth}×${evt.device.screenHeight} px` : '';
+        let devIcon = 'smartphone';
+        if (devType === 'Desktop') devIcon = 'monitor';
+        else if (devType === 'iPad' || devType === 'Tablet') devIcon = 'tablet';
+
+        let actionBadge = '';
+        let actionDesc = '';
+        let actionColor = 'bg-stone-100 text-stone-800 border-stone-200';
+
+        if (evt.event === 'page_view') {
+          actionBadge = '👀 เปิดหน้าเว็บ';
+          actionDesc = 'ลูกค้าเปิดเข้าดูคู่มือสินค้ามัทฉะ (หน้าแรก)';
+          actionColor = 'bg-sky-50 text-sky-800 border-sky-200';
+        } else if (evt.event === 'chat_message_sent') {
+          actionBadge = '💬 พิมพ์แชทกับน้องแมตตี้';
+          actionDesc = `ข้อความ: "${escapeHtml(evt.data?.message || '')}"`;
+          actionColor = 'bg-emerald-50 text-emerald-800 border-emerald-300 font-bold';
+        } else if (evt.event === 'chat_opened') {
+          actionBadge = '🐼 เปิดหน้าต่างแชท';
+          actionDesc = 'กดปุ่มเปิดพูดคุยกับ Sommelier AI น้องแมตตี้';
+          actionColor = 'bg-emerald-50 text-emerald-800 border-emerald-200';
+        } else if (evt.event === 'calculator_adjusted') {
+          actionBadge = '💰 คำนวณต้นทุน/กำไร';
+          actionDesc = `ปรับสไลเดอร์: ผงชา ${evt.data?.grams || 4}g | ขายแก้วละ ${evt.data?.sellingPrice || 0} ฿`;
+          actionColor = 'bg-amber-50 text-amber-800 border-amber-200';
+        } else if (evt.event === 'matchmaker_complete') {
+          actionBadge = '✦ ทำ Quiz มัทฉะสำเร็จ';
+          actionDesc = `ได้ผลลัพธ์มัทฉะแนะนำ: ${evt.data?.recommended || ''}`;
+          actionColor = 'bg-purple-50 text-purple-800 border-purple-200';
+        } else if (evt.event === 'matchmaker_start') {
+          actionBadge = '✦ เริ่มทำ Matchmaker Quiz';
+          actionDesc = 'เลือกตอบคำถามค้นหารสมัทฉะที่ชอบ';
+          actionColor = 'bg-purple-50 text-purple-700 border-purple-100';
+        } else if (evt.event === 'line_add_click' || evt.type === 'conversion') {
+          actionBadge = '🎉 กดแอดไลน์คุณปิ่นปัก';
+          actionDesc = `ปุ่ม: "${escapeHtml(evt.data?.text || 'ทัก LINE')}" (เป้าหมายสำเร็จ)`;
+          actionColor = 'bg-emerald-600 text-white font-bold border-emerald-700';
+        } else if (evt.event === 'sample_kit_click') {
+          actionBadge = '📦 สนใจขอชุดทดลองชง';
+          actionDesc = 'คลิกปุ่มขอรับ Sample Kit ไปทดสอบที่ร้าน';
+          actionColor = 'bg-amber-100 text-amber-900 border-amber-300 font-bold';
+        } else if (evt.event === 'product_modal_open') {
+          actionBadge = '🔍 ดูสเปกสินค้า';
+          actionDesc = `เปิดดูข้อมูลรายละเอียดมัทฉะ SKU: ${evt.data?.sku || evt.data?.id || ''}`;
+          actionColor = 'bg-indigo-50 text-indigo-800 border-indigo-200';
+        } else if (evt.event === 'copy_product_spec') {
+          actionBadge = '📋 คัดลอกสเปกส่ง LINE';
+          actionDesc = `กดคัดลอกสรุปสเปก SKU: ${evt.data?.sku || ''}`;
+          actionColor = 'bg-teal-50 text-teal-800 border-teal-200';
+        } else if (evt.event === 'scroll_depth') {
+          actionBadge = '📜 เลื่อนอ่านเนื้อหา';
+          actionDesc = `อ่านลึกถึง ${evt.data?.depth || ''} ของหน้าเว็บ`;
+          actionColor = 'bg-stone-50 text-stone-600 border-stone-200';
+        } else if (evt.event === 'theme_switched') {
+          actionBadge = '🌓 สลับธีมแสดงผล';
+          actionDesc = `เปลี่ยนเป็นโหมด ${evt.data?.theme || ''}`;
+          actionColor = 'bg-stone-50 text-stone-600 border-stone-200';
+        } else {
+          actionBadge = `⚡ ${evt.event}`;
+          actionDesc = JSON.stringify(evt.data || {});
+          actionColor = 'bg-stone-100 text-stone-700 border-stone-200';
+        }
+
+        return `
+          <div class="p-3 sm:p-3.5 rounded-xl border border-stone-200 bg-white hover:border-emerald-300 hover:shadow-2xs transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+            <div class="flex items-start sm:items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-stone-100 text-stone-700 flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
+                <i data-lucide="${devIcon}" class="w-4 h-4"></i>
+              </span>
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="px-2 py-0.5 rounded-md text-[11px] border ${actionColor}">
+                    ${actionBadge}
+                  </span>
+                  ${isToday ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300">วันนี้ (Today)</span>` : ''}
+                  <span class="text-xs font-semibold text-stone-800">${actionDesc}</span>
+                </div>
+                <div class="text-[11px] text-stone-400 mt-1 flex items-center gap-2 flex-wrap">
+                  <span>อุปกรณ์: <strong>${platform} (${devType})</strong> ${screen ? `• ${screen}` : ''}</span>
+                  <span>•</span>
+                  <span>Session: <code class="text-[10px] font-mono">${evt.sessionId?.slice(0, 15) || 'anon'}</code></span>
+                </div>
+              </div>
+            </div>
+            <div class="text-right shrink-0 sm:pl-3 border-t sm:border-t-0 pt-1.5 sm:pt-0 border-stone-100">
+              <div class="text-xs font-bold text-stone-800">${timeStr} น.</div>
+              <div class="text-[10.5px] text-stone-400">${dateStr} (${relTime})</div>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
     function renderChatTranscripts(recentChats) {

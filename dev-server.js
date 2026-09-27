@@ -477,7 +477,7 @@ const server = http.createServer(async (req, res) => {
   // Static file serving
   if (reqPath === '/' || reqPath === '') {
     reqPath = '/index.html';
-  } else if (reqPath === '/sales-report') {
+  } else if (reqPath === '/sales-report' || reqPath === '/sales-reports' || reqPath === '/sales-report/' || reqPath === '/sales-reports/') {
     reqPath = '/sales-report.html';
   }
 

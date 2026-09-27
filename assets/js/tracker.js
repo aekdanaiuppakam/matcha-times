@@ -130,20 +130,26 @@
     const url = '/api/' + endpoint;
     const bodyStr = JSON.stringify(payload);
 
-    if (navigator.sendBeacon) {
+    let sent = false;
+    if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
       try {
         const blob = new Blob([bodyStr], { type: 'application/json' });
-        navigator.sendBeacon(url, blob);
-        return;
-      } catch (e) {}
+        sent = navigator.sendBeacon(url, blob);
+      } catch (e) {
+        sent = false;
+      }
     }
 
-    fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: bodyStr,
-      keepalive: true
-    }).catch(() => {});
+    if (!sent) {
+      try {
+        fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: bodyStr,
+          keepalive: true
+        }).catch(() => {});
+      } catch (e) {}
+    }
   }
 
   // 6. Global trackEvent implementation
@@ -241,6 +247,22 @@
       window.trackEvent('sample_kit_click', {
         source: target.closest('#hero') ? 'hero_cta' : 'product_or_nav'
       });
+    }
+
+    // Clicked Product Modal / View Details
+    if (onclick.includes('openProductModal')) {
+      const match = onclick.match(/openProductModal\(['"]([^'"]+)['"]\)/);
+      if (match && match[1]) {
+        window.trackEvent('product_modal_open', { sku: match[1] });
+      }
+    }
+
+    // Clicked Copy Spec for LINE
+    if (onclick.includes('copyProductSpec')) {
+      const match = onclick.match(/copyProductSpec\(['"]([^'"]+)['"]\)/);
+      if (match && match[1]) {
+        window.trackEvent('copy_product_spec', { sku: match[1] });
+      }
     }
   }, true);
 

@@ -4,6 +4,18 @@
     {
       "source": "/sales-report",
       "destination": "/sales-report.html"
+    },
+    {
+      "source": "/sales-reports",
+      "destination": "/sales-report.html"
+    },
+    {
+      "source": "/sales-report/",
+      "destination": "/sales-report.html"
+    },
+    {
+      "source": "/sales-reports/",
+      "destination": "/sales-report.html"
     }
   ],
   "headers": [
